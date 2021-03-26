@@ -13,7 +13,7 @@
 ## Install Instructions
 
 ```sh
-git clone git@github.com:gatlee/it-project.git
+git clone https://github.com/trundn/COMP90082-Assignment.git
 cd it-project
 npm install
 npm start
