@@ -1,10 +1,9 @@
 import * as express from 'express';
 import * as path from 'path';
-import * as bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import connectToDatabase from './models/index';
-import authRouter from './routes/authRouter';
-import portfolioRouter from './routes/portfolioRouter';
+import authRoutes from './routes/authRoutes';
+import portfolioRoutes from './routes/portfolioRoutes';
 import swaggerSpec from './swaggerSpec';
 
 import * as dotenv from 'dotenv';
@@ -17,15 +16,15 @@ const app = express();
 app.use(express.static(path.join(process.cwd(), '/dist/apps/client')));
 
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: true,
   })
 );
 
-app.use(bodyParser.json());
+app.use(express.json());
 
-app.use('/api/auth', authRouter);
-app.use('/api/portfolio', portfolioRouter);
+app.use('/api/auth', authRoutes);
+app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('*', (_req, res) => {
