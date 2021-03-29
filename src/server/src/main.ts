@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as path from 'path';
 import swaggerUi from 'swagger-ui-express';
-import connectToDatabase from './models/index';
+import connectToDatabase from './config/db';
 import { notFound, errorHandler } from './middleware/errorMiddleware';
 import authRoutes from './routes/authRoutes';
 import portfolioRoutes from './routes/portfolioRoutes';
