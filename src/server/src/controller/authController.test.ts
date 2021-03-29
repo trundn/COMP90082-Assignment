@@ -1,5 +1,5 @@
-import { makeTestSuite } from './testUtil';
-import { callEndpoint } from './controllerUtil';
+import { makeTestSuite } from '../utils/testUtil';
+import { callEndpoint } from '../utils/controllerUtil';
 import { createUser } from './authController';
 
 const testCreateUser = async (body, status) => {
