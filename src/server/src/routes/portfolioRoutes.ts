@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { checkJwt } from '../auth';
+import { checkJwt } from '../middleware/authMiddleware';
 import {
   viewAllPublicItems,
   viewAllItemsByJwt,

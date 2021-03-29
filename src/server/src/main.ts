@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as path from 'path';
 import swaggerUi from 'swagger-ui-express';
 import connectToDatabase from './models/index';
+import { notFound, errorHandler } from './middleware/errorMiddleware';
 import authRoutes from './routes/authRoutes';
 import portfolioRoutes from './routes/portfolioRoutes';
 import swaggerSpec from './swaggerSpec';
@@ -32,6 +33,9 @@ app.get('*', (_req, res) => {
     root: path.join(process.cwd(), '/dist/apps/client'),
   });
 });
+
+app.use(notFound);
+app.use(errorHandler);
 
 const port = process.env.PORT || 3001;
 const server = app.listen(port, () => {
