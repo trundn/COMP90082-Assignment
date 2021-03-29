@@ -1,6 +1,5 @@
 import * as express from 'express';
 import * as path from 'path';
-import * as bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import connectToDatabase from './models/index';
 import authRouter from './routes/authRouter';
@@ -17,12 +16,12 @@ const app = express();
 app.use(express.static(path.join(process.cwd(), '/dist/apps/client')));
 
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: true,
   })
 );
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use('/api/auth', authRouter);
 app.use('/api/portfolio', portfolioRouter);
