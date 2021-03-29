@@ -4,10 +4,10 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
-    "start": "concurrently --names \"express,react\" \"nx serve api liveReload\" \"nx serve client liveReload\"",
-    "start:prod": "npx nx serve api",
+    "start": "concurrently --names \"express,react\" \"nx serve server liveReload\" \"nx serve client liveReload\"",
+    "start:prod": "npx nx serve server",
     "build": "nx build",
-    "heroku-postbuild": "nx build api --prod && nx build client --prod",
+    "heroku-postbuild": "nx build server --prod && nx build client --prod",
     "test": "npx nx run-many --all --target=test --code-coverage",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx run client-e2e:e2e --record",

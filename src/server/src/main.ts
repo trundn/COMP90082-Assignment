@@ -7,6 +7,9 @@ import authRouter from './routes/authRouter';
 import portfolioRouter from './routes/portfolioRouter';
 import swaggerSpec from './swaggerSpec';
 
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 connectToDatabase();
 
 const app = express();
