@@ -1,4 +1,4 @@
-import { Res } from './controllerUtil';
+import { Res } from '../utils/controllerUtil';
 import { UserModel } from '../models/user';
 
 interface Req {

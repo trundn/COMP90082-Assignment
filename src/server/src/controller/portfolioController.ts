@@ -7,7 +7,7 @@ import {
   PortfolioItem,
   PortfolioCategory,
 } from '@pure-and-lazy/api-interfaces';
-import { Res } from './controllerUtil';
+import { Res } from '../utils/controllerUtil';
 
 interface Req<T> {
   params: { username?: string; portfolioItemId?: string };

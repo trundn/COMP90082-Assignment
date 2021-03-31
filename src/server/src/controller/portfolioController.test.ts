@@ -4,8 +4,8 @@ import {
   PortfolioItem,
   UserProfile,
 } from '@pure-and-lazy/api-interfaces';
-import { expectJSONMatching, makeTestSuite } from './testUtil';
-import { callEndpoint } from './controllerUtil';
+import { expectJSONMatching, makeTestSuite } from '../utils/testUtil';
+import { callEndpoint } from '../utils/controllerUtil';
 import {
   createItem,
   deleteItem,
