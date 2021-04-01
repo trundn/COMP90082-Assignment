@@ -6,7 +6,7 @@ class UserName {
 }
 
 class SingalImage extends UserName {
-  @prop({ required: true })
+  @prop({ required: true, unique: true })
   imageUrl!: string;
 
   @prop({ required: true })
@@ -14,7 +14,7 @@ class SingalImage extends UserName {
 }
 
 class Academic extends UserName {
-  @prop({ required: true })
+  @prop({ required: true, unique: true })
   academicID!: string;
 
   @prop({ required: true })
