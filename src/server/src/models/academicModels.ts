@@ -13,6 +13,11 @@ class SingalImage extends UserName {
   academicID!: string;
 }
 
+class Reference extends UserName {
+  @prop()
+  reference?: string;
+}
+
 class Academic extends UserName {
   @prop({ required: true, unique: true })
   academicID!: string;
@@ -39,5 +44,5 @@ class Academic extends UserName {
   academicImage!: string;
 
   @prop({ required: true })
-  academicReference!: string;
+  academicReferences?: Reference[];
 }
