@@ -5,6 +5,7 @@ interface Message {
 enum PortfolioCategory {
   PROJECTS = 'projects',
   BLOG = 'blog',
+  EVENT = 'event',
 }
 
 interface PortfolioItem {
@@ -18,6 +19,7 @@ interface PortfolioItem {
   image?: string;
   public?: boolean;
 }
+
 type PortfolioItemValue = PortfolioItem[keyof PortfolioItem];
 
 interface UserProfile {
