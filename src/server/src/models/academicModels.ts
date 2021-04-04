@@ -46,3 +46,7 @@ class Academic extends UserName {
   @prop({ required: true })
   academicReferences?: Reference[];
 }
+
+const AcademicModel = getModelForClass(Academic);
+
+export { Academic, AcademicModel };
