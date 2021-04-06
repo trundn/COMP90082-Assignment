@@ -47,6 +47,9 @@ const PortfolioNavBar = () => {
           <LinkContainer to={`${URL_PREFIX}/about`}>
             <Nav.Link eventKey="/about">About</Nav.Link>
           </LinkContainer>
+          <LinkContainer to={`${URL_PREFIX}/academic`}>
+            <Nav.Link eventKey="/academic">Academic</Nav.Link>
+          </LinkContainer>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
