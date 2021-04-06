@@ -11,6 +11,7 @@ import { PortfolioNavBar } from './PortfolioNavBar';
 import { ProjectPage } from './ProjectPage';
 import { AuthContext } from '../auth/AuthContext';
 import { Container } from 'react-bootstrap';
+import { AcademicPage } from '../pages/academic/AcademicPage';
 
 const EditIndex = () => {
   const { registrationComplete, isLoaded } = useContext(AuthContext);
@@ -46,6 +47,12 @@ const EditIndex = () => {
           </Route>
           <Route exact path={`${path}/blog/:contentID`}>
             <ContentPage />
+          </Route>
+          <Route exact path={`${path}/academic`}>
+            <AcademicPage />
+          </Route>
+          <Route exact path={`${path}/academic/:contentID`}>
+            <AcademicPage />
           </Route>
           <Route exact path={`${path}/about`}>
             <About />
