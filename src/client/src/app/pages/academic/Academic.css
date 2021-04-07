@@ -24,3 +24,12 @@
   width: 80%;
   height: 20%;
 }
+
+.Image_short_description {
+  font-size: 15px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.Image_username {
+  font-family: 'Times New Roman', Times, serif;
+}

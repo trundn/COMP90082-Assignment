@@ -84,8 +84,8 @@ const AcademicPage = () => {
               <div className="academic_image">
                 <img src={Leon} alt="" className="user_photo" />
               </div>
-              <h5>{user.username}</h5>
-              <h5>{user.testimonial}</h5>
+              <h5 className="Image_username">{user.username}</h5>
+              <p className="Image_short_description">{user.testimonial}</p>
             </div>
           </SwiperSlide>
         ))}
