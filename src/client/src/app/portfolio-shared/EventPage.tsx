@@ -1,6 +1,6 @@
 import { PortfolioCategory } from '@pure-and-lazy/api-interfaces';
 import React from 'react';
-import { ItemList } from '../projects/ItemList';
+import { ItemList } from '../EventPage/ItemList';
 import { TitleBox } from './TitleBox';
 
 // Content of the project tab
