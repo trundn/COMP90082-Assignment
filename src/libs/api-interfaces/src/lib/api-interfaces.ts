@@ -5,7 +5,7 @@ interface Message {
 enum PortfolioCategory {
   PROJECTS = 'projects',
   BLOG = 'blog',
-  EVENT = 'event',
+  EVENTS = 'events',
 }
 
 interface PortfolioItem {
