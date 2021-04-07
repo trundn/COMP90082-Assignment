@@ -1,0 +1,26 @@
+.Demo-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Demo-controls__control {
+  border-radius: 2px;
+  border: 1px solid #007aff;
+  color: #007aff;
+  text-align: center;
+  line-height: 50px;
+  width: 100px;
+  height: 50px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.Demo-controls__control:not(:last-of-type) {
+  margin-right: 15px;
+}
+
+.swiper_con {
+  width: 80%;
+  height: 20%;
+}
