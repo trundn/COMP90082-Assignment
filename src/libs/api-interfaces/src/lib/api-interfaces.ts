@@ -21,6 +21,7 @@ interface PortfolioItem {
 type PortfolioItemValue = PortfolioItem[keyof PortfolioItem];
 
 interface UserProfile {
+  _id?: string;
   username: string;
   email: string;
   name?: string;
@@ -38,6 +39,20 @@ enum UserTheme {
   JILDEN,
 }
 
+interface Qualification {
+  institutionName: string;
+  institutionWebsite?: string;
+  degree: string;
+  description: string;
+  startDate: Date;
+  graduationDate?: Date;
+}
+
+interface Resume {
+  _id?: string;
+  qualifications?: Qualification[];
+}
+
 export {
   Message,
   PortfolioItem,
@@ -45,4 +60,6 @@ export {
   PortfolioCategory,
   UserProfile,
   UserTheme,
+  Resume,
+  Qualification,
 };

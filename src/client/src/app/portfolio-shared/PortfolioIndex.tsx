@@ -5,6 +5,7 @@ import { NotFound } from '../NotFound';
 import { About } from './about/About';
 import { PortfolioHome } from './PortfolioHome';
 import { PortfolioNavBar } from './PortfolioNavBar';
+import ResumePage from '../pages/resume/ResumePage';
 import { ProjectPage } from './ProjectPage';
 import { FooterWrapper } from '../layout/FooterWrapper';
 import { PortfolioViewFooter } from './PortfolioViewFooter';
@@ -56,6 +57,9 @@ const PortfolioIndex = () => {
         <Switch>
           <Route exact path={`${path}`}>
             <PortfolioHome />
+          </Route>
+          <Route exact path={`${path}/resume`}>
+            <ResumePage />
           </Route>
           <Route exact path={`${path}/projects`}>
             <ProjectPage />

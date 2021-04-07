@@ -1,6 +1,7 @@
 import React from 'react';
 import { UserTheme } from '@pure-and-lazy/api-interfaces';
 const UserContext = React.createContext({
+  _id: '',
   username: '',
   email: '',
   name: '',
