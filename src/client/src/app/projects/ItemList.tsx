@@ -46,6 +46,7 @@ const ItemList = (props: ItemList) => {
     loadItems();
   }, [loadItems]);
 
+  // console.log(items)
   const itemComponents = items
     .filter((item: PortfolioItem) =>
       item.name.toLowerCase().includes(filter.toLowerCase())

@@ -92,7 +92,7 @@ const getPortfolioItems = async (
   category: PortfolioCategory
 ): Promise<Array<PortfolioItem>> => {
   // 这里有改动
-  const categoryFilter = category === 'events';
+  const categoryFilter = 'events';
   return fetch(
     `/api/portfolio/${username}/all?category=${categoryFilter}`
   ).then((r) => r.json());

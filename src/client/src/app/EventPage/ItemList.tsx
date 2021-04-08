@@ -9,7 +9,6 @@ import { Loader } from '../layout/Loader';
 import { EditContext } from '../portfolio-shared/EditContext';
 import { PortfolioAddButton } from '../portfolio-shared/PortfolioAddButton';
 import { UserContext } from '../portfolio-shared/UserContext';
-import { ProjectItem } from '../projects/ProjectItem';
 import { getPortfolioItems, getOwnPortfolioItems } from './EventUtils';
 import { useAuth0 } from '@auth0/auth0-react';
 import { EmptyList } from './EmptyList';
@@ -24,11 +23,9 @@ interface ItemList {
 const ItemList = (props: ItemList) => {
   const editMode = useContext(EditContext);
   const { username } = useContext(UserContext);
-
   const [items, setItems] = useState([] as Array<PortfolioItem>);
   const [loaded, setLoaded] = useState(false);
   const [filter, setFilter] = useState('');
-
   const { getAccessTokenSilently } = useAuth0();
 
   // This is kinda gross
@@ -49,6 +46,7 @@ const ItemList = (props: ItemList) => {
     loadItems();
   }, [loadItems]);
 
+  // console.log(items)
   const itemComponents = items
     .filter((item: PortfolioItem) =>
       item.name.toLowerCase().includes(filter.toLowerCase())
