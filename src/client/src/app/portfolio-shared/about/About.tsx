@@ -29,7 +29,9 @@ import { css } from '@emotion/core';
     For 'src\server\src\controller\portfolioController.ts'
     what is actual usage of 'viewProfile'?
     'editProfile' works as an update of userprofile? Need change or not?what page links to it?
-8.     
+8. Update 'src\client\src\app\admin\AdminUtils.tsx' to include the update of
+    media info.   
+       
 */
 
 const About = () => {
