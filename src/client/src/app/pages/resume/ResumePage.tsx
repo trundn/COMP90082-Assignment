@@ -99,11 +99,11 @@ const ResumePage = () => {
                 <em className="date">
                   {getDuration(exp.startDate, exp.endDate)}
                 </em>
-                <p>{exp.workSummary}</p>
-                <ul className="job-listing-ul">
-                  {buildWorkResponsibilitiesContent(exp)}
-                </ul>
               </p>
+              <p>{exp.workSummary}</p>
+              <ul className="job-listing-ul">
+                {buildWorkResponsibilitiesContent(exp)}
+              </ul>
             </div>
           );
         });
