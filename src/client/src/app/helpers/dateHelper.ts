@@ -15,7 +15,7 @@ const toDisplayDate = (date: Date, defaultVal: string): string => {
 
 const getDuration = (startDate: Date, endDate: Date): string => {
   const duration = toDisplayDate(startDate, DATE_DISPLAY_UNKNOWN);
-  return `${duration} - ${toDisplayDate(endDate, DATE_DISPLAY_PRESENT)}`;
+  return `${duration} ~ ${toDisplayDate(endDate, DATE_DISPLAY_PRESENT)}`;
 };
 
 export { DB_DATE_FORMAT, DISPLAY_DATE_FORMAT, toDisplayDate, getDuration };

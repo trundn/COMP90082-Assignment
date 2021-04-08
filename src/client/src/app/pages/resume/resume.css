@@ -54,3 +54,19 @@
   font: 15px/24px 'opensans-regular', sans-serif;
   margin-top: 6px;
 }
+
+.responsibility-list-item {
+  margin-bottom: 0.5rem;
+  overflow-wrap: break-word;
+  list-style-type: none;
+}
+
+.responsibility-icon {
+  color: #3bb4d8;
+  margin-right: 0.5rem !important;
+  padding: 0 !important;
+}
+
+.responsibility-content {
+  font-weight: normal;
+}

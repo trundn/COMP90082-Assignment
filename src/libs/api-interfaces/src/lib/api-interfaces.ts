@@ -48,9 +48,21 @@ interface Qualification {
   graduationDate?: Date;
 }
 
+interface Experience {
+  organisation: string;
+  city: string;
+  country: string;
+  workSummary: string;
+  startDate: Date;
+  endDate?: Date;
+  role: string;
+  responsibilities?: string[];
+}
+
 interface Resume {
   _id?: string;
   qualifications?: Qualification[];
+  experiences?: Experience[];
 }
 
 export {
@@ -62,4 +74,5 @@ export {
   UserTheme,
   Resume,
   Qualification,
+  Experience,
 };
