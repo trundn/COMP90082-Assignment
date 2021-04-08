@@ -39,6 +39,10 @@ enum UserTheme {
   JILDEN,
 }
 
+interface Namable {
+  name: string;
+}
+
 interface Qualification {
   institutionName: string;
   institutionWebsite?: string;
@@ -59,10 +63,16 @@ interface Experience {
   responsibilities?: string[];
 }
 
+interface Skill extends Namable {
+  level: string;
+  yearOfExperiences: number;
+}
+
 interface Resume {
   _id?: string;
   qualifications?: Qualification[];
   experiences?: Experience[];
+  skills?: Skill[];
 }
 
 export {

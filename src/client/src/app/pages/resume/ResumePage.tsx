@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
+import Badge from 'react-bootstrap/Badge';
+
 import axios from 'axios';
 import moment from 'moment';
 
@@ -6,6 +8,7 @@ import { UserContext } from '../../portfolio-shared/UserContext';
 import { Experience, Resume } from '@pure-and-lazy/api-interfaces';
 
 import { getDuration } from '../../helpers/dateHelper';
+import { getRandomColor } from '../../helpers/colorHelper';
 import { DB_DATE_FORMAT } from '../../constants/dateConstant';
 
 import './grid.css';
@@ -44,7 +47,7 @@ const ResumePage = () => {
         })
         .map((qual, index) => {
           return (
-            <div key={index}>
+            <div key={`${qual.degree}_${index}`}>
               <h3>{qual.institutionName}</h3>
               <p className="info">
                 {qual.degree} <span>&bull;</span>
@@ -91,7 +94,7 @@ const ResumePage = () => {
         })
         .map((exp, index) => {
           return (
-            <div key={index}>
+            <div key={`${exp.organisation}_${exp.role}_${index}`}>
               <h3>{exp.organisation}</h3>
               <p className="info">
                 {exp.role} <span>&bull;</span>
@@ -110,6 +113,34 @@ const ResumePage = () => {
     }
 
     return expEls;
+  };
+
+  const buildSkillsSection = (): JSX.Element[] => {
+    let skillEls: JSX.Element[] = null;
+
+    if (resumeData) {
+      skillEls = resumeData.skills.map((skill, index) => {
+        const backgroundColor = getRandomColor();
+        const className = 'bar-expand ' + skill.name.toLowerCase();
+        const width = skill.level;
+
+        return (
+          <li key={`${skill.name}_${index}`}>
+            <span
+              style={{ width, backgroundColor }}
+              className={className}
+            ></span>
+            <em>
+              {skill.name}
+              {'  '}
+              <Badge variant="light">{`${skill.yearOfExperiences}+ yrs.`}</Badge>
+            </em>
+          </li>
+        );
+      });
+    }
+
+    return skillEls;
   };
 
   return (
@@ -137,6 +168,20 @@ const ResumePage = () => {
 
         <div className="nine columns main-col">
           {buildWorkExperienceSection()}
+        </div>
+      </div>
+
+      <div className="row skill">
+        <div className="three columns header-col">
+          <h1>
+            <span>Skills</span>
+          </h1>
+        </div>
+
+        <div className="nine columns main-col">
+          <div className="bars">
+            <ul className="skills">{buildSkillsSection()}</ul>
+          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,10 @@
 import { prop, getModelForClass, Ref } from '@typegoose/typegoose';
 import { User } from './user';
 
+class Namable {
+  @prop({ required: true }) name!: string;
+}
+
 class Qualification {
   @prop({ required: true }) institutionName!: string;
   @prop() institutionWebsite?: string;
@@ -22,6 +26,11 @@ class Experience {
   responsibilities?: string[];
 }
 
+class Skill extends Namable {
+  @prop({ required: true }) level!: string;
+  @prop({ required: true }) yearOfExperiences!: number;
+}
+
 class Resume {
   @prop({ ref: User }) user: Ref<User>;
 
@@ -30,6 +39,9 @@ class Resume {
 
   @prop({ type: () => Experience })
   experiences?: Experience[];
+
+  @prop({ type: () => Skill })
+  skills?: Skill[];
 }
 
 const ResumeModel = getModelForClass(Resume);
