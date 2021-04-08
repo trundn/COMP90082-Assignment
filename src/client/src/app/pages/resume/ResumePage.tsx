@@ -50,7 +50,8 @@ const ResumePage = () => {
             <div key={`${qual.degree}_${index}`}>
               <h3>{qual.institutionName}</h3>
               <p className="info">
-                {qual.degree} <span>&bull;</span>
+                {qual.degree}
+                <span>&bull;</span>
                 <em className="date">
                   {getDuration(qual.startDate, qual.graduationDate)}
                 </em>
@@ -97,11 +98,14 @@ const ResumePage = () => {
             <div key={`${exp.organisation}_${exp.role}_${index}`}>
               <h3>{exp.organisation}</h3>
               <p className="info">
-                {exp.role} <span>&bull;</span>
-                {`${exp.city}, ${exp.country}`} <span>&bull;</span>
                 <em className="date">
                   {getDuration(exp.startDate, exp.endDate)}
                 </em>
+              </p>
+              <p className="info">
+                {exp.role}
+                <span>&bull;</span>
+                {`${exp.city}, ${exp.country}`}
               </p>
               <p>{exp.workSummary}</p>
               <ul className="job-listing-ul">
