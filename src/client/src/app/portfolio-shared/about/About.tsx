@@ -9,6 +9,8 @@ import { HomeAvatar } from '../../homepage/HomeAvatar';
 import { ThemedBackgroundContainer } from '../ThemedBackgroundContainer';
 import { css } from '@emotion/core';
 
+import { MediaLink} from './MediaLink';
+
 /* TODO:
 1. Update this page to add new content area to show the connect me info.
 2. Update line 22 to read the media link info from UserContext.
@@ -101,7 +103,10 @@ const About = () => {
                 description={description}
                 onOpenEditor={handleOpenEditor}
               />
-              
+              <MediaLink
+                link1 = {'link1'}
+                link2 = {'link2'}
+              />
 
             </Container>
           </Col>
