@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import moment from 'moment';
+
 import { UserContext } from '../../portfolio-shared/UserContext';
 import { Resume } from '@pure-and-lazy/api-interfaces';
+
+import { getDuration } from '../../helpers/dateHelper';
+import { DB_DATE_FORMAT } from '../../constants/dateConstant';
 
 import './grid.css';
 import './resume.css';
@@ -12,7 +17,7 @@ const ResumePage = () => {
 
   useEffect(() => {
     fetchResumeData();
-  });
+  }, []);
 
   const fetchResumeData = async () => {
     try {
@@ -27,6 +32,35 @@ const ResumePage = () => {
     }
   };
 
+  const buildEducationSection = (): JSX.Element[] => {
+    let educationEls: JSX.Element[] = null;
+
+    if (resumeData) {
+      educationEls = resumeData.qualifications
+        .sort((a, b) => {
+          let dateA = moment(a.startDate, DB_DATE_FORMAT);
+          let dateB = moment(b.startDate, DB_DATE_FORMAT);
+          return dateB.diff(dateA);
+        })
+        .map((qual, index) => {
+          return (
+            <div key={index}>
+              <h3>{qual.institutionName}</h3>
+              <p className="info">
+                {qual.degree} <span>&bull;</span>
+                <em className="date">
+                  {getDuration(qual.startDate, qual.graduationDate)}
+                </em>
+              </p>
+              <p>{qual.description}</p>
+            </div>
+          );
+        });
+    }
+
+    return educationEls;
+  };
+
   return (
     <section id="resume">
       <div className="row education">
@@ -38,21 +72,7 @@ const ResumePage = () => {
 
         <div className="nine columns main-col">
           <div className="row item">
-            <div className="twelve columns">
-              {resumeData &&
-                resumeData.qualifications.map((qual) => {
-                  return (
-                    <div key={qual.institutionName}>
-                      <h3>{qual.institutionName}</h3>
-                      <p className="info">
-                        {qual.degree} <span>&bull;</span>
-                        <em className="date">{qual.graduationDate}</em>
-                      </p>
-                      <p>{qual.description}</p>
-                    </div>
-                  );
-                })}
-            </div>
+            <div className="twelve columns">{buildEducationSection()}</div>
           </div>
         </div>
       </div>
