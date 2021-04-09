@@ -44,19 +44,22 @@ const EditIndex = () => {
           <Route exact path={`${path}/blog`}>
             <BlogPage />
           </Route>
+          {/* //新的东西 */}
+          <Route exact path={`${path}/events`}>
+            <EventPage />
+          </Route>
           <Route exact path={`${path}/projects/:contentID`}>
             <ContentPage />
           </Route>
           <Route exact path={`${path}/blog/:contentID`}>
             <ContentPage />
           </Route>
+          {/* //新的东西 */}
+          <Route exact path={`${path}/events/:contentID`}>
+            <ContentPage />
+          </Route>
           <Route exact path={`${path}/about`}>
             <About />
-          </Route>
-
-          {/* //新的东西 */}
-          <Route exact path={`${path}/events`}>
-            <EventPage />
           </Route>
         </Switch>
         <FooterWrapper footer={footer} hidden={!isEditMode} />

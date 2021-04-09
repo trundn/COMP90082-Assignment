@@ -12,7 +12,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { UserContext } from './UserContext';
 import { Container } from 'react-bootstrap';
 import { ContentPage } from '../content/ContentPage';
-
 //新的东西
 import { EventPage } from './EventPage';
 
@@ -66,6 +65,10 @@ const PortfolioIndex = () => {
           <Route exact path={`${path}/blog`}>
             <BlogPage />
           </Route>
+          {/* //新的东西 */}
+          <Route exact path={`${path}/events`}>
+            <EventPage />
+          </Route>
           <Route exact path={`${path}/projects/:contentID`}>
             <ContentPage />
           </Route>
@@ -75,10 +78,9 @@ const PortfolioIndex = () => {
           <Route exact path={`${path}/about`}>
             <About />
           </Route>
-
           {/* //新的东西 */}
-          <Route exact path={`${path}/events`}>
-            <EventPage />
+          <Route exact path={`${path}/events/:contentID`}>
+            <ContentPage />
           </Route>
         </Switch>
         <FooterWrapper
