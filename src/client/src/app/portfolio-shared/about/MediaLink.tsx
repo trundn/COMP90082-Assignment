@@ -5,8 +5,8 @@ import { Pencil } from 'react-bootstrap-icons';
 import { EditContext } from '../EditContext';
 
 interface MediaLink {
-  link1: string;
-  link2: string;
+  medialinks: Array<string>;
+  onSubmit: (medialinks) => void;
 }
 
 const MediaLink = (props: MediaLink) => {

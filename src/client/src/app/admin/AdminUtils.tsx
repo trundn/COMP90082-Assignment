@@ -30,6 +30,17 @@ const updateDescription = async (
   });
 };
 
+//Add changed meidalinks into database
+const updateMedialinks = async (
+  medialinks: [],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getAccessTokenSilently: (options?: any) => Promise<string>
+) => {
+  return updateProfile(getAccessTokenSilently, {
+    medialinks: medialinks,
+  });
+};
+
 const updateTheme = async (
   theme: UserTheme,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -67,4 +78,4 @@ const updateProfile = async (
   });
 };
 
-export { updateProfilePicture, updateName, updateDescription, updateTheme };
+export { updateProfilePicture, updateName, updateDescription, updateTheme,updateMedialinks };

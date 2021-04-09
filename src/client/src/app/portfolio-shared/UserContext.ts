@@ -12,5 +12,8 @@ const UserContext = React.createContext({
   setDescription: (description) => null,
   setName: (name) => null,
   theme: UserTheme.DEFAULT,
+
+  setMedialinks: (medialinks) => null,
+  medialinks:[],
 });
 export { UserContext };

@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { AboutDisplay } from './AboutDisplay';
 import { AboutEditor } from './AboutEditor';
-import { updateDescription } from '../../admin/AdminUtils';
+import { updateDescription,updateMedialinks } from '../../admin/AdminUtils';
 import { UserContext } from '../UserContext';
 import { HomeAvatar } from '../../homepage/HomeAvatar';
 import { ThemedBackgroundContainer } from '../ThemedBackgroundContainer';
@@ -40,7 +40,7 @@ const About = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [editorOpen, setEditorOpen] = useState(false);
   //Description是About Meeditor里的内容，这里是从数据库里取用的接口内容
-  const { description, setDescription, profilePicture } = useContext(
+  const { description, setDescription, profilePicture, medialinks, setMedialinks } = useContext(
     UserContext
   );
 
@@ -83,6 +83,19 @@ const About = () => {
     setDescription(newDescription);
   };
 
+
+
+  const handleSubmit = async (newMedialinks: []) => {
+    try {
+      await updateMedialinks(newMedialinks, getAccessTokenSilently);
+    } catch (e) {
+      console.log(e);
+    }
+    //setEditorOpen(false);
+    //setSaveButtonDisabled(false);
+    setMedialinks(newMedialinks);
+  };
+
   return (
     <ThemedBackgroundContainer>
       <Container className="pt-5">
@@ -104,8 +117,9 @@ const About = () => {
                 onOpenEditor={handleOpenEditor}
               />
               <MediaLink
-                link1 = {'link1'}
-                link2 = {'link2'}
+                medialinks={medialinks}
+                onSubmit = {handleSubmit}
+
               />
 
             </Container>
