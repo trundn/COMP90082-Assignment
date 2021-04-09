@@ -26,6 +26,9 @@
 #resume h3 {
   font: 25px/30px 'opensans-bold', sans-serif;
 }
+#resume h4 {
+  font: 17px/20px 'opensans-bold', sans-serif;
+}
 #resume h5 {
   font: 15px/20px 'opensans-bold', sans-serif;
 }
@@ -64,6 +67,7 @@
 .education,
 .work,
 .awards,
+.certificates,
 .skills,
 .references {
   margin-bottom: 48px;

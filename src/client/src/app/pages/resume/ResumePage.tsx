@@ -7,12 +7,13 @@ import moment from 'moment';
 import { UserContext } from '../../portfolio-shared/UserContext';
 import { Experience, Resume } from '@pure-and-lazy/api-interfaces';
 
-import { getDuration } from '../../helpers/dateHelper';
+import { getDuration, getCertificateDuration } from '../../helpers/dateHelper';
 import { getRandomColor } from '../../helpers/colorHelper';
-import { DB_DATE_FORMAT } from '../../constants/dateConstant';
 
 import './grid.css';
 import './resume.css';
+
+import { DB_DATE_FORMAT } from '../../constants/dateConstant';
 
 const ResumePage = () => {
   const [resumeData, setResumeData] = useState<Resume>();
@@ -181,6 +182,29 @@ const ResumePage = () => {
     return refEls;
   };
 
+  const buildCertificatesSection = (): JSX.Element[] => {
+    let cerEls: JSX.Element[] = null;
+
+    if (resumeData) {
+      cerEls = resumeData.certificates.map((cer, index) => {
+        return (
+          <div className="mb-4" key={`${cer.name}_${index}`}>
+            <h4 className="font-weight-bold">{cer.name}</h4>
+            <h4>{cer.issueOrganization}</h4>
+            <p className="subcontent">
+              {getCertificateDuration(cer.issuedDate, cer.expiryDate)}
+            </p>
+            {cer.credentialId && (
+              <p className="subcontent">{`Credential ID ${cer.credentialId}`}</p>
+            )}
+          </div>
+        );
+      });
+    }
+
+    return cerEls;
+  };
+
   const buildHeaderColumn = (title: string): JSX.Element => {
     return (
       <div className="three columns header-col">
@@ -212,6 +236,14 @@ const ResumePage = () => {
               <ul className="resume-list-no-padding">{builAwardsSection()}</ul>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="row certificates">
+        {buildHeaderColumn('Certificates')}
+
+        <div className="nine columns main-col">
+          {buildCertificatesSection()}
         </div>
       </div>
 

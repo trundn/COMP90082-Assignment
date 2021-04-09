@@ -52,6 +52,13 @@ interface Qualification {
   graduationDate?: Date;
 }
 
+interface Certificate extends Namable {
+  issueOrganization: string;
+  credentialId?: string;
+  issuedDate: Date;
+  expiryDate?: Date;
+}
+
 interface Experience {
   organisation: string;
   city: string;
@@ -78,6 +85,7 @@ interface Reference extends Namable {
 interface Resume {
   _id?: string;
   qualifications?: Qualification[];
+  certificates?: Certificate[];
   awards?: string[];
   experiences?: Experience[];
   skills?: Skill[];
