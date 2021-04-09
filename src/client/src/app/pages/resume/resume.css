@@ -96,7 +96,7 @@
 }
 
 .bars {
-  width: 95%;
+  width: 100%;
   float: left;
   padding: 0;
   text-align: left;
@@ -105,6 +105,7 @@
 .bars .skill-lists {
   margin-top: 36px;
   list-style: none;
+  padding: 0 !important;
 }
 
 .bars li {
