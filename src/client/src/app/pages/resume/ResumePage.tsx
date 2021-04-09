@@ -223,12 +223,12 @@ const ResumePage = () => {
         </div>
       </div>
 
-      <div className="row skill">
-        {buildHeaderColumn('Skill')}
+      <div className="row skills">
+        {buildHeaderColumn('Skills')}
 
         <div className="nine columns main-col">
           <div className="bars">
-            <ul className="skills">{buildSkillsSection()}</ul>
+            <ul className="skill-lists">{buildSkillsSection()}</ul>
           </div>
         </div>
       </div>

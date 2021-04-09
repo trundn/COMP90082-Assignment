@@ -64,6 +64,7 @@
 .education,
 .work,
 .awards,
+.skills,
 .references {
   margin-bottom: 48px;
   padding-bottom: 24px;
@@ -97,7 +98,7 @@
   text-align: left;
 }
 
-.bars .skills {
+.bars .skill-lists {
   margin-top: 36px;
   list-style: none;
 }
