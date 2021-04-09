@@ -167,7 +167,7 @@ const ResumePage = () => {
     if (resumeData) {
       refEls = resumeData.references.map((ref, index) => {
         return (
-          <div key={`${ref.name}_${index}`}>
+          <div className="mb-4" key={`${ref.name}_${index}`}>
             <h5>{ref.name}</h5>
             <h5>{ref.position}</h5>
             <p className="subcontent">{ref.organisation}</p>
