@@ -73,14 +73,30 @@ const ResumePage = () => {
     if (experience)
       resEls = experience.responsibilities.map((resp, index) => {
         return (
-          <li key={index} className="responsibility-list-item">
-            <span className="responsibility-icon">&#9679;</span>
-            <span className="responsibility-content">{resp}</span>
+          <li key={index} className="resume-list-item">
+            <span className="resume-list-icon">&#9679;</span>
+            <span className="resume-list-content">{resp}</span>
           </li>
         );
       });
 
     return resEls;
+  };
+
+  const builAwardsSection = (): JSX.Element[] => {
+    let awardEls: JSX.Element[] = null;
+
+    if (resumeData)
+      awardEls = resumeData.awards.map((award, index) => {
+        return (
+          <li key={index} className="resume-list-item">
+            <span className="resume-list-icon">&#9679;</span>
+            <span className="resume-list-content">{award}</span>
+          </li>
+        );
+      });
+
+    return awardEls;
   };
 
   const buildWorkExperienceSection = (): JSX.Element[] => {
@@ -108,9 +124,7 @@ const ResumePage = () => {
                 {`${exp.city}, ${exp.country}`}
               </p>
               <p>{exp.workSummary}</p>
-              <ul className="job-listing-ul">
-                {buildWorkResponsibilitiesContent(exp)}
-              </ul>
+              <ul>{buildWorkResponsibilitiesContent(exp)}</ul>
             </div>
           );
         });
@@ -147,6 +161,25 @@ const ResumePage = () => {
     return skillEls;
   };
 
+  const buildReferencesSection = (): JSX.Element[] => {
+    let refEls: JSX.Element[] = null;
+
+    if (resumeData) {
+      refEls = resumeData.references.map((ref, index) => {
+        return (
+          <div key={`${ref.name}_${index}`}>
+            <h5>{ref.name}</h5>
+            <h5>{ref.position}</h5>
+            <p className="subcontent">{ref.organisation}</p>
+            <p className="subcontent">{ref.email}</p>
+          </div>
+        );
+      });
+    }
+
+    return refEls;
+  };
+
   return (
     <section id="resume">
       <div className="row education">
@@ -159,6 +192,22 @@ const ResumePage = () => {
         <div className="nine columns main-col">
           <div className="row item">
             <div className="twelve columns">{buildEducationSection()}</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="row awards">
+        <div className="three columns header-col">
+          <h1>
+            <span>Awards</span>
+          </h1>
+        </div>
+
+        <div className="nine columns main-col">
+          <div className="row item">
+            <div className="twelve columns">
+              <ul className="resume-list-no-padding">{builAwardsSection()}</ul>
+            </div>
           </div>
         </div>
       </div>
@@ -187,6 +236,16 @@ const ResumePage = () => {
             <ul className="skills">{buildSkillsSection()}</ul>
           </div>
         </div>
+      </div>
+
+      <div className="row references">
+        <div className="three columns header-col">
+          <h1>
+            <span>References</span>
+          </h1>
+        </div>
+
+        <div className="nine columns main-col">{buildReferencesSection()}</div>
       </div>
     </section>
   );

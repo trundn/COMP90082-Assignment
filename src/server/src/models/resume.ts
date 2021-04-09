@@ -31,17 +31,30 @@ class Skill extends Namable {
   @prop({ required: true }) yearOfExperiences!: number;
 }
 
+class Reference extends Namable {
+  @prop({ required: true }) position!: string;
+  @prop({ required: true }) organisation!: string;
+  @prop() phoneNumber?: string;
+  @prop({ required: true }) email!: string;
+}
+
 class Resume {
   @prop({ ref: User }) user: Ref<User>;
 
   @prop({ type: () => Qualification })
   qualifications?: Qualification[];
 
+  @prop()
+  awards?: string[];
+
   @prop({ type: () => Experience })
   experiences?: Experience[];
 
   @prop({ type: () => Skill })
   skills?: Skill[];
+
+  @prop({ type: () => Reference })
+  references?: Reference[];
 }
 
 const ResumeModel = getModelForClass(Resume);

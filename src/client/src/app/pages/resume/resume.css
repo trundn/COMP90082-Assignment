@@ -26,6 +26,9 @@
 #resume h3 {
   font: 25px/30px 'opensans-bold', sans-serif;
 }
+#resume h5 {
+  font: 15px/20px 'opensans-bold', sans-serif;
+}
 
 #resume .header-col {
   padding-top: 9px;
@@ -42,6 +45,12 @@
   margin-top: 9px;
 }
 
+#resume .subcontent {
+  font: 16px/24px 'librebaskerville-italic', serif;
+  color: #6e7881;
+  margin-bottom: 0;
+}
+
 #resume .info span {
   margin-right: 5px;
   margin-left: 5px;
@@ -53,25 +62,31 @@
 }
 
 .education,
-.work {
+.work,
+.awards,
+.references {
   margin-bottom: 48px;
   padding-bottom: 24px;
   border-bottom: 1px solid #e8e8e8;
 }
 
-.responsibility-list-item {
+.resume-list-no-padding {
+  padding: 0 !important;
+}
+
+.resume-list-item {
   margin-bottom: 0.5rem;
   overflow-wrap: break-word;
   list-style-type: none;
 }
 
-.responsibility-icon {
+.resume-list-icon {
   color: #0762f9;
   margin-right: 0.5rem !important;
   padding: 0 !important;
 }
 
-.responsibility-content {
+.resume-list-content {
   font-weight: normal;
 }
 

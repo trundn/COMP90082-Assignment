@@ -68,11 +68,20 @@ interface Skill extends Namable {
   yearOfExperiences: number;
 }
 
+interface Reference extends Namable {
+  position: string;
+  organisation: string;
+  phoneNumber?: string;
+  email: string;
+}
+
 interface Resume {
   _id?: string;
   qualifications?: Qualification[];
+  awards?: string[];
   experiences?: Experience[];
   skills?: Skill[];
+  references?: Reference[];
 }
 
 export {
