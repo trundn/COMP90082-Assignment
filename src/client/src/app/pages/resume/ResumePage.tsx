@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Badge from 'react-bootstrap/Badge';
 
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 import axios from 'axios';
 import moment from 'moment';
 
@@ -10,7 +14,6 @@ import { Experience, Resume } from '@pure-and-lazy/api-interfaces';
 import { getDuration, getCertificateDuration } from '../../helpers/dateHelper';
 import { getRandomColor } from '../../helpers/colorHelper';
 
-import './grid.css';
 import './resume.css';
 
 import { DB_DATE_FORMAT } from '../../constants/dateConstant';
@@ -217,59 +220,36 @@ const ResumePage = () => {
 
   return (
     <section id="resume">
-      <div className="row education">
-        {buildHeaderColumn('Education')}
-
-        <div className="nine columns main-col">
-          <div className="row item">
-            <div className="twelve columns">{buildEducationSection()}</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="row awards">
-        {buildHeaderColumn('Awards')}
-
-        <div className="nine columns main-col">
-          <div className="row item">
-            <div className="twelve columns">
-              <ul className="resume-list-no-padding">{builAwardsSection()}</ul>
+      <Container>
+        <Row className="row-separator">
+          <Col md={3}>{buildHeaderColumn('Education')}</Col>
+          <Col md={8}>{buildEducationSection()}</Col>
+        </Row>
+        <Row className="row-separator">
+          <Col md={3}>{buildHeaderColumn('Awards')}</Col>
+          <Col md={8}>{builAwardsSection()}</Col>
+        </Row>
+        <Row className="row-separator">
+          <Col md={3}>{buildHeaderColumn('Certificates')}</Col>
+          <Col md={8}>{buildCertificatesSection()}</Col>
+        </Row>
+        <Row className="row-separator">
+          <Col md={3}>{buildHeaderColumn('Work')}</Col>
+          <Col md={8}>{buildWorkExperienceSection()}</Col>
+        </Row>
+        <Row className="row-separator">
+          <Col md={3}>{buildHeaderColumn('Skills')}</Col>
+          <Col md={8}>
+            <div className="bars">
+              <ul className="skill-lists">{buildSkillsSection()}</ul>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="row certificates">
-        {buildHeaderColumn('Certificates')}
-
-        <div className="nine columns main-col">
-          {buildCertificatesSection()}
-        </div>
-      </div>
-
-      <div className="row work">
-        {buildHeaderColumn('Work')}
-
-        <div className="nine columns main-col">
-          {buildWorkExperienceSection()}
-        </div>
-      </div>
-
-      <div className="row skills">
-        {buildHeaderColumn('Skills')}
-
-        <div className="nine columns main-col">
-          <div className="bars">
-            <ul className="skill-lists">{buildSkillsSection()}</ul>
-          </div>
-        </div>
-      </div>
-
-      <div className="row references">
-        {buildHeaderColumn('References')}
-
-        <div className="nine columns main-col">{buildReferencesSection()}</div>
-      </div>
+          </Col>
+        </Row>
+        <Row className="row-separator">
+          <Col md={3}>{buildHeaderColumn('References')}</Col>
+          <Col md={8}>{buildReferencesSection()}</Col>
+        </Row>
+      </Container>
     </section>
   );
 };
