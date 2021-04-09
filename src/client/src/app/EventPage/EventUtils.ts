@@ -92,6 +92,7 @@ const getPortfolioItems = async (
   category: PortfolioCategory
 ): Promise<Array<PortfolioItem>> => {
   // 这里有改动
+  // console.log('hahaha')
   const categoryFilter = 'events';
   return fetch(
     `/api/portfolio/${username}/all?category=${categoryFilter}`
@@ -104,9 +105,8 @@ const getOwnPortfolioItems = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getAccessTokenSilently: (options?: any) => Promise<string>
 ): Promise<Array<PortfolioItem>> => {
-  const categoryFilter =
-    // 这里有改动
-    category === 'events';
+  // console.log('hahaha')
+  const categoryFilter = 'events';
 
   let token: string;
   try {

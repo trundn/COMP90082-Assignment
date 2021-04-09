@@ -33,6 +33,7 @@ const ItemList = (props: ItemList) => {
     const promise: Promise<Array<PortfolioItem>> = editMode
       ? getOwnPortfolioItems(props.category, getAccessTokenSilently)
       : getPortfolioItems(username, props.category);
+    console.log(promise);
     promise
       .then((r) => setItems(r))
       .then(() => setLoaded(true))
