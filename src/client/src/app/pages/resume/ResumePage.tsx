@@ -171,6 +171,7 @@ const ResumePage = () => {
             <h5>{ref.name}</h5>
             <h5>{ref.position}</h5>
             <p className="subcontent">{ref.organisation}</p>
+            <p className="subcontent">{ref.phoneNumber}</p>
             <p className="subcontent">{ref.email}</p>
           </div>
         );
@@ -180,14 +181,20 @@ const ResumePage = () => {
     return refEls;
   };
 
+  const buildHeaderColumn = (title: string): JSX.Element => {
+    return (
+      <div className="three columns header-col">
+        <h1>
+          <span>{title}</span>
+        </h1>
+      </div>
+    );
+  };
+
   return (
     <section id="resume">
       <div className="row education">
-        <div className="three columns header-col">
-          <h1>
-            <span>Education</span>
-          </h1>
-        </div>
+        {buildHeaderColumn('Education')}
 
         <div className="nine columns main-col">
           <div className="row item">
@@ -197,11 +204,7 @@ const ResumePage = () => {
       </div>
 
       <div className="row awards">
-        <div className="three columns header-col">
-          <h1>
-            <span>Awards</span>
-          </h1>
-        </div>
+        {buildHeaderColumn('Awards')}
 
         <div className="nine columns main-col">
           <div className="row item">
@@ -213,11 +216,7 @@ const ResumePage = () => {
       </div>
 
       <div className="row work">
-        <div className="three columns header-col">
-          <h1>
-            <span>Work</span>
-          </h1>
-        </div>
+        {buildHeaderColumn('Work')}
 
         <div className="nine columns main-col">
           {buildWorkExperienceSection()}
@@ -225,11 +224,7 @@ const ResumePage = () => {
       </div>
 
       <div className="row skill">
-        <div className="three columns header-col">
-          <h1>
-            <span>Skills</span>
-          </h1>
-        </div>
+        {buildHeaderColumn('Skill')}
 
         <div className="nine columns main-col">
           <div className="bars">
@@ -239,11 +234,7 @@ const ResumePage = () => {
       </div>
 
       <div className="row references">
-        <div className="three columns header-col">
-          <h1>
-            <span>References</span>
-          </h1>
-        </div>
+        {buildHeaderColumn('References')}
 
         <div className="nine columns main-col">{buildReferencesSection()}</div>
       </div>
