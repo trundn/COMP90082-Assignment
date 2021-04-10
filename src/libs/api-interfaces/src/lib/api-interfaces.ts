@@ -101,4 +101,7 @@ export {
   Resume,
   Qualification,
   Experience,
+  Certificate,
+  Skill,
+  Reference,
 };
