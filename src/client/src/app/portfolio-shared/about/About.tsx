@@ -13,10 +13,14 @@ import { MediaLink} from './MediaLink';
 
 /* TODO:
 1. Update this page to add new content area to show the connect me info.
+
 2. Update line 22 to read the media link info from UserContext.
+
 3. Update Usercontext.ts(line 7) to add media link to the info included in UserContext.
+
 4. Update '\src\client\src\app\portfolio-shared\LoggedInUserContextProvider.tsx'
    to add the fetch of media links when login.
+
 5. Update 'src\libs\api-interfaces\src\lib\api-interfaces.ts'
    to change content of 'UserProfile' to include medialinks. ????????
 

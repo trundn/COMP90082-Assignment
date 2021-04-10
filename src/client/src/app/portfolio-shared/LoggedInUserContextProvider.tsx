@@ -26,7 +26,16 @@ const LoggedInUserContextProvider = (props: LoggedInUserContextProvider) => {
       return { ...prevState, name: name };
     });
   };
-  const contextState = { ...user, setProfilePicture, setDescription, setName };
+
+
+  //To fetch the medialinks
+  const setMedialinks = (medialinks: Array<string>) => {
+    setUser((prevState) => {
+      return { ...prevState, medialinks: medialinks };
+    });
+  };
+
+  const contextState = { ...user, setProfilePicture, setDescription, setName,setMedialinks };
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
