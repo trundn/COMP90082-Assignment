@@ -29,6 +29,8 @@ interface UserProfile {
   profilePicture?: string;
   theme?: UserTheme;
   themeDark?: boolean;
+
+  medialinks?: Array<string>;
 }
 
 enum UserTheme {
