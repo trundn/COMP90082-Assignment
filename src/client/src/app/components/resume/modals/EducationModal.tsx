@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 
 import * as Yup from 'yup';
 import moment from 'moment';
@@ -19,6 +19,8 @@ interface EducationModalProps {
 }
 
 const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
+  const [isDisableEndDate, setIsDisableEndDate] = useState(false);
+
   const initialValues: Qualification = {
     institutionName: '',
     degree: '',
@@ -33,13 +35,25 @@ const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
     description: Yup.string().required('Description name is required'),
     startDate: Yup.date(),
     graduationDate: Yup.date().min(
-      Yup.ref('startDate'),
+      isDisableEndDate ? Yup.ref('graduationDate') : Yup.ref('startDate'),
       ({ min }) =>
         `Date needs to be before ${moment(min).format(DISPLAY_DATE_FORMAT)}!!`
     ),
   });
 
+  const handleFormClose = () => {
+    setIsDisableEndDate(false);
+    onClose();
+  };
+
+  const handleNotCompletedCheckChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ): void => {
+    setIsDisableEndDate(event.target.checked);
+  };
+
   const buildDatePicker = (
+    disabled: boolean,
     name: string,
     selectedDate: Date,
     setFieldValue: (
@@ -51,6 +65,7 @@ const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
   ): JSX.Element => {
     return (
       <DatePicker
+        disabled={disabled}
         dateFormat="yyyy-MM-dd"
         selected={selectedDate}
         onChange={(date) => {
@@ -66,7 +81,13 @@ const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
   };
 
   return (
-    <Modal show={show} onHide={onClose} size="lg" centered>
+    <Modal
+      show={show}
+      onHide={handleFormClose}
+      size="lg"
+      centered
+      backdrop="static"
+    >
       <Modal.Header closeButton>
         <Modal.Title>Education</Modal.Title>
       </Modal.Header>
@@ -75,7 +96,13 @@ const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
+
+          if (isDisableEndDate) {
+            values.graduationDate = null;
+          }
           onSubmit(values);
+
+          setIsDisableEndDate(false);
           resetForm();
           setSubmitting(false);
         }}
@@ -87,7 +114,6 @@ const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
           handleBlur,
           handleSubmit,
           setFieldValue,
-          isSubmitting,
         }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
@@ -143,6 +169,7 @@ const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
                 <Form.Group as={Col} xs={3}>
                   <Form.Label>From</Form.Label>
                   {buildDatePicker(
+                    false,
                     'startDate',
                     values.startDate,
                     setFieldValue
@@ -151,6 +178,7 @@ const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
                 <Form.Group as={Col} xs={3}>
                   <Form.Label>To</Form.Label>
                   {buildDatePicker(
+                    isDisableEndDate,
                     'graduationDate',
                     values.graduationDate,
                     setFieldValue,
@@ -162,12 +190,16 @@ const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
                 </Form.Group>
               </Form.Row>
               <Form.Group controlId="formNotCompleted">
-                <Form.Check type="checkbox" label="Not Completed" />
+                <Form.Check
+                  type="checkbox"
+                  label="Not Completed"
+                  onChange={handleNotCompletedCheckChange}
+                />
               </Form.Group>
             </Modal.Body>
             <Modal.Footer>
               <Button type="submit">Submit</Button>
-              <Button variant="secondary" onClick={onClose}>
+              <Button variant="secondary" onClick={handleFormClose}>
                 Close
               </Button>
             </Modal.Footer>

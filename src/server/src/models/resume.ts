@@ -47,22 +47,22 @@ class Reference extends Namable {
 class Resume {
   @prop({ ref: User }) user: Ref<User>;
 
-  @prop({ type: () => Qualification })
+  @prop({ type: () => Qualification, _id: false })
   qualifications?: Qualification[];
 
-  @prop({ type: () => Certificate })
+  @prop({ type: () => Certificate, _id: false })
   certificates?: Certificate[];
 
   @prop()
   awards?: string[];
 
-  @prop({ type: () => Experience })
+  @prop({ type: () => Experience, _id: false })
   experiences?: Experience[];
 
-  @prop({ type: () => Skill })
+  @prop({ type: () => Skill, _id: false })
   skills?: Skill[];
 
-  @prop({ type: () => Reference })
+  @prop({ type: () => Reference, _id: false })
   references?: Reference[];
 }
 

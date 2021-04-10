@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import { checkJwt } from '../middleware/authMiddleware';
-import { getResumeByUserName } from '../controller/resumeController';
+import {
+  getResumeByUserName,
+  addQualification,
+} from '../controller/resumeController';
 
 const router = Router();
 
@@ -13,5 +16,7 @@ router.all('/*', (req, res, next) => {
 });
 
 router.get('/:userid', getResumeByUserName);
+
+router.route('/qualifications/add').put(addQualification);
 
 export default router;

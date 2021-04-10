@@ -9,6 +9,7 @@ import { Button } from 'react-bootstrap';
 
 import axios from 'axios';
 import moment from 'moment';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -32,6 +33,7 @@ import { DB_DATE_FORMAT } from '../../constants/dateConstant';
 import { ResumeSectionTypes } from '../../constants/resumeConstant';
 
 const ResumePage = () => {
+  const { getAccessTokenSilently } = useAuth0();
   const [resumeData, setResumeData] = useState<Resume>();
   const [modalShows, setModelShows] = useState<{
     [id: string]: boolean;
@@ -64,6 +66,29 @@ const ResumePage = () => {
     }
   };
 
+  const addQualification = async (new_qualification: Qualification) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      const result = await axios({
+        method: 'PUT',
+        url: `/api/resume/qualifications/add`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_qualification: new_qualification,
+        },
+      });
+
+      console.log('Successfully added new qualification', result);
+    } catch (error) {
+      console.log('Failed to add qualification', error);
+    }
+  };
+
   const updateModalShowStatus = (resumeType: string, status: boolean): void => {
     setModelShows((prevState) => {
       return { ...prevState, [resumeType]: status };
@@ -71,8 +96,8 @@ const ResumePage = () => {
   };
 
   const handleEduModalSubmitClick = (values: Qualification) => {
-    alert(JSON.stringify(values));
     updateModalShowStatus(ResumeSectionTypes.Education, false);
+    addQualification(values);
   };
 
   const handleEduModalCloseClick = () => {
@@ -91,7 +116,7 @@ const ResumePage = () => {
         })
         .map((qual, index) => {
           return (
-            <div key={`${qual.degree}_${index}`}>
+            <div key={`${qual.degree}_${index}`} className="mb-4">
               <h3>{qual.institutionName}</h3>
               <p className="info">
                 {qual.degree}
@@ -155,7 +180,10 @@ const ResumePage = () => {
         })
         .map((exp, index) => {
           return (
-            <div key={`${exp.organisation}_${exp.role}_${index}`}>
+            <div
+              key={`${exp.organisation}_${exp.role}_${index}`}
+              className="mb-4"
+            >
               <h3>{exp.organisation}</h3>
               <p className="info">
                 <em className="date">
@@ -285,7 +313,7 @@ const ResumePage = () => {
                   updateModalShowStatus(sectionType, true);
                 }}
               >
-                <FontAwesomeIcon icon={faPlus} />
+                <FontAwesomeIcon icon={faPlus} /> Add More
               </Button>
             </Col>
           </Row>
