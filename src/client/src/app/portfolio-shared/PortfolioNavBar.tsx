@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useParams } from 'react-router-dom';
 import { EditContext } from './EditContext';
 import { UserContext } from './UserContext';
-
+import { GetStartedPage } from '../../app/admin/GetStartedPage';
 const PortfolioNavBar = () => {
   const { id } = useParams();
   const editMode = useContext(EditContext);
@@ -46,6 +46,9 @@ const PortfolioNavBar = () => {
           </LinkContainer>
           <LinkContainer to={`${URL_PREFIX}/about`}>
             <Nav.Link eventKey="/about">About</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to={`${URL_PREFIX}/getStarted`}>
+            <Nav.Link eventKey="/getStarted">getStarted</Nav.Link>
           </LinkContainer>
         </Nav>
       </Navbar.Collapse>

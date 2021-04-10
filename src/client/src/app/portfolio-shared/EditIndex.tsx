@@ -11,6 +11,7 @@ import { PortfolioNavBar } from './PortfolioNavBar';
 import { ProjectPage } from './ProjectPage';
 import { AuthContext } from '../auth/AuthContext';
 import { Container } from 'react-bootstrap';
+import { GetStartedPage } from '../../app/admin/GetStartedPage';
 
 const EditIndex = () => {
   const { registrationComplete, isLoaded } = useContext(AuthContext);
@@ -49,6 +50,12 @@ const EditIndex = () => {
           </Route>
           <Route exact path={`${path}/about`}>
             <About />
+          </Route>
+          <Route exact path={`${path}/getStarted`}>
+            <GetStartedPage />
+          </Route>
+          <Route exact path={`${path}/getStarted/:contentID`}>
+            <GetStartedPage />
           </Route>
         </Switch>
         <FooterWrapper footer={footer} hidden={!isEditMode} />
