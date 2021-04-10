@@ -216,7 +216,7 @@ const ResumePage = () => {
     }
   };
 
-  const bindEdiableButtons = (
+  const bindEditableButtons = (
     targetVal: any,
     targetKind: string,
     sectionType: ResumeSectionTypes
@@ -253,7 +253,7 @@ const ResumePage = () => {
                   <p>{qual.description}</p>
                 </div>
               </Col>
-              {bindEdiableButtons(
+              {bindEditableButtons(
                 qual,
                 'Qualification',
                 ResumeSectionTypes.Education
@@ -297,7 +297,7 @@ const ResumePage = () => {
                 <span className="resume-list-content">{award}</span>
               </li>
             </Col>
-            {bindEdiableButtons(award, 'string', ResumeSectionTypes.Awards)}
+            {bindEditableButtons(award, 'string', ResumeSectionTypes.Awards)}
           </Row>
         );
       });
@@ -338,7 +338,7 @@ const ResumePage = () => {
                   <ul>{buildWorkResponsibilitiesContent(exp)}</ul>
                 </div>
               </Col>
-              {bindEdiableButtons(exp, 'Experience', ResumeSectionTypes.Work)}
+              {bindEditableButtons(exp, 'Experience', ResumeSectionTypes.Work)}
             </Row>
           );
         });
@@ -371,7 +371,7 @@ const ResumePage = () => {
                 </em>
               </li>
             </Col>
-            {bindEdiableButtons(skill, 'Skill', ResumeSectionTypes.Skills)}
+            {bindEditableButtons(skill, 'Skill', ResumeSectionTypes.Skills)}
           </Row>
         );
       });
@@ -396,7 +396,7 @@ const ResumePage = () => {
                 <p className="subcontent">{ref.email}</p>
               </div>
             </Col>
-            {bindEdiableButtons(
+            {bindEditableButtons(
               ref,
               'Reference',
               ResumeSectionTypes.References
@@ -415,16 +415,25 @@ const ResumePage = () => {
     if (resumeData) {
       cerEls = resumeData.certificates.map((cer, index) => {
         return (
-          <div className="mb-4" key={`${cer.name}_${index}`}>
-            <h4 className="font-weight-bold">{cer.name}</h4>
-            <h4>{cer.issueOrganization}</h4>
-            <p className="subcontent">
-              {getCertificateDuration(cer.issuedDate, cer.expiryDate)}
-            </p>
-            {cer.credentialId && (
-              <p className="subcontent">{`Credential ID ${cer.credentialId}`}</p>
+          <Row>
+            <Col xs={editMode ? 10 : 12}>
+              <div className="mb-4" key={`${cer.name}_${index}`}>
+                <h4 className="font-weight-bold">{cer.name}</h4>
+                <h4>{cer.issueOrganization}</h4>
+                <p className="subcontent">
+                  {getCertificateDuration(cer.issuedDate, cer.expiryDate)}
+                </p>
+                {cer.credentialId && (
+                  <p className="subcontent">{`Credential ID ${cer.credentialId}`}</p>
+                )}
+              </div>
+            </Col>
+            {bindEditableButtons(
+              cer,
+              'Certificate',
+              ResumeSectionTypes.Certificates
             )}
-          </div>
+          </Row>
         );
       });
     }
