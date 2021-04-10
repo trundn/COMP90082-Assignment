@@ -5,8 +5,11 @@ import { Pencil } from 'react-bootstrap-icons';
 import { EditContext } from '../EditContext';
 
 interface MediaLink {
-  medialinks: Array<string>;
-  onSubmit: (medialinks) => void;
+  twitteLink: string;
+  facebookLink: string;
+  githubLink: string;
+  linkedinLink: string;
+  //onSubmit: (medialinks) => void;
 }
 
 const MediaLink = (props: MediaLink) => {

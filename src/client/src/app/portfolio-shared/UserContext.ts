@@ -13,7 +13,13 @@ const UserContext = React.createContext({
   setName: (name) => null,
   theme: UserTheme.DEFAULT,
 
-  setMedialinks: (medialinks) => null,
-  medialinks:[],
+  settwitteLink: (twitteLink) => null,
+  setfacebookLink: (facebookLink) => null,
+  setgithubLink: (githubLink) => null,
+  setlinkedinLink: (linkedinLink) => null,
+  twitteLink:'',
+  facebookLink:'',
+  githubLink:'',
+  linkedinLink:'',
 });
 export { UserContext };

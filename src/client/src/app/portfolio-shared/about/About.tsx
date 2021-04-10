@@ -44,7 +44,9 @@ const About = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [editorOpen, setEditorOpen] = useState(false);
   //Description是About Meeditor里的内容，这里是从数据库里取用的接口内容
-  const { description, setDescription, profilePicture, medialinks, setMedialinks } = useContext(
+  const { description, setDescription, profilePicture, 
+    twitteLink, facebookLink,githubLink,linkedinLink, 
+    settwitteLink,setfacebookLink,setgithubLink,setlinkedinLink } = useContext(
     UserContext
   );
 
@@ -89,6 +91,7 @@ const About = () => {
 
 
 
+  /*delete for function changes
   const handleSubmit = async (newMedialinks: []) => {
     try {
       await updateMedialinks(newMedialinks, getAccessTokenSilently);
@@ -98,7 +101,7 @@ const About = () => {
     //setEditorOpen(false);
     //setSaveButtonDisabled(false);
     setMedialinks(newMedialinks);
-  };
+  };*/
 
   return (
     <ThemedBackgroundContainer>
@@ -121,9 +124,11 @@ const About = () => {
                 onOpenEditor={handleOpenEditor}
               />
               <MediaLink
-                medialinks={medialinks}
-                onSubmit = {handleSubmit}
-
+                twitteLink={twitteLink}
+                facebookLink={facebookLink}
+                githubLink={githubLink}
+                linkedinLink={linkedinLink}
+                //onSubmit = {handleSubmit}
               />
 
             </Container>
