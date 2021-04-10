@@ -35,8 +35,8 @@ const QualificationModal = ({
 
   const validationSchema = Yup.object().shape({
     institutionName: Yup.string().required('Institution name is required'),
-    degree: Yup.string().required('Degree name is required'),
-    description: Yup.string().required('Description name is required'),
+    degree: Yup.string().required('Degree is required'),
+    description: Yup.string().required('Description is required'),
     startDate: Yup.date(),
     graduationDate: Yup.date().min(
       isDisableEndDate ? Yup.ref('graduationDate') : Yup.ref('startDate'),
