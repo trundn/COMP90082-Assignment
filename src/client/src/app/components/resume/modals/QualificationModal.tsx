@@ -12,13 +12,17 @@ import { Button, Col, Form, Modal } from 'react-bootstrap';
 import { Qualification } from '@pure-and-lazy/api-interfaces';
 import { DISPLAY_DATE_FORMAT } from '../../../constants/dateConstant';
 
-interface EducationModalProps {
+interface QualificationModalProps {
   show: boolean;
   onSubmit: (values: Qualification) => void;
   onClose: () => void;
 }
 
-const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
+const QualificationModal = ({
+  show,
+  onSubmit,
+  onClose,
+}: QualificationModalProps) => {
   const [isDisableEndDate, setIsDisableEndDate] = useState(false);
 
   const initialValues: Qualification = {
@@ -89,7 +93,7 @@ const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
       backdrop="static"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Education</Modal.Title>
+        <Modal.Title>Qualification</Modal.Title>
       </Modal.Header>
       <Formik
         initialValues={initialValues}
@@ -210,4 +214,4 @@ const EducationModal = ({ show, onSubmit, onClose }: EducationModalProps) => {
   );
 };
 
-export default EducationModal;
+export default QualificationModal;

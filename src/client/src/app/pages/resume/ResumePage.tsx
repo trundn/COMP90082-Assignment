@@ -14,7 +14,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
-import EducationModal from '../../components/resume/modals/EducationModal';
+import QualificationModal from '../../components/resume/modals/QualificationModal';
 
 import { UserContext } from '../../portfolio-shared/UserContext';
 import { EditContext } from '../../portfolio-shared/EditContext';
@@ -495,7 +495,7 @@ const ResumePage = () => {
         </Alert>
       )}
       <section id="resume">
-        <EducationModal
+        <QualificationModal
           show={modalShows[ResumeSectionTypes.Education]}
           onSubmit={handleEduModalSubmitClick}
           onClose={handleEduModalCloseClick}
