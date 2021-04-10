@@ -1,15 +1,27 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, MouseEvent } from 'react';
 import Badge from 'react-bootstrap/Badge';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import { Button } from 'react-bootstrap';
+
 import axios from 'axios';
 import moment from 'moment';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
+import EducationModal from '../../components/resume/modals/EducationModal';
+
 import { UserContext } from '../../portfolio-shared/UserContext';
-import { Experience, Resume } from '@pure-and-lazy/api-interfaces';
+import { EditContext } from '../../portfolio-shared/EditContext';
+import {
+  Experience,
+  Qualification,
+  Resume,
+} from '@pure-and-lazy/api-interfaces';
 
 import { getDuration, getCertificateDuration } from '../../helpers/dateHelper';
 import { getRandomColor } from '../../helpers/colorHelper';
@@ -17,9 +29,22 @@ import { getRandomColor } from '../../helpers/colorHelper';
 import './resume.css';
 
 import { DB_DATE_FORMAT } from '../../constants/dateConstant';
+import { ResumeSectionTypes } from '../../constants/resumeConstant';
 
 const ResumePage = () => {
   const [resumeData, setResumeData] = useState<Resume>();
+  const [modalShows, setModelShows] = useState<{
+    [id: string]: boolean;
+  }>({
+    [ResumeSectionTypes.Education]: false,
+    [ResumeSectionTypes.Awards]: false,
+    [ResumeSectionTypes.Certificates]: false,
+    [ResumeSectionTypes.Work]: false,
+    [ResumeSectionTypes.Skills]: false,
+    [ResumeSectionTypes.References]: false,
+  });
+
+  const editMode = useContext(EditContext);
   const { _id } = useContext(UserContext);
 
   useEffect(() => {
@@ -37,6 +62,21 @@ const ResumePage = () => {
     } catch (error) {
       console.log('Failed to fetch resume data', error);
     }
+  };
+
+  const updateModalShowStatus = (resumeType: string, status: boolean): void => {
+    setModelShows((prevState) => {
+      return { ...prevState, [resumeType]: status };
+    });
+  };
+
+  const handleEduModalSubmitClick = (values: Qualification) => {
+    alert(JSON.stringify(values));
+    updateModalShowStatus(ResumeSectionTypes.Education, false);
+  };
+
+  const handleEduModalCloseClick = () => {
+    updateModalShowStatus(ResumeSectionTypes.Education, false);
   };
 
   const buildEducationSection = (): JSX.Element[] => {
@@ -218,37 +258,80 @@ const ResumePage = () => {
     );
   };
 
+  const skillsContentBuilder = () => {
+    return (
+      <div className="bars">
+        <ul className="skill-lists">{buildSkillsSection()}</ul>
+      </div>
+    );
+  };
+
+  const buildResumeSection = (
+    colTitle: string,
+    contentBuilder: (() => JSX.Element[]) | (() => JSX.Element),
+    sectionType: ResumeSectionTypes
+  ): JSX.Element => {
+    return (
+      <Container className="row-separator">
+        <Row>
+          <Col md={3}>{buildHeaderColumn(colTitle)}</Col>
+          <Col md={8}>{contentBuilder()}</Col>
+        </Row>
+        {editMode && (
+          <Row className="justify-content-center">
+            <Col md="auto">
+              <Button
+                onClick={() => {
+                  updateModalShowStatus(sectionType, true);
+                }}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+              </Button>
+            </Col>
+          </Row>
+        )}
+      </Container>
+    );
+  };
+
   return (
     <section id="resume">
+      <EducationModal
+        show={modalShows[ResumeSectionTypes.Education]}
+        onSubmit={handleEduModalSubmitClick}
+        onClose={handleEduModalCloseClick}
+      />
       <Container>
-        <Row className="row-separator">
-          <Col md={3}>{buildHeaderColumn('Education')}</Col>
-          <Col md={8}>{buildEducationSection()}</Col>
-        </Row>
-        <Row className="row-separator">
-          <Col md={3}>{buildHeaderColumn('Awards')}</Col>
-          <Col md={8}>{builAwardsSection()}</Col>
-        </Row>
-        <Row className="row-separator">
-          <Col md={3}>{buildHeaderColumn('Certificates')}</Col>
-          <Col md={8}>{buildCertificatesSection()}</Col>
-        </Row>
-        <Row className="row-separator">
-          <Col md={3}>{buildHeaderColumn('Work')}</Col>
-          <Col md={8}>{buildWorkExperienceSection()}</Col>
-        </Row>
-        <Row className="row-separator">
-          <Col md={3}>{buildHeaderColumn('Skills')}</Col>
-          <Col md={8}>
-            <div className="bars">
-              <ul className="skill-lists">{buildSkillsSection()}</ul>
-            </div>
-          </Col>
-        </Row>
-        <Row className="row-separator">
-          <Col md={3}>{buildHeaderColumn('References')}</Col>
-          <Col md={8}>{buildReferencesSection()}</Col>
-        </Row>
+        {buildResumeSection(
+          'Education',
+          buildEducationSection,
+          ResumeSectionTypes.Education
+        )}
+        {buildResumeSection(
+          'Awards',
+          builAwardsSection,
+          ResumeSectionTypes.Awards
+        )}
+        {buildResumeSection(
+          'Certificates',
+          buildCertificatesSection,
+          ResumeSectionTypes.Certificates
+        )}
+        {buildResumeSection(
+          'Work',
+          buildWorkExperienceSection,
+          ResumeSectionTypes.Work
+        )}
+        {buildResumeSection(
+          'Skills',
+          skillsContentBuilder,
+          ResumeSectionTypes.Skills
+        )}
+        {buildResumeSection(
+          'References',
+          buildReferencesSection,
+          ResumeSectionTypes.References
+        )}
       </Container>
     </section>
   );

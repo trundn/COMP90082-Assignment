@@ -45,7 +45,6 @@ interface Namable {
 
 interface Qualification {
   institutionName: string;
-  institutionWebsite?: string;
   degree: string;
   description: string;
   startDate: Date;
