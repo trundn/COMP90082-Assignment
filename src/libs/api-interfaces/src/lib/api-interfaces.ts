@@ -30,7 +30,10 @@ interface UserProfile {
   theme?: UserTheme;
   themeDark?: boolean;
 
-  medialinks?: Array<string>;
+  twitteLink?:string;
+  facebookLink?:string;
+  githubLink?:string;
+  linkedinLink?:string;
 }
 
 enum UserTheme {

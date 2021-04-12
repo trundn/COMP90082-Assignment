@@ -15,12 +15,22 @@ class User {
   theme?: UserTheme;
   @prop({ default: false }) themeDark?: boolean;
 
+  @prop() twitteLink?: string;
+  @prop() facebookLink?: string;
+  @prop() githubLink?: string;
+  @prop() linkedinLink?: string;
+
   static editableFields = [
     'name',
     'description',
     'profilePicture',
     'theme',
     'themeDark',
+    
+    'twitteLink',
+    'facebookLink',
+    'githubLink',
+    'linkedinLink',
   ];
 
   toProfile(): UserProfile {
@@ -33,6 +43,11 @@ class User {
       profilePicture: this.profilePicture,
       theme: this.theme,
       themeDark: this.themeDark,
+
+      twitteLink: this.twitteLink,
+      facebookLink: this.facebookLink,
+      githubLink: this.githubLink,
+      linkedinLink: this.linkedinLink,
     };
   }
 }
