@@ -57,8 +57,8 @@ const ManagePage = () => {
   });
 
   const handleSubmit = async (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     setSaving(true);
     setSuccess(false);
     event.preventDefault();

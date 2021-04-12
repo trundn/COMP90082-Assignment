@@ -19,8 +19,8 @@ export const UrlForm = (props: UrlForm) => {
   };
 
   const handleSubmit = async (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+    event: React.ChangeEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
     props.onSubmit(urlPath);
   };
