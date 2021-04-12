@@ -11,6 +11,9 @@ import {
   addCertificate,
   updateCertificate,
   deleteCertificate,
+  addReference,
+  updateReference,
+  deleteReference,
 } from '../controller/resumeController';
 
 const router = Router();
@@ -36,5 +39,9 @@ router.route('/awards/delete').delete(deleteAward);
 router.route('/certificates/add').put(addCertificate);
 router.route('/certificates/update').put(updateCertificate);
 router.route('/certificates/delete').delete(deleteCertificate);
+
+router.route('/references/add').put(addReference);
+router.route('/references/update').put(updateReference);
+router.route('/references/delete').delete(deleteReference);
 
 export default router;

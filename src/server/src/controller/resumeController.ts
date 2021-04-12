@@ -230,6 +230,77 @@ const deleteCertificate = async (req: Request, res: Response) => {
   }
 };
 
+const addReference = async (req: Request, res: Response) => {
+  const { resume_id, new_reference } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        { _id: mongoose.Types.ObjectId(resume_id) },
+        { $push: { references: new_reference } }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const updateReference = async (req: Request, res: Response) => {
+  const { resume_id, new_reference } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(resume_id),
+          references: { $elemMatch: { uuid: new_reference.uuid } },
+        },
+        {
+          $set: {
+            'references.$.name': new_reference.name,
+            'references.$.position': new_reference.position,
+            'references.$.organisation': new_reference.organisation,
+            'references.$.email': new_reference.email,
+            'references.$.phoneNumber': new_reference.phoneNumber,
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const deleteReference = async (req: Request, res: Response) => {
+  const { resume_id, reference_uuid } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(resume_id),
+        },
+        {
+          $pull: {
+            references: { uuid: reference_uuid },
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
 export {
   getResumeByUserName,
   addQualification,
@@ -241,4 +312,7 @@ export {
   addCertificate,
   updateCertificate,
   deleteCertificate,
+  addReference,
+  updateReference,
+  deleteReference,
 };

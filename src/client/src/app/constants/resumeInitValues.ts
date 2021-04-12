@@ -37,3 +37,11 @@ export const initialCertificateValues: Certificate = {
   issuedDate: new Date(),
   expiryDate: new Date(),
 };
+
+export const initialRefValues: Reference = {
+  name: '',
+  position: '',
+  organisation: '',
+  email: '',
+  phoneNumber: '',
+};

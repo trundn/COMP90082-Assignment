@@ -19,6 +19,7 @@ import Confirmation from '../../components/ui/modals/Confirmation';
 import QualificationModal from '../../components/resume/modals/QualificationModal';
 import AwardModal from '../../components/resume/modals/AwardModal';
 import CertificateModal from '../../components/resume/modals/CertificateModal';
+import ReferenceModal from '../../components/resume/modals/ReferenceModal';
 
 import { UserContext } from '../../portfolio-shared/UserContext';
 import { EditContext } from '../../portfolio-shared/EditContext';
@@ -44,6 +45,7 @@ import {
   initialQualValues,
   initialAwardValues,
   initialCertificateValues,
+  initialRefValues,
 } from '../../constants/resumeInitValues';
 
 const ResumePage = () => {
@@ -58,7 +60,9 @@ const ResumePage = () => {
   );
   const [selectedExperience, setSelectedExperience] = useState<Experience>();
   const [selectedSkill, setSelectedSkill] = useState<Skill>();
-  const [selectedReference, setSelectedReference] = useState<Reference>();
+  const [selectedReference, setSelectedReference] = useState<Reference>(
+    initialRefValues
+  );
   const [resumeData, setResumeData] = useState<Resume>();
 
   const [modalShows, setModalShows] = useState<{
@@ -364,6 +368,94 @@ const ResumePage = () => {
     }
   };
 
+  const addReference = async (newRef: Reference) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios({
+        method: 'PUT',
+        url: `/api/resume/references/add`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_reference: newRef,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          references: [newRef, ...prevState.references],
+        };
+      });
+    } catch (error) {
+      console.log('Failed to add reference', error);
+    }
+  };
+
+  const updateReference = async (newRef: Reference) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      const result = await axios({
+        method: 'PUT',
+        url: `/api/resume/references/update`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_reference: newRef,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          references: prevState.references.map<Reference>((ref) => {
+            return ref.uuid === newRef.uuid ? newRef : ref;
+          }),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to update reference', error);
+    }
+  };
+
+  const deleteReference = async (newRef: Reference) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios({
+        method: 'DELETE',
+        url: `/api/resume/references/delete`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          reference_uuid: newRef.uuid,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          references: prevState.references.filter<Reference>(
+            (ref): ref is Reference => ref.uuid !== newRef.uuid
+          ),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to delete reference', error);
+    }
+  };
+
   const updateModalShowStatus = (resumeType: string, status: boolean): void => {
     setModalShows((prevState) => {
       return { ...prevState, [resumeType]: status };
@@ -485,6 +577,37 @@ const ResumePage = () => {
     updateModalShowStatus(ResumeSectionTypes.Certificates, false);
   };
 
+  const handleRefModalSubmitClick = (
+    values: Reference,
+    isAddMoreAction: boolean
+  ) => {
+    updateModalShowStatus(ResumeSectionTypes.References, false);
+    if (isAddMoreAction) {
+      const foundRef = resumeData.references.find(
+        (item) =>
+          item.name.toLowerCase() === values.name.toLowerCase() &&
+          item.organisation.toLowerCase() === values.organisation.toLowerCase()
+      );
+
+      if (foundRef) {
+        showAlertMessage(
+          'The reference name in the same organization was already added.'
+        );
+      } else {
+        const newRef = { ...values };
+        newRef.uuid = uuidv4();
+        addReference(newRef);
+      }
+    } else {
+      const newRef = { ...values };
+      updateReference(newRef);
+    }
+  };
+
+  const handleRefModalCloseClick = () => {
+    updateModalShowStatus(ResumeSectionTypes.References, false);
+  };
+
   const handleConfirmDelete = (value: boolean) => {
     if (value) {
       if (deleteTargetKinds[ResumeSectionTypes.Education]) {
@@ -504,6 +627,12 @@ const ResumePage = () => {
         setSelectedCertificate(null);
         setDeleteTargetKinds((prevState) => {
           return { ...prevState, [ResumeSectionTypes.Certificates]: false };
+        });
+      } else if (deleteTargetKinds[ResumeSectionTypes.References]) {
+        deleteReference(selectedReference);
+        setSelectedReference(null);
+        setDeleteTargetKinds((prevState) => {
+          return { ...prevState, [ResumeSectionTypes.References]: false };
         });
       }
     }
@@ -836,6 +965,7 @@ const ResumePage = () => {
                 onClick={() => {
                   setSelectedQualification(initialQualValues);
                   setSelectedCertificate(initialCertificateValues);
+                  setSelectedReference(initialRefValues);
                   updateModalShowStatus(sectionType, true);
                 }}
               >
@@ -873,6 +1003,12 @@ const ResumePage = () => {
           show={modalShows[ResumeSectionTypes.Certificates]}
           onSubmit={handleCertModalSubmitClick}
           onClose={handleCertModalCloseClick}
+        />
+        <ReferenceModal
+          selectedRef={selectedReference}
+          show={modalShows[ResumeSectionTypes.References]}
+          onSubmit={handleRefModalSubmitClick}
+          onClose={handleRefModalCloseClick}
         />
         <Confirmation
           show={deleteConfirmationShow}
