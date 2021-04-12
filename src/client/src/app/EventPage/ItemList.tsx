@@ -71,6 +71,7 @@ const ItemList = (props: ItemList) => {
             <NoResults />
           )
         ) : (
+          // Change it to map, everyone is one line?
           <Row>{itemComponents} </Row>
         )}
       </Loader>
