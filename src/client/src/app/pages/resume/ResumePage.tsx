@@ -19,6 +19,7 @@ import Confirmation from '../../components/ui/modals/Confirmation';
 import QualificationModal from '../../components/resume/modals/QualificationModal';
 import AwardModal from '../../components/resume/modals/AwardModal';
 import CertificateModal from '../../components/resume/modals/CertificateModal';
+import SkillModal from '../../components/resume/modals/SkillModal';
 import ReferenceModal from '../../components/resume/modals/ReferenceModal';
 
 import { UserContext } from '../../portfolio-shared/UserContext';
@@ -46,6 +47,7 @@ import {
   initialAwardValues,
   initialCertificateValues,
   initialRefValues,
+  initialSkillValues,
 } from '../../constants/resumeInitValues';
 
 const ResumePage = () => {
@@ -59,7 +61,7 @@ const ResumePage = () => {
     initialCertificateValues
   );
   const [selectedExperience, setSelectedExperience] = useState<Experience>();
-  const [selectedSkill, setSelectedSkill] = useState<Skill>();
+  const [selectedSkill, setSelectedSkill] = useState<Skill>(initialSkillValues);
   const [selectedReference, setSelectedReference] = useState<Reference>(
     initialRefValues
   );
@@ -368,6 +370,94 @@ const ResumePage = () => {
     }
   };
 
+  const addSkill = async (newSkill: Skill) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios({
+        method: 'PUT',
+        url: `/api/resume/skills/add`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_skill: newSkill,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          skills: [newSkill, ...prevState.skills],
+        };
+      });
+    } catch (error) {
+      console.log('Failed to add skill', error);
+    }
+  };
+
+  const updateSkill = async (newSkill: Skill) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      const result = await axios({
+        method: 'PUT',
+        url: `/api/resume/skills/update`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_skill: newSkill,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          skills: prevState.skills.map<Skill>((skill) => {
+            return skill.uuid === newSkill.uuid ? newSkill : skill;
+          }),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to update skill', error);
+    }
+  };
+
+  const deleteSkill = async (newSkill: Skill) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios({
+        method: 'DELETE',
+        url: `/api/resume/skills/delete`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          skill_uuid: newSkill.uuid,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          skills: prevState.skills.filter<Skill>(
+            (skill): skill is Skill => skill.uuid !== newSkill.uuid
+          ),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to delete skill', error);
+    }
+  };
+
   const addReference = async (newRef: Reference) => {
     try {
       const token = await getAccessTokenSilently();
@@ -577,6 +667,35 @@ const ResumePage = () => {
     updateModalShowStatus(ResumeSectionTypes.Certificates, false);
   };
 
+  const handleSkillModalSubmitClick = (
+    values: Skill,
+    isAddMoreAction: boolean
+  ) => {
+    updateModalShowStatus(ResumeSectionTypes.Skills, false);
+    if (isAddMoreAction) {
+      const foundRef = resumeData.references.find(
+        (item) => item.name.toLowerCase() === values.name.toLowerCase()
+      );
+
+      if (foundRef) {
+        showAlertMessage(
+          'The same programming language name was already added.'
+        );
+      } else {
+        const newSkill = { ...values };
+        newSkill.uuid = uuidv4();
+        addSkill(newSkill);
+      }
+    } else {
+      const newSkill = { ...values };
+      updateSkill(newSkill);
+    }
+  };
+
+  const handleSkillModalCloseClick = () => {
+    updateModalShowStatus(ResumeSectionTypes.Skills, false);
+  };
+
   const handleRefModalSubmitClick = (
     values: Reference,
     isAddMoreAction: boolean
@@ -627,6 +746,12 @@ const ResumePage = () => {
         setSelectedCertificate(null);
         setDeleteTargetKinds((prevState) => {
           return { ...prevState, [ResumeSectionTypes.Certificates]: false };
+        });
+      } else if (deleteTargetKinds[ResumeSectionTypes.Skills]) {
+        deleteSkill(selectedSkill);
+        setSelectedSkill(null);
+        setDeleteTargetKinds((prevState) => {
+          return { ...prevState, [ResumeSectionTypes.Skills]: false };
         });
       } else if (deleteTargetKinds[ResumeSectionTypes.References]) {
         deleteReference(selectedReference);
@@ -850,7 +975,7 @@ const ResumePage = () => {
       skillEls = resumeData.skills.map((skill, index) => {
         const backgroundColor = getRandomColor();
         const className = 'bar-expand ' + skill.name.toLowerCase();
-        const width = skill.level;
+        const width = `${skill.level}%`;
 
         return (
           <Row>
@@ -965,6 +1090,7 @@ const ResumePage = () => {
                 onClick={() => {
                   setSelectedQualification(initialQualValues);
                   setSelectedCertificate(initialCertificateValues);
+                  setSelectedSkill(initialSkillValues);
                   setSelectedReference(initialRefValues);
                   updateModalShowStatus(sectionType, true);
                 }}
@@ -1003,6 +1129,12 @@ const ResumePage = () => {
           show={modalShows[ResumeSectionTypes.Certificates]}
           onSubmit={handleCertModalSubmitClick}
           onClose={handleCertModalCloseClick}
+        />
+        <SkillModal
+          selectedSkill={selectedSkill}
+          show={modalShows[ResumeSectionTypes.Skills]}
+          onSubmit={handleSkillModalSubmitClick}
+          onClose={handleSkillModalCloseClick}
         />
         <ReferenceModal
           selectedRef={selectedReference}

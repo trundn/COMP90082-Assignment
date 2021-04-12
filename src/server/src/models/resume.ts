@@ -45,7 +45,7 @@ class Experience {
 
 class Skill extends Namable {
   @prop({ required: true }) uuid?: string;
-  @prop({ required: true }) level!: string;
+  @prop({ required: true }) level!: number;
   @prop({ required: true }) yearOfExperiences!: number;
 }
 

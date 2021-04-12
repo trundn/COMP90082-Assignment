@@ -82,7 +82,7 @@ interface Experience {
 
 interface Skill extends Namable {
   uuid?: string;
-  level: string;
+  level: number;
   yearOfExperiences: number;
 }
 

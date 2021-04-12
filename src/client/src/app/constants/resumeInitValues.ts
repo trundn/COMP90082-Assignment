@@ -38,6 +38,12 @@ export const initialCertificateValues: Certificate = {
   expiryDate: new Date(),
 };
 
+export const initialSkillValues: Skill = {
+  name: '',
+  level: 1,
+  yearOfExperiences: 1,
+};
+
 export const initialRefValues: Reference = {
   name: '',
   position: '',

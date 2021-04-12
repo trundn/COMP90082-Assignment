@@ -230,6 +230,75 @@ const deleteCertificate = async (req: Request, res: Response) => {
   }
 };
 
+const addSkill = async (req: Request, res: Response) => {
+  const { resume_id, new_skill } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        { _id: mongoose.Types.ObjectId(resume_id) },
+        { $push: { skills: new_skill } }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const updateSkill = async (req: Request, res: Response) => {
+  const { resume_id, new_skill } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(resume_id),
+          skills: { $elemMatch: { uuid: new_skill.uuid } },
+        },
+        {
+          $set: {
+            'skills.$.name': new_skill.name,
+            'skills.$.level': new_skill.level,
+            'skills.$.yearOfExperiences': new_skill.yearOfExperiences,
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const deleteSkill = async (req: Request, res: Response) => {
+  const { resume_id, skill_uuid } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(resume_id),
+        },
+        {
+          $pull: {
+            skills: { uuid: skill_uuid },
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
 const addReference = async (req: Request, res: Response) => {
   const { resume_id, new_reference } = req.body;
 
@@ -312,6 +381,9 @@ export {
   addCertificate,
   updateCertificate,
   deleteCertificate,
+  addSkill,
+  updateSkill,
+  deleteSkill,
   addReference,
   updateReference,
   deleteReference,
