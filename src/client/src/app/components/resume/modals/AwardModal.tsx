@@ -44,7 +44,7 @@ const AwardModal = ({
       backdrop="static"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Qualification</Modal.Title>
+        <Modal.Title>Award</Modal.Title>
       </Modal.Header>
       <Formik
         initialValues={selectedAward}
@@ -69,7 +69,7 @@ const AwardModal = ({
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
               <Form.Group controlId="formAwardName">
-                <Form.Label>Institution Name</Form.Label>
+                <Form.Label>Award Name</Form.Label>
                 <Form.Control
                   type="text"
                   name="name"
