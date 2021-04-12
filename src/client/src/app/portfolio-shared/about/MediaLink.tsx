@@ -12,7 +12,7 @@ interface MediaLink {
   //onSubmit: (medialinks) => void;
 }
 
-const MediaLink = (props: MediaLink) => {
+const MediaLink = (props:MediaLink) => {
   const contentStyle = {
     font:{
       size: '150%'
@@ -30,7 +30,7 @@ const MediaLink = (props: MediaLink) => {
           </svg>
         </div>
         <div className="col-md-10 gap-3">
-                <p className="text-left h5 text-muted" >twitter link here</p>
+                <p className="text-left h5 text-muted" >{props.twitteLink}</p>
         </div>
         <div className="col-md-2 gap-3">
         <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" className="bi bi-facebook" viewBox="0 0 16 16">
@@ -38,7 +38,7 @@ const MediaLink = (props: MediaLink) => {
         </svg>
         </div>
         <div className="col-md-10 gap-3">
-                <p className="text-left h5 text-muted" >Facebook link here</p>
+                <p className="text-left h5 text-muted" >{props.facebookLink}</p>
         </div>
         <div className="col-md-2 gap-3">
         <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" className="bi bi-github" viewBox="0 0 16 16">
@@ -46,7 +46,7 @@ const MediaLink = (props: MediaLink) => {
         </svg>
         </div>
         <div className="col-md-10 gap-3">
-                <p className="text-left h5 text-muted" >github link here</p>
+                <p className="text-left h5 text-muted" >{props.githubLink}</p>
         </div>
         <div className="col-md-2 gap-3">
         <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" className="bi bi-linkedin" viewBox="0 0 16 16">
@@ -54,7 +54,7 @@ const MediaLink = (props: MediaLink) => {
         </svg>
         </div>
         <div className="col-md-10 gap-3">
-                <p className="text-left h5 text-muted" >Linkedin link here</p>
+                <p className="text-left h5 text-muted" >{props.linkedinLink}</p>
         </div>
       </div>
     </Container>
