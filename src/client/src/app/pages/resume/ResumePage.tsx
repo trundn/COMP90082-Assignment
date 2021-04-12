@@ -19,6 +19,7 @@ import Confirmation from '../../components/ui/modals/Confirmation';
 import QualificationModal from '../../components/resume/modals/QualificationModal';
 import AwardModal from '../../components/resume/modals/AwardModal';
 import CertificateModal from '../../components/resume/modals/CertificateModal';
+import ExperienceModal from '../../components/resume/modals/ExperienceModal';
 import SkillModal from '../../components/resume/modals/SkillModal';
 import ReferenceModal from '../../components/resume/modals/ReferenceModal';
 
@@ -46,8 +47,9 @@ import {
   initialQualValues,
   initialAwardValues,
   initialCertificateValues,
-  initialRefValues,
+  initialExpValues,
   initialSkillValues,
+  initialRefValues,
 } from '../../constants/resumeInitValues';
 
 const ResumePage = () => {
@@ -60,7 +62,9 @@ const ResumePage = () => {
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate>(
     initialCertificateValues
   );
-  const [selectedExperience, setSelectedExperience] = useState<Experience>();
+  const [selectedExperience, setSelectedExperience] = useState<Experience>(
+    initialExpValues
+  );
   const [selectedSkill, setSelectedSkill] = useState<Skill>(initialSkillValues);
   const [selectedReference, setSelectedReference] = useState<Reference>(
     initialRefValues
@@ -370,6 +374,94 @@ const ResumePage = () => {
     }
   };
 
+  const addExperience = async (newExperience: Experience) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios({
+        method: 'PUT',
+        url: `/api/resume/experiences/add`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_experience: newExperience,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          experiences: [newExperience, ...prevState.experiences],
+        };
+      });
+    } catch (error) {
+      console.log('Failed to add experience', error);
+    }
+  };
+
+  const updateExperience = async (newExperience: Experience) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios({
+        method: 'PUT',
+        url: `/api/resume/experiences/update`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_experience: newExperience,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          experiences: prevState.experiences.map<Experience>((exp) => {
+            return exp.uuid === newExperience.uuid ? newExperience : exp;
+          }),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to update experience', error);
+    }
+  };
+
+  const deleteExperience = async (newExperience: Experience) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios({
+        method: 'DELETE',
+        url: `/api/resume/experiences/delete`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          experience_uuid: newExperience.uuid,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          experiences: prevState.experiences.filter<Experience>(
+            (exp): exp is Experience => exp.uuid !== newExperience.uuid
+          ),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to delete experience', error);
+    }
+  };
+
   const addSkill = async (newSkill: Skill) => {
     try {
       const token = await getAccessTokenSilently();
@@ -574,6 +666,17 @@ const ResumePage = () => {
     return newCert;
   };
 
+  const cloneExperience = (
+    oriExp: Experience,
+    isDisableExpiryDate: boolean
+  ): Experience => {
+    const newExp = { ...oriExp };
+    if (isDisableExpiryDate) {
+      newExp.endDate = null;
+    }
+    return newExp;
+  };
+
   const handleEduModalSubmitClick = (
     values: Qualification,
     isDisableEndDate: boolean,
@@ -667,6 +770,26 @@ const ResumePage = () => {
     updateModalShowStatus(ResumeSectionTypes.Certificates, false);
   };
 
+  const handleExpModalSubmitClick = (
+    values: Experience,
+    isDisableEndDate: boolean,
+    isAddMoreAction: boolean
+  ) => {
+    updateModalShowStatus(ResumeSectionTypes.Work, false);
+    if (isAddMoreAction) {
+      const newExp = cloneExperience(values, isDisableEndDate);
+      newExp.uuid = uuidv4();
+      addExperience(newExp);
+    } else {
+      const newExp = cloneExperience(values, isDisableEndDate);
+      updateExperience(newExp);
+    }
+  };
+
+  const handleExpModalCloseClick = () => {
+    updateModalShowStatus(ResumeSectionTypes.Work, false);
+  };
+
   const handleSkillModalSubmitClick = (
     values: Skill,
     isAddMoreAction: boolean
@@ -746,6 +869,12 @@ const ResumePage = () => {
         setSelectedCertificate(null);
         setDeleteTargetKinds((prevState) => {
           return { ...prevState, [ResumeSectionTypes.Certificates]: false };
+        });
+      } else if (deleteTargetKinds[ResumeSectionTypes.Work]) {
+        deleteExperience(selectedExperience);
+        setSelectedExperience(null);
+        setDeleteTargetKinds((prevState) => {
+          return { ...prevState, [ResumeSectionTypes.Work]: false };
         });
       } else if (deleteTargetKinds[ResumeSectionTypes.Skills]) {
         deleteSkill(selectedSkill);
@@ -1089,7 +1218,9 @@ const ResumePage = () => {
               <Button
                 onClick={() => {
                   setSelectedQualification(initialQualValues);
+                  setSelectedAward(initialAwardValues);
                   setSelectedCertificate(initialCertificateValues);
+                  setSelectedExperience(initialExpValues);
                   setSelectedSkill(initialSkillValues);
                   setSelectedReference(initialRefValues);
                   updateModalShowStatus(sectionType, true);
@@ -1129,6 +1260,12 @@ const ResumePage = () => {
           show={modalShows[ResumeSectionTypes.Certificates]}
           onSubmit={handleCertModalSubmitClick}
           onClose={handleCertModalCloseClick}
+        />
+        <ExperienceModal
+          selectedExp={selectedExperience}
+          show={modalShows[ResumeSectionTypes.Work]}
+          onSubmit={handleExpModalSubmitClick}
+          onClose={handleExpModalCloseClick}
         />
         <SkillModal
           selectedSkill={selectedSkill}

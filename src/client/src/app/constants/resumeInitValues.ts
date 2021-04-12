@@ -38,6 +38,16 @@ export const initialCertificateValues: Certificate = {
   expiryDate: new Date(),
 };
 
+export const initialExpValues: Experience = {
+  organisation: '',
+  city: '',
+  country: 'Australia',
+  workSummary: '',
+  role: '',
+  startDate: new Date(),
+  endDate: new Date(),
+};
+
 export const initialSkillValues: Skill = {
   name: '',
   level: 1,
