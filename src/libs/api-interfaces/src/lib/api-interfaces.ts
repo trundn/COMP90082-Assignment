@@ -72,4 +72,7 @@ export {
   PortfolioCategory,
   UserProfile,
   UserTheme,
+  SingalImage,
+  Academic,
+  AcademicModels,
 };
