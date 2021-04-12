@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 
 import * as Yup from 'yup';
 import moment from 'moment';
@@ -12,26 +12,40 @@ import { Button, Col, Form, Modal } from 'react-bootstrap';
 import { Qualification } from '@pure-and-lazy/api-interfaces';
 import { DISPLAY_DATE_FORMAT } from '../../../constants/dateConstant';
 
+import { initialQualValues } from '../../../constants/resumeInitValues';
+
+interface ISetFieldValue {
+  (field: string, value: any, shouldValidate?: boolean): void;
+}
+
 interface QualificationModalProps {
   show: boolean;
-  onSubmit: (values: Qualification) => void;
+  selectedQual: Qualification;
+  onSubmit: (
+    values: Qualification,
+    isDisableEndDate: boolean,
+    isAddMoreAction: boolean
+  ) => void;
   onClose: () => void;
 }
 
 const QualificationModal = ({
   show,
+  selectedQual,
   onSubmit,
   onClose,
 }: QualificationModalProps) => {
+  const isAddMoreAction = useRef(true);
+  const setFieldValue = useRef<ISetFieldValue>(null);
   const [isDisableEndDate, setIsDisableEndDate] = useState(false);
 
-  const initialValues: Qualification = {
-    institutionName: '',
-    degree: '',
-    description: '',
-    startDate: new Date(),
-    graduationDate: new Date(),
-  };
+  useEffect(() => {
+    if (!selectedQual?.graduationDate) {
+      setIsDisableEndDate(true);
+    }
+
+    isAddMoreAction.current = selectedQual === initialQualValues;
+  }, [selectedQual]);
 
   const validationSchema = Yup.object().shape({
     institutionName: Yup.string().required('Institution name is required'),
@@ -54,28 +68,30 @@ const QualificationModal = ({
     event: ChangeEvent<HTMLInputElement>
   ): void => {
     setIsDisableEndDate(event.target.checked);
+    if (!event.target.checked) {
+      setFieldValue.current('graduationDate', moment().toDate());
+    }
   };
 
   const buildDatePicker = (
     disabled: boolean,
     name: string,
     selectedDate: Date,
-    setFieldValue: (
-      field: string,
-      value: any,
-      shouldValidate?: boolean
-    ) => void,
+    setFieldValueFunc: ISetFieldValue,
     isInvalid?: boolean
   ): JSX.Element => {
+    setFieldValue.current = setFieldValueFunc;
+    const convertedDate = selectedDate
+      ? moment(selectedDate).toDate()
+      : moment().toDate();
+
     return (
       <DatePicker
         disabled={disabled}
         dateFormat="yyyy-MM-dd"
-        selected={selectedDate}
+        selected={convertedDate}
         onChange={(date) => {
-          if (date instanceof Date) {
-            setFieldValue(name, date);
-          }
+          setFieldValueFunc(name, date);
         }}
         customInput={
           <Form.Control type="text" name={name} isInvalid={isInvalid} />
@@ -96,15 +112,12 @@ const QualificationModal = ({
         <Modal.Title>Qualification</Modal.Title>
       </Modal.Header>
       <Formik
-        initialValues={initialValues}
+        initialValues={selectedQual}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
 
-          if (isDisableEndDate) {
-            values.graduationDate = null;
-          }
-          onSubmit(values);
+          onSubmit(values, isDisableEndDate, isAddMoreAction.current);
 
           setIsDisableEndDate(false);
           resetForm();
@@ -197,6 +210,7 @@ const QualificationModal = ({
                 <Form.Check
                   type="checkbox"
                   label="Not Completed"
+                  checked={!!isDisableEndDate}
                   onChange={handleNotCompletedCheckChange}
                 />
               </Form.Group>

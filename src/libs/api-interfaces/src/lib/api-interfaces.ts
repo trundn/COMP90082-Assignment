@@ -44,6 +44,7 @@ interface Namable {
 }
 
 interface Qualification {
+  uuid?: string;
   institutionName: string;
   degree: string;
   description: string;
@@ -52,6 +53,7 @@ interface Qualification {
 }
 
 interface Certificate extends Namable {
+  uuid?: string;
   issueOrganization: string;
   credentialId?: string;
   issuedDate: Date;
@@ -59,6 +61,7 @@ interface Certificate extends Namable {
 }
 
 interface Experience {
+  uuid?: string;
   organisation: string;
   city: string;
   country: string;
@@ -70,11 +73,13 @@ interface Experience {
 }
 
 interface Skill extends Namable {
+  uuid?: string;
   level: string;
   yearOfExperiences: number;
 }
 
 interface Reference extends Namable {
+  uuid?: string;
   position: string;
   organisation: string;
   phoneNumber?: string;

@@ -9,11 +9,13 @@ import { Button, Alert } from 'react-bootstrap';
 
 import axios from 'axios';
 import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
 import { useAuth0 } from '@auth0/auth0-react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
+import Confirmation from '../../components/ui/modals/Confirmation';
 import QualificationModal from '../../components/resume/modals/QualificationModal';
 
 import { UserContext } from '../../portfolio-shared/UserContext';
@@ -34,15 +36,10 @@ import './resumePage.css';
 
 import { DB_DATE_FORMAT } from '../../constants/dateConstant';
 import { ResumeSectionTypes } from '../../constants/resumeConstant';
-
-const defaultTypesValues: { [id: string]: boolean } = {
-  [ResumeSectionTypes.Education]: false,
-  [ResumeSectionTypes.Awards]: false,
-  [ResumeSectionTypes.Certificates]: false,
-  [ResumeSectionTypes.Work]: false,
-  [ResumeSectionTypes.Skills]: false,
-  [ResumeSectionTypes.References]: false,
-};
+import {
+  defaultTypesValues,
+  initialQualValues,
+} from '../../constants/resumeInitValues';
 
 const ResumePage = () => {
   const [alertMessage, setAlertMessage] = useState('');
@@ -50,7 +47,7 @@ const ResumePage = () => {
   const [selectedAward, setSelectedAward] = useState<string>('');
   const [selectedQualification, setSelectedQualification] = useState<
     Qualification
-  >();
+  >(initialQualValues);
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate>();
   const [selectedExperience, setSelectedExperience] = useState<Experience>();
   const [selectedSkill, setSelectedSkill] = useState<Skill>();
@@ -58,10 +55,11 @@ const ResumePage = () => {
   const [resumeData, setResumeData] = useState<Resume>();
 
   const [modalShows, setModalShows] = useState<{
-    [id: string]: boolean;
+    [resumeType: string]: boolean;
   }>(defaultTypesValues);
-  const [modalDeleteShows, setModalDeleteShows] = useState<{
-    [id: string]: boolean;
+  const [deleteConfirmationShow, setDeleteConfirmationShow] = useState(false);
+  const [deleteTargetKinds, setDeleteTargetKinds] = useState<{
+    [resumeType: string]: boolean;
   }>(defaultTypesValues);
 
   const editMode = useContext(EditContext);
@@ -114,30 +112,131 @@ const ResumePage = () => {
     }
   };
 
+  const updateQualification = async (newQualification: Qualification) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      const result = await axios({
+        method: 'PUT',
+        url: `/api/resume/qualifications/update`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_qualification: newQualification,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          qualifications: prevState.qualifications.map<Qualification>(
+            (qual) => {
+              return qual.uuid === newQualification.uuid
+                ? newQualification
+                : qual;
+            }
+          ),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to update qualification', error);
+    }
+  };
+
+  const deleteQualification = async (newQualification: Qualification) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      const result = await axios({
+        method: 'DELETE',
+        url: `/api/resume/qualifications/delete`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          qualification_uuid: newQualification.uuid,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          qualifications: prevState.qualifications.filter<Qualification>(
+            (qual): qual is Qualification => qual.uuid !== newQualification.uuid
+          ),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to delete qualification', error);
+    }
+  };
+
   const updateModalShowStatus = (resumeType: string, status: boolean): void => {
     setModalShows((prevState) => {
       return { ...prevState, [resumeType]: status };
     });
   };
 
-  const handleEduModalSubmitClick = (values: Qualification) => {
-    updateModalShowStatus(ResumeSectionTypes.Education, false);
-    const foundQual = resumeData.qualifications.find(
-      (item) =>
-        item.institutionName.toLowerCase() ===
-          values.institutionName.toLowerCase() &&
-        item.degree.toLowerCase() === values.degree.toLowerCase()
-    );
+  const cloneQualification = (
+    oriQual: Qualification,
+    isDisableEndDate: boolean
+  ): Qualification => {
+    const newQualification = { ...oriQual };
+    if (isDisableEndDate) {
+      newQualification.graduationDate = null;
+    }
+    return newQualification;
+  };
 
-    if (foundQual) {
-      showAlertMessage('The degree in the same institution was already added.');
+  const handleEduModalSubmitClick = (
+    values: Qualification,
+    isDisableEndDate: boolean,
+    isAddMoreAction: boolean
+  ) => {
+    updateModalShowStatus(ResumeSectionTypes.Education, false);
+    if (isAddMoreAction) {
+      const foundQual = resumeData.qualifications.find(
+        (item) =>
+          item.institutionName.toLowerCase() ===
+            values.institutionName.toLowerCase() &&
+          item.degree.toLowerCase() === values.degree.toLowerCase()
+      );
+
+      if (foundQual) {
+        showAlertMessage(
+          'The degree in the same institution was already added.'
+        );
+      } else {
+        const newQualification = cloneQualification(values, isDisableEndDate);
+        newQualification.uuid = uuidv4();
+        addQualification(newQualification);
+      }
     } else {
-      addQualification(values);
+      const newQualification = cloneQualification(values, isDisableEndDate);
+      updateQualification(newQualification);
     }
   };
 
   const handleEduModalCloseClick = () => {
     updateModalShowStatus(ResumeSectionTypes.Education, false);
+  };
+
+  const handleConfirmDelete = (value: boolean) => {
+    if (value) {
+      if (deleteTargetKinds[ResumeSectionTypes.Education]) {
+        deleteQualification(selectedQualification);
+        setSelectedQualification(null);
+        setDeleteTargetKinds((prevState) => {
+          return { ...prevState, [ResumeSectionTypes.Education]: false };
+        });
+      }
+    }
+    setDeleteConfirmationShow(false);
   };
 
   const showAlertMessage = (message: string) => {
@@ -148,22 +247,22 @@ const ResumePage = () => {
   };
 
   const updateSelectedResumePart = (targetKind: string, targetVal: any) => {
-    if (targetKind === 'string') {
+    if (targetKind === ResumeSectionTypes.Awards) {
       setSelectedAward(targetVal);
     }
-    if (targetKind === 'Qualification') {
+    if (targetKind === ResumeSectionTypes.Education) {
       setSelectedQualification(targetVal);
     }
-    if (targetKind === 'Certificate') {
+    if (targetKind === ResumeSectionTypes.Certificates) {
       setSelectedCertificate(targetVal);
     }
-    if (targetKind === 'Experience') {
+    if (targetKind === ResumeSectionTypes.Work) {
       setSelectedExperience(targetVal);
     }
-    if (targetKind === 'Skill') {
+    if (targetKind === ResumeSectionTypes.Skills) {
       setSelectedSkill(targetVal);
     }
-    if (targetKind === 'Reference') {
+    if (targetKind === ResumeSectionTypes.References) {
       setSelectedReference(targetVal);
     }
   };
@@ -171,22 +270,21 @@ const ResumePage = () => {
   const handleEditAction = (
     targetVal: any,
     targetKind: string,
-    resumeType: string,
     status: boolean
   ): void => {
     updateSelectedResumePart(targetKind, targetVal);
-    updateModalShowStatus(resumeType, status);
+    updateModalShowStatus(targetKind, status);
   };
 
   const handleDeleteAction = (
     targetVal: any,
     targetKind: string,
-    resumeType: string,
     status: boolean
   ): void => {
     updateSelectedResumePart(targetKind, targetVal);
-    setModalDeleteShows((prevState) => {
-      return { ...prevState, [resumeType]: status };
+    setDeleteConfirmationShow(true);
+    setDeleteTargetKinds((prevState) => {
+      return { ...prevState, [targetKind]: status };
     });
   };
 
@@ -218,12 +316,11 @@ const ResumePage = () => {
 
   const bindEditableButtons = (
     targetVal: any,
-    targetKind: string,
-    sectionType: ResumeSectionTypes
+    targetKind: ResumeSectionTypes
   ): JSX.Element => {
     return buildEditableButtons(
-      () => handleEditAction(targetVal, targetKind, sectionType, true),
-      () => handleDeleteAction(targetVal, targetKind, sectionType, true)
+      () => handleEditAction(targetVal, targetKind, true),
+      () => handleDeleteAction(targetVal, targetKind, true)
     );
   };
 
@@ -253,11 +350,7 @@ const ResumePage = () => {
                   <p>{qual.description}</p>
                 </div>
               </Col>
-              {bindEditableButtons(
-                qual,
-                'Qualification',
-                ResumeSectionTypes.Education
-              )}
+              {bindEditableButtons(qual, ResumeSectionTypes.Education)}
             </Row>
           );
         });
@@ -297,7 +390,7 @@ const ResumePage = () => {
                 <span className="resume-list-content">{award}</span>
               </li>
             </Col>
-            {bindEditableButtons(award, 'string', ResumeSectionTypes.Awards)}
+            {bindEditableButtons(award, ResumeSectionTypes.Awards)}
           </Row>
         );
       });
@@ -338,7 +431,7 @@ const ResumePage = () => {
                   <ul>{buildWorkResponsibilitiesContent(exp)}</ul>
                 </div>
               </Col>
-              {bindEditableButtons(exp, 'Experience', ResumeSectionTypes.Work)}
+              {bindEditableButtons(exp, ResumeSectionTypes.Work)}
             </Row>
           );
         });
@@ -371,7 +464,7 @@ const ResumePage = () => {
                 </em>
               </li>
             </Col>
-            {bindEditableButtons(skill, 'Skill', ResumeSectionTypes.Skills)}
+            {bindEditableButtons(skill, ResumeSectionTypes.Skills)}
           </Row>
         );
       });
@@ -396,11 +489,7 @@ const ResumePage = () => {
                 <p className="subcontent">{ref.email}</p>
               </div>
             </Col>
-            {bindEditableButtons(
-              ref,
-              'Reference',
-              ResumeSectionTypes.References
-            )}
+            {bindEditableButtons(ref, ResumeSectionTypes.References)}
           </Row>
         );
       });
@@ -428,11 +517,7 @@ const ResumePage = () => {
                 )}
               </div>
             </Col>
-            {bindEditableButtons(
-              cer,
-              'Certificate',
-              ResumeSectionTypes.Certificates
-            )}
+            {bindEditableButtons(cer, ResumeSectionTypes.Certificates)}
           </Row>
         );
       });
@@ -475,6 +560,7 @@ const ResumePage = () => {
             <Col md="auto">
               <Button
                 onClick={() => {
+                  setSelectedQualification(initialQualValues);
                   updateModalShowStatus(sectionType, true);
                 }}
               >
@@ -496,9 +582,20 @@ const ResumePage = () => {
       )}
       <section id="resume">
         <QualificationModal
+          selectedQual={selectedQualification}
           show={modalShows[ResumeSectionTypes.Education]}
           onSubmit={handleEduModalSubmitClick}
           onClose={handleEduModalCloseClick}
+        />
+        <Confirmation
+          show={deleteConfirmationShow}
+          onConfirm={handleConfirmDelete}
+          title="Delete"
+          confirmation="Are you sure you want to delete this?"
+          okText="Confirm Delete"
+          cancelText="Cancel"
+          okButtonStyle="danger"
+          cancelButtonStyle="secondary"
         />
         <Container>
           {buildResumeSection(

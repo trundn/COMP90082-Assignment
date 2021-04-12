@@ -6,6 +6,7 @@ class Namable {
 }
 
 class Qualification {
+  @prop({ required: true }) uuid?: string;
   @prop({ required: true }) institutionName!: string;
   @prop({ required: true, unique: true }) degree!: string;
   @prop({ required: true }) description!: string;
@@ -14,6 +15,7 @@ class Qualification {
 }
 
 class Certificate extends Namable {
+  @prop({ required: true }) uuid?: string;
   @prop({ required: true }) issueOrganization!: string;
   @prop() credentialId?: string;
   @prop({ required: true }) issuedDate!: Date;
@@ -21,6 +23,7 @@ class Certificate extends Namable {
 }
 
 class Experience {
+  @prop({ required: true }) uuid?: string;
   @prop({ required: true }) organisation!: string;
   @prop({ required: true }) city!: string;
   @prop({ required: true }) country!: string;
@@ -33,11 +36,13 @@ class Experience {
 }
 
 class Skill extends Namable {
+  @prop({ required: true }) uuid?: string;
   @prop({ required: true }) level!: string;
   @prop({ required: true }) yearOfExperiences!: number;
 }
 
 class Reference extends Namable {
+  @prop({ required: true }) uuid?: string;
   @prop({ required: true }) position!: string;
   @prop({ required: true }) organisation!: string;
   @prop() phoneNumber?: string;
