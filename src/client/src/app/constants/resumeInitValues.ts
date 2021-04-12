@@ -18,14 +18,22 @@ export const defaultTypesValues: { [resumeType: string]: boolean } = {
   [ResumeSectionTypes.References]: false,
 };
 
-export const initialAwardValues: Award = {
-  name: '',
-};
-
 export const initialQualValues: Qualification = {
   institutionName: '',
   degree: '',
   description: '',
   startDate: new Date(),
   graduationDate: new Date(),
+};
+
+export const initialAwardValues: Award = {
+  name: '',
+};
+
+export const initialCertificateValues: Certificate = {
+  name: '',
+  issueOrganization: '',
+  credentialId: '',
+  issuedDate: new Date(),
+  expiryDate: new Date(),
 };

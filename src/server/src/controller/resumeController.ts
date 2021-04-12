@@ -158,6 +158,78 @@ const deleteAward = async (req: Request, res: Response) => {
   }
 };
 
+const addCertificate = async (req: Request, res: Response) => {
+  const { resume_id, new_certificate } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        { _id: mongoose.Types.ObjectId(resume_id) },
+        { $push: { certificates: new_certificate } }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const updateCertificate = async (req: Request, res: Response) => {
+  const { resume_id, new_certificate } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(resume_id),
+          certificates: { $elemMatch: { uuid: new_certificate.uuid } },
+        },
+        {
+          $set: {
+            'certificates.$.name': new_certificate.name,
+            'certificates.$.issueOrganization':
+              new_certificate.issueOrganization,
+            'certificates.$.credentialId': new_certificate.credentialId,
+            'certificates.$.issuedDate': new_certificate.issuedDate,
+            'certificates.$.expiryDate': new_certificate.expiryDate,
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const deleteCertificate = async (req: Request, res: Response) => {
+  const { resume_id, certificate_uuid } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(resume_id),
+        },
+        {
+          $pull: {
+            certificates: { uuid: certificate_uuid },
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
 export {
   getResumeByUserName,
   addQualification,
@@ -166,4 +238,7 @@ export {
   addAward,
   updateAward,
   deleteAward,
+  addCertificate,
+  updateCertificate,
+  deleteCertificate,
 };

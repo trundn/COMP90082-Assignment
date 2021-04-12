@@ -8,6 +8,9 @@ import {
   addAward,
   updateAward,
   deleteAward,
+  addCertificate,
+  updateCertificate,
+  deleteCertificate,
 } from '../controller/resumeController';
 
 const router = Router();
@@ -29,5 +32,9 @@ router.route('/qualifications/delete').delete(deleteQualification);
 router.route('/awards/add').put(addAward);
 router.route('/awards/update').put(updateAward);
 router.route('/awards/delete').delete(deleteAward);
+
+router.route('/certificates/add').put(addCertificate);
+router.route('/certificates/update').put(updateCertificate);
+router.route('/certificates/delete').delete(deleteCertificate);
 
 export default router;

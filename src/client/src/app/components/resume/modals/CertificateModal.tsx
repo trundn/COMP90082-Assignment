@@ -9,64 +9,63 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Formik } from 'formik';
 import { Button, Col, Form, Modal } from 'react-bootstrap';
 
-import { Qualification } from '@pure-and-lazy/api-interfaces';
+import { Certificate } from '@pure-and-lazy/api-interfaces';
 import { DISPLAY_DATE_FORMAT } from '../../../constants/dateConstant';
 
 import { SetFieldValue } from '../../../types/ResumeTypes';
-import { initialQualValues } from '../../../constants/resumeInitValues';
+import { initialCertificateValues } from '../../../constants/resumeInitValues';
 
-interface QualificationModalProps {
+interface CertificateModalProps {
   show: boolean;
-  selectedQual: Qualification;
+  selectedCert: Certificate;
   onSubmit: (
-    values: Qualification,
-    isDisableEndDate: boolean,
+    values: Certificate,
+    isDisableExpiryDate: boolean,
     isAddMoreAction: boolean
   ) => void;
   onClose: () => void;
 }
 
-const QualificationModal = ({
+const CertificateModal = ({
   show,
-  selectedQual,
+  selectedCert,
   onSubmit,
   onClose,
-}: QualificationModalProps) => {
+}: CertificateModalProps) => {
   const isAddMoreAction = useRef(true);
   const setFieldValue = useRef<SetFieldValue>(null);
-  const [isDisableEndDate, setIsDisableEndDate] = useState(false);
+  const [isDisableExpiryDate, setIsDisableExpiryDate] = useState(false);
 
   useEffect(() => {
-    if (!selectedQual?.graduationDate) {
-      setIsDisableEndDate(true);
+    if (!selectedCert?.expiryDate) {
+      setIsDisableExpiryDate(true);
     }
 
-    isAddMoreAction.current = selectedQual === initialQualValues;
-  }, [selectedQual]);
+    isAddMoreAction.current = selectedCert === initialCertificateValues;
+  }, [selectedCert]);
 
   const validationSchema = Yup.object().shape({
-    institutionName: Yup.string().required('Institution name is required'),
-    degree: Yup.string().required('Degree is required'),
-    description: Yup.string().required('Description is required'),
-    startDate: Yup.date(),
-    graduationDate: Yup.date().min(
-      isDisableEndDate ? Yup.ref('graduationDate') : Yup.ref('startDate'),
+    name: Yup.string().required('Cert name is required'),
+    issueOrganization: Yup.string().required('Issue organization is required'),
+    issuedDate: Yup.date(),
+    expiryDate: Yup.date().min(
+      isDisableExpiryDate ? Yup.ref('expiryDate') : Yup.ref('issuedDate'),
       ({ min }) =>
         `Date needs to be before ${moment(min).format(DISPLAY_DATE_FORMAT)}!!`
     ),
   });
 
   const handleFormClose = () => {
-    setIsDisableEndDate(false);
+    setIsDisableExpiryDate(false);
     onClose();
   };
 
-  const handleNotCompletedCheckChange = (
+  const handleNotExpirationCheckChange = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setIsDisableEndDate(event.target.checked);
+    setIsDisableExpiryDate(event.target.checked);
     if (!event.target.checked) {
-      setFieldValue.current('graduationDate', moment().toDate());
+      setFieldValue.current('expiryDate', moment().toDate());
     }
   };
 
@@ -106,17 +105,17 @@ const QualificationModal = ({
       backdrop="static"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Qualification</Modal.Title>
+        <Modal.Title>Certification</Modal.Title>
       </Modal.Header>
       <Formik
-        initialValues={selectedQual}
+        initialValues={selectedCert}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
 
-          onSubmit(values, isDisableEndDate, isAddMoreAction.current);
+          onSubmit(values, isDisableExpiryDate, isAddMoreAction.current);
 
-          setIsDisableEndDate(false);
+          setIsDisableExpiryDate(false);
           resetForm();
           setSubmitting(false);
         }}
@@ -131,52 +130,48 @@ const QualificationModal = ({
         }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
-              <Form.Group controlId="formInstName">
-                <Form.Label>Institution Name</Form.Label>
+              <Form.Group controlId="formCertName">
+                <Form.Label>Cert Name</Form.Label>
                 <Form.Control
                   type="text"
-                  name="institutionName"
-                  placeholder="Enter institution name"
+                  name="name"
+                  placeholder="Enter cert name"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.institutionName}
-                  isInvalid={!!errors.institutionName}
+                  value={values.name}
+                  isInvalid={!!errors.name}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {errors.institutionName}
+                  {errors.name}
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId="formDegree">
-                <Form.Label>Degree</Form.Label>
+              <Form.Group controlId="formIssueOrg">
+                <Form.Label>Issue Organization</Form.Label>
                 <Form.Control
                   type="text"
-                  name="degree"
-                  placeholder="Enter degree"
+                  name="issueOrganization"
+                  placeholder="Enter issue organization"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.degree}
-                  isInvalid={!!errors.degree}
+                  value={values.issueOrganization}
+                  isInvalid={!!errors.issueOrganization}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {errors.degree}
+                  {errors.issueOrganization}
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId="formDescription">
-                <Form.Label>Description</Form.Label>
+              <Form.Group controlId="formCredentialId">
+                <Form.Label>Credential ID</Form.Label>
                 <Form.Control
-                  as="textarea"
-                  name="description"
-                  rows={5}
+                  type="text"
+                  name="credentialId"
+                  placeholder="Enter credential id"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.description}
-                  isInvalid={!!errors.description}
+                  value={values.credentialId}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {errors.description}
-                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Row>
@@ -184,31 +179,31 @@ const QualificationModal = ({
                   <Form.Label>From</Form.Label>
                   {buildDatePicker(
                     false,
-                    'startDate',
-                    values.startDate,
+                    'issuedDate',
+                    values.issuedDate,
                     setFieldValue
                   )}
                 </Form.Group>
                 <Form.Group as={Col} xs={3}>
                   <Form.Label>To</Form.Label>
                   {buildDatePicker(
-                    isDisableEndDate,
-                    'graduationDate',
-                    values.graduationDate,
+                    isDisableExpiryDate,
+                    'expiryDate',
+                    values.expiryDate,
                     setFieldValue,
-                    !!errors.graduationDate
+                    !!errors.expiryDate
                   )}
                   <Form.Control.Feedback type="invalid">
-                    {errors.graduationDate}
+                    {errors.expiryDate}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>
-              <Form.Group controlId="formNotCompleted">
+              <Form.Group controlId="formNotExpired">
                 <Form.Check
                   type="checkbox"
-                  label="Not Completed"
-                  checked={!!isDisableEndDate}
-                  onChange={handleNotCompletedCheckChange}
+                  label="There is no expiration"
+                  checked={!!isDisableExpiryDate}
+                  onChange={handleNotExpirationCheckChange}
                 />
               </Form.Group>
             </Modal.Body>
@@ -225,4 +220,4 @@ const QualificationModal = ({
   );
 };
 
-export default QualificationModal;
+export default CertificateModal;

@@ -56,6 +56,10 @@ interface Award extends Namable {
   uuid?: string;
 }
 
+interface Responsibility extends Namable {
+  uuid?: string;
+}
+
 interface Certificate extends Namable {
   uuid?: string;
   issueOrganization: string;
@@ -73,7 +77,7 @@ interface Experience {
   startDate: Date;
   endDate?: Date;
   role: string;
-  responsibilities?: string[];
+  responsibilities?: Responsibility[];
 }
 
 interface Skill extends Namable {
@@ -110,6 +114,7 @@ export {
   Resume,
   Qualification,
   Award,
+  Responsibility,
   Experience,
   Certificate,
   Skill,

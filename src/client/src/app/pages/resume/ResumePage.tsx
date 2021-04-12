@@ -18,6 +18,7 @@ import { faPlus, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import Confirmation from '../../components/ui/modals/Confirmation';
 import QualificationModal from '../../components/resume/modals/QualificationModal';
 import AwardModal from '../../components/resume/modals/AwardModal';
+import CertificateModal from '../../components/resume/modals/CertificateModal';
 
 import { UserContext } from '../../portfolio-shared/UserContext';
 import { EditContext } from '../../portfolio-shared/EditContext';
@@ -42,6 +43,7 @@ import {
   defaultTypesValues,
   initialQualValues,
   initialAwardValues,
+  initialCertificateValues,
 } from '../../constants/resumeInitValues';
 
 const ResumePage = () => {
@@ -51,7 +53,9 @@ const ResumePage = () => {
   const [selectedQualification, setSelectedQualification] = useState<
     Qualification
   >(initialQualValues);
-  const [selectedCertificate, setSelectedCertificate] = useState<Certificate>();
+  const [selectedCertificate, setSelectedCertificate] = useState<Certificate>(
+    initialCertificateValues
+  );
   const [selectedExperience, setSelectedExperience] = useState<Experience>();
   const [selectedSkill, setSelectedSkill] = useState<Skill>();
   const [selectedReference, setSelectedReference] = useState<Reference>();
@@ -267,6 +271,99 @@ const ResumePage = () => {
     }
   };
 
+  const addCertificate = async (newCertificate: Certificate) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios({
+        method: 'PUT',
+        url: `/api/resume/certificates/add`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_certificate: newCertificate,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          certificates: [newCertificate, ...prevState.certificates],
+        };
+      });
+    } catch (error) {
+      console.log('Failed to add certificate', error);
+    }
+  };
+
+  const updateCertificate = async (newCertificate: Certificate) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      const result = await axios({
+        method: 'PUT',
+        url: `/api/resume/certificates/update`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_certificate: newCertificate,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          certificates: prevState.certificates.map<Certificate>(
+            (certificate) => {
+              return certificate.uuid === newCertificate.uuid
+                ? newCertificate
+                : certificate;
+            }
+          ),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to update certificate', error);
+    }
+  };
+
+  const deleteCertificate = async (newCertificate: Certificate) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios({
+        method: 'DELETE',
+        url: `/api/resume/certificates/delete`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          certificate_uuid: newCertificate.uuid,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          certificates: prevState.certificates.filter<Certificate>(
+            (certificate): certificate is Certificate =>
+              certificate.uuid !== newCertificate.uuid
+          ),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to delete certificate', error);
+    }
+  };
+
   const updateModalShowStatus = (resumeType: string, status: boolean): void => {
     setModalShows((prevState) => {
       return { ...prevState, [resumeType]: status };
@@ -282,6 +379,17 @@ const ResumePage = () => {
       newQualification.graduationDate = null;
     }
     return newQualification;
+  };
+
+  const cloneCertificate = (
+    oriCert: Certificate,
+    isDisableExpiryDate: boolean
+  ): Certificate => {
+    const newCert = { ...oriCert };
+    if (isDisableExpiryDate) {
+      newCert.expiryDate = null;
+    }
+    return newCert;
   };
 
   const handleEduModalSubmitClick = (
@@ -344,6 +452,39 @@ const ResumePage = () => {
     updateModalShowStatus(ResumeSectionTypes.Awards, false);
   };
 
+  const handleCertModalSubmitClick = (
+    values: Certificate,
+    isDisableExpiryDate: boolean,
+    isAddMoreAction: boolean
+  ) => {
+    updateModalShowStatus(ResumeSectionTypes.Certificates, false);
+    if (isAddMoreAction) {
+      const foundCert = resumeData.certificates.find(
+        (item) =>
+          item.name.toLowerCase() === values.name.toLowerCase() &&
+          item.issueOrganization.toLowerCase() ===
+            values.issueOrganization.toLowerCase()
+      );
+
+      if (foundCert) {
+        showAlertMessage(
+          'The certificate in the same issue organization was already added.'
+        );
+      } else {
+        const newCert = cloneCertificate(values, isDisableExpiryDate);
+        newCert.uuid = uuidv4();
+        addCertificate(newCert);
+      }
+    } else {
+      const newCert = cloneCertificate(values, isDisableExpiryDate);
+      updateCertificate(newCert);
+    }
+  };
+
+  const handleCertModalCloseClick = () => {
+    updateModalShowStatus(ResumeSectionTypes.Certificates, false);
+  };
+
   const handleConfirmDelete = (value: boolean) => {
     if (value) {
       if (deleteTargetKinds[ResumeSectionTypes.Education]) {
@@ -357,6 +498,12 @@ const ResumePage = () => {
         setSelectedAward(null);
         setDeleteTargetKinds((prevState) => {
           return { ...prevState, [ResumeSectionTypes.Awards]: false };
+        });
+      } else if (deleteTargetKinds[ResumeSectionTypes.Certificates]) {
+        deleteCertificate(selectedCertificate);
+        setSelectedCertificate(null);
+        setDeleteTargetKinds((prevState) => {
+          return { ...prevState, [ResumeSectionTypes.Certificates]: false };
         });
       }
     }
@@ -496,7 +643,7 @@ const ResumePage = () => {
         return (
           <li key={`resp${index}`} className="resume-list-item">
             <span className="resume-list-icon">&#9679;</span>
-            <span className="resume-list-content">{resp}</span>
+            <span className="resume-list-content">{resp.name}</span>
           </li>
         );
       });
@@ -688,6 +835,7 @@ const ResumePage = () => {
               <Button
                 onClick={() => {
                   setSelectedQualification(initialQualValues);
+                  setSelectedCertificate(initialCertificateValues);
                   updateModalShowStatus(sectionType, true);
                 }}
               >
@@ -719,6 +867,12 @@ const ResumePage = () => {
           show={modalShows[ResumeSectionTypes.Awards]}
           onSubmit={handleAwardModalSubmitClick}
           onClose={handleAwardModalCloseClick}
+        />
+        <CertificateModal
+          selectedCert={selectedCertificate}
+          show={modalShows[ResumeSectionTypes.Certificates]}
+          onSubmit={handleCertModalSubmitClick}
+          onClose={handleCertModalCloseClick}
         />
         <Confirmation
           show={deleteConfirmationShow}
