@@ -1,4 +1,5 @@
-import { prop, getModelForClass } from '@typegoose/typegoose';
+import { prop, getModelForClass, Ref } from '@typegoose/typegoose';
+import { User } from './user';
 
 class UserName {
   @prop({ required: true })
@@ -7,20 +8,15 @@ class UserName {
 
 class SingalImage extends UserName {
   @prop({ required: true, unique: true })
+  imageID!: number;
+
+  @prop({ required: true, unique: true })
   imageUrl!: string;
-
-  @prop({ required: true })
-  academicID!: string;
-}
-
-class Reference extends UserName {
-  @prop()
-  reference?: string;
 }
 
 class Academic extends UserName {
   @prop({ required: true, unique: true })
-  academicID!: string;
+  academicID!: number;
 
   @prop({ required: true })
   title!: string;
@@ -41,10 +37,20 @@ class Academic extends UserName {
   bodyParagraph!: string;
 
   @prop({ required: true })
-  academicImage!: string;
+  academicReferences?: String;
 
   @prop({ required: true })
-  academicReferences?: Reference[];
+  academicImage!: string;
+}
+
+class AcademicModels {
+  @prop({ ref: User }) user: Ref<User>;
+
+  @prop({ type: () => SingalImage, _id: false })
+  images?: SingalImage[];
+
+  @prop({ type: () => Academic, _id: false })
+  academics?: Academic[];
 }
 
 const AcademicModel = getModelForClass(Academic);

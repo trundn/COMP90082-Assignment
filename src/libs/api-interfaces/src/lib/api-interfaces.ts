@@ -38,6 +38,33 @@ enum UserTheme {
   JILDEN,
 }
 
+interface Namable {
+  name: string;
+}
+
+interface SingalImage extends Namable {
+  imageID: number;
+  imageUrl: string;
+}
+
+interface Academic extends Namable {
+  academicID: number;
+  title: string;
+  author: string;
+  orginzation: string;
+  createDate: Date;
+  shortDescription: string;
+  bodyParagraph: string;
+  academicReferences: String;
+  academicImage: string;
+}
+
+interface AcademicModels {
+  _id?: string;
+  images?: SingalImage[];
+  academics?: Academic[];
+}
+
 export {
   Message,
   PortfolioItem,
