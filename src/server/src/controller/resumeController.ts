@@ -91,9 +91,79 @@ const deleteQualification = async (req: Request, res: Response) => {
   }
 };
 
+const addAward = async (req: Request, res: Response) => {
+  const { resume_id, new_award } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        { _id: mongoose.Types.ObjectId(resume_id) },
+        { $push: { awards: new_award } }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const updateAward = async (req: Request, res: Response) => {
+  const { resume_id, new_award } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(resume_id),
+          awards: { $elemMatch: { uuid: new_award.uuid } },
+        },
+        {
+          $set: {
+            'awards.$.name': new_award.name,
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const deleteAward = async (req: Request, res: Response) => {
+  const { resume_id, award_uuid } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(resume_id),
+        },
+        {
+          $pull: {
+            awards: { uuid: award_uuid },
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
 export {
   getResumeByUserName,
   addQualification,
   updateQualification,
   deleteQualification,
+  addAward,
+  updateAward,
+  deleteAward,
 };

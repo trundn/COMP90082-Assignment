@@ -5,6 +5,9 @@ import {
   addQualification,
   updateQualification,
   deleteQualification,
+  addAward,
+  updateAward,
+  deleteAward,
 } from '../controller/resumeController';
 
 const router = Router();
@@ -22,5 +25,9 @@ router.get('/:userid', getResumeByUserName);
 router.route('/qualifications/add').put(addQualification);
 router.route('/qualifications/update').put(updateQualification);
 router.route('/qualifications/delete').delete(deleteQualification);
+
+router.route('/awards/add').put(addAward);
+router.route('/awards/update').put(updateAward);
+router.route('/awards/delete').delete(deleteAward);
 
 export default router;

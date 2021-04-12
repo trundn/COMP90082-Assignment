@@ -1,5 +1,6 @@
 import { ResumeSectionTypes } from './resumeConstant';
 import {
+  Award,
   Experience,
   Qualification,
   Certificate,
@@ -15,6 +16,10 @@ export const defaultTypesValues: { [resumeType: string]: boolean } = {
   [ResumeSectionTypes.Work]: false,
   [ResumeSectionTypes.Skills]: false,
   [ResumeSectionTypes.References]: false,
+};
+
+export const initialAwardValues: Award = {
+  name: '',
 };
 
 export const initialQualValues: Qualification = {

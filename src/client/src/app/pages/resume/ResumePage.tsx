@@ -17,12 +17,14 @@ import { faPlus, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 import Confirmation from '../../components/ui/modals/Confirmation';
 import QualificationModal from '../../components/resume/modals/QualificationModal';
+import AwardModal from '../../components/resume/modals/AwardModal';
 
 import { UserContext } from '../../portfolio-shared/UserContext';
 import { EditContext } from '../../portfolio-shared/EditContext';
 import {
   Experience,
   Qualification,
+  Award,
   Certificate,
   Skill,
   Reference,
@@ -39,12 +41,13 @@ import { ResumeSectionTypes } from '../../constants/resumeConstant';
 import {
   defaultTypesValues,
   initialQualValues,
+  initialAwardValues,
 } from '../../constants/resumeInitValues';
 
 const ResumePage = () => {
   const [alertMessage, setAlertMessage] = useState('');
 
-  const [selectedAward, setSelectedAward] = useState<string>('');
+  const [selectedAward, setSelectedAward] = useState<Award>(initialAwardValues);
   const [selectedQualification, setSelectedQualification] = useState<
     Qualification
   >(initialQualValues);
@@ -88,7 +91,7 @@ const ResumePage = () => {
     try {
       const token = await getAccessTokenSilently();
 
-      const result = await axios({
+      await axios({
         method: 'PUT',
         url: `/api/resume/qualifications/add`,
         headers: {
@@ -116,7 +119,7 @@ const ResumePage = () => {
     try {
       const token = await getAccessTokenSilently();
 
-      const result = await axios({
+      await axios({
         method: 'PUT',
         url: `/api/resume/qualifications/update`,
         headers: {
@@ -150,7 +153,7 @@ const ResumePage = () => {
     try {
       const token = await getAccessTokenSilently();
 
-      const result = await axios({
+      await axios({
         method: 'DELETE',
         url: `/api/resume/qualifications/delete`,
         headers: {
@@ -173,6 +176,94 @@ const ResumePage = () => {
       });
     } catch (error) {
       console.log('Failed to delete qualification', error);
+    }
+  };
+
+  const addAward = async (newAward: Award) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios({
+        method: 'PUT',
+        url: `/api/resume/awards/add`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_award: newAward,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          awards: [newAward, ...prevState.awards],
+        };
+      });
+    } catch (error) {
+      console.log('Failed to add award', error);
+    }
+  };
+
+  const updateAward = async (newAward: Award) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      const result = await axios({
+        method: 'PUT',
+        url: `/api/resume/awards/update`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          new_award: newAward,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          awards: prevState.awards.map<Award>((award) => {
+            return award.uuid === newAward.uuid ? newAward : award;
+          }),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to update award', error);
+    }
+  };
+
+  const deleteAward = async (newAward: Award) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      await axios({
+        method: 'DELETE',
+        url: `/api/resume/awards/delete`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          resume_id: resumeData._id,
+          award_uuid: newAward.uuid,
+        },
+      });
+
+      setResumeData((prevState) => {
+        return {
+          ...prevState,
+          awards: prevState.awards.filter<Award>(
+            (award): award is Award => award.uuid !== newAward.uuid
+          ),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to delete award', error);
     }
   };
 
@@ -226,6 +317,33 @@ const ResumePage = () => {
     updateModalShowStatus(ResumeSectionTypes.Education, false);
   };
 
+  const handleAwardModalSubmitClick = (
+    values: Award,
+    isAddMoreAction: boolean
+  ) => {
+    updateModalShowStatus(ResumeSectionTypes.Awards, false);
+    if (isAddMoreAction) {
+      const foundAward = resumeData.awards.find(
+        (item) => item.name.toLowerCase() === values.name.toLowerCase()
+      );
+
+      if (foundAward) {
+        showAlertMessage('The same award was already added.');
+      } else {
+        const newAward = { ...values };
+        newAward.uuid = uuidv4();
+        addAward(newAward);
+      }
+    } else {
+      const newAward = { ...values };
+      updateAward(newAward);
+    }
+  };
+
+  const handleAwardModalCloseClick = () => {
+    updateModalShowStatus(ResumeSectionTypes.Awards, false);
+  };
+
   const handleConfirmDelete = (value: boolean) => {
     if (value) {
       if (deleteTargetKinds[ResumeSectionTypes.Education]) {
@@ -233,6 +351,12 @@ const ResumePage = () => {
         setSelectedQualification(null);
         setDeleteTargetKinds((prevState) => {
           return { ...prevState, [ResumeSectionTypes.Education]: false };
+        });
+      } else if (deleteTargetKinds[ResumeSectionTypes.Awards]) {
+        deleteAward(selectedAward);
+        setSelectedAward(null);
+        setDeleteTargetKinds((prevState) => {
+          return { ...prevState, [ResumeSectionTypes.Awards]: false };
         });
       }
     }
@@ -338,7 +462,10 @@ const ResumePage = () => {
           return (
             <Row>
               <Col xs={editMode ? 10 : 12}>
-                <div key={`${qual.degree}_${index}`} className="mb-4">
+                <div
+                  key={`${qual.institutionName}_${qual.degree}_${index}`}
+                  className="mb-4"
+                >
                   <h3>{qual.institutionName}</h3>
                   <p className="info">
                     {qual.degree}
@@ -367,7 +494,7 @@ const ResumePage = () => {
     if (experience)
       resEls = experience.responsibilities.map((resp, index) => {
         return (
-          <li key={index} className="resume-list-item">
+          <li key={`resp${index}`} className="resume-list-item">
             <span className="resume-list-icon">&#9679;</span>
             <span className="resume-list-content">{resp}</span>
           </li>
@@ -385,9 +512,9 @@ const ResumePage = () => {
         return (
           <Row>
             <Col xs={editMode ? 10 : 12}>
-              <li key={index} className="resume-list-item">
+              <li key={`award_${index}`} className="resume-list-item">
                 <span className="resume-list-icon">&#9679;</span>
-                <span className="resume-list-content">{award}</span>
+                <span className="resume-list-content">{award.name}</span>
               </li>
             </Col>
             {bindEditableButtons(award, ResumeSectionTypes.Awards)}
@@ -586,6 +713,12 @@ const ResumePage = () => {
           show={modalShows[ResumeSectionTypes.Education]}
           onSubmit={handleEduModalSubmitClick}
           onClose={handleEduModalCloseClick}
+        />
+        <AwardModal
+          selectedAward={selectedAward}
+          show={modalShows[ResumeSectionTypes.Awards]}
+          onSubmit={handleAwardModalSubmitClick}
+          onClose={handleAwardModalCloseClick}
         />
         <Confirmation
           show={deleteConfirmationShow}

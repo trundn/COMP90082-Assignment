@@ -14,6 +14,10 @@ class Qualification {
   @prop() graduationDate?: Date;
 }
 
+class Award extends Namable {
+  @prop({ required: true }) uuid?: string;
+}
+
 class Certificate extends Namable {
   @prop({ required: true }) uuid?: string;
   @prop({ required: true }) issueOrganization!: string;
@@ -58,8 +62,8 @@ class Resume {
   @prop({ type: () => Certificate, _id: false })
   certificates?: Certificate[];
 
-  @prop()
-  awards?: string[];
+  @prop({ type: () => Award, _id: false })
+  awards?: Award[];
 
   @prop({ type: () => Experience, _id: false })
   experiences?: Experience[];
