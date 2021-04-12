@@ -42,9 +42,9 @@ const ManagePage = () => {
     return null;
   }
 
-  if (!registrationComplete) {
-    return <Redirect to="/getstarted" />;
-  }
+  // if (!registrationComplete) {
+  //   return <Redirect to="/getstarted" />;
+  // }  
 
   const handleNameChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormName(event.target.value);
