@@ -30,6 +30,8 @@ import {
   AcademicModels,
 } from '@pure-and-lazy/api-interfaces';
 
+import { useAuth0 } from '@auth0/auth0-react';
+
 // install Swiper modules
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, EffectFade, Virtual]);
 
@@ -63,7 +65,7 @@ const data = [
 ];
 
 const AcademicPage = () => {
-  const [editTye, setEditTpe] = useState('');
+  const { getAccessTokenSilently } = useAuth0();
 
   const [alertMessage, setAlertMessage] = useState('');
 
@@ -82,7 +84,7 @@ const AcademicPage = () => {
     try {
       const result = await axios({
         method: 'GET',
-        url: '/api/academic/${_id}',
+        url: `/api/academic/${_id}`,
       });
       setAcademicData(result.data as AcademicModels);
     } catch (error) {
@@ -90,12 +92,55 @@ const AcademicPage = () => {
     }
   };
 
-  const handleAcademicSubmit = (values: Academic): void => {
-    if (true) {
-      alert(JSON.stringify(values));
+  const showAlertMessage = (message: string) => {
+    setAlertMessage(message);
+    window.setTimeout(() => {
+      setAlertMessage('');
+    }, 2000);
+  };
 
-      setModalShow(false);
+  const handleAcademicSubmit = (values: Academic): void => {
+    setModalShow(false);
+    // const foundExistAca = academicData.academics.find(
+    //   (item) =>
+    //     item.title === values.title.toLowerCase()
+    // );
+
+    // if (foundExistAca){
+    //   showAlertMessage(
+    //     'The degree in the same institution was already added.'
+    //   );
+    // }else{
+    const newAcademic = cloneAcademic(values);
+    console.log('1');
+    addAcademic(newAcademic);
+    // }
+  };
+
+  const addAcademic = async (newAcademic: Academic) => {
+    try {
+      const token = await getAccessTokenSilently();
+      console.log('2');
+      await axios({
+        method: 'PUT',
+        url: `/api/academics/add_academic`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          user: _id,
+          academic: newAcademic,
+        },
+      });
+    } catch (error) {
+      console.log('Failed to add Academic', error);
     }
+  };
+
+  const cloneAcademic = (academic: Academic): Academic => {
+    const newAcademic = { ...academic };
+    return newAcademic;
   };
 
   const button_sytle = require('../academic/Academic.css');

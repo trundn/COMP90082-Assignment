@@ -47,6 +47,6 @@ class AcademicModels {
   academics?: Academic[];
 }
 
-const AcademicModel = getModelForClass(Academic);
+const AcademicModel = getModelForClass(AcademicModels);
 
 export { Academic, AcademicModel };

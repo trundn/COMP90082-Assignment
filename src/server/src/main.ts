@@ -8,6 +8,9 @@ import portfolioRoutes from './routes/portfolioRoutes';
 import swaggerSpec from './swaggerSpec';
 
 import * as dotenv from 'dotenv';
+
+import academicRouter from '../src/routes/academicRoutes';
+
 dotenv.config();
 
 connectToDatabase();
@@ -26,6 +29,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/portfolio', portfolioRoutes);
+app.use('/api/academics', academicRouter);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('*', (_req, res) => {
