@@ -14,6 +14,7 @@ class User {
   @prop({ enum: UserTheme, type: Number, default: UserTheme.DEFAULT })
   theme?: UserTheme;
   @prop({ default: false }) themeDark?: boolean;
+  @prop() dateBirth?: string;
 
   static editableFields = [
     'name',
@@ -21,6 +22,7 @@ class User {
     'profilePicture',
     'theme',
     'themeDark',
+    'dateBirth',
   ];
 
   toProfile(): UserProfile {
@@ -33,6 +35,7 @@ class User {
       profilePicture: this.profilePicture,
       theme: this.theme,
       themeDark: this.themeDark,
+      dateBirth: this.dateBirth,
     };
   }
 }

@@ -29,6 +29,7 @@ interface UserProfile {
   profilePicture?: string;
   theme?: UserTheme;
   themeDark?: boolean;
+  dateBirth?:string;
 }
 
 enum UserTheme {

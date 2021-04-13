@@ -7,9 +7,11 @@ const UserContext = React.createContext({
   dateJoined: undefined,
   profilePicture: '',
   description: '',
+  dateBirth:'',
   setProfilePicture: (profilePicture) => null,
   setDescription: (description) => null,
   setName: (name) => null,
+  setDate:(dateBirth)=>null,
   theme: UserTheme.DEFAULT,
 });
 export { UserContext };

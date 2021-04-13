@@ -3,6 +3,7 @@ import { BackgroundContainer } from '../BackgroundContainer';
 import { AdminSignOut } from './AdminSignOut';
 import GradientBackground from '../../assets/GradientBackground.png';
 import { AdminTitle } from './AdminTitle';
+import moment from 'moment';
 import {
   Button,
   Col,
@@ -15,21 +16,25 @@ import {
 import { css } from 'emotion';
 import { UserContext } from '../portfolio-shared/UserContext';
 import { LinkContainer } from 'react-router-bootstrap';
-import { updateName } from './AdminUtils';
+import { updateName,updateDateBirth } from './AdminUtils';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
+
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 // Manage Public Information Page
 
 const ManagePage = () => {
   const { name, setName } = useContext(UserContext);
+  const { dateBirth, setDate } = useContext(UserContext);
   const [formName, setFormName] = useState('');
   const [isInvalidName, setIsInvalidName] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
-
+  const [startDate, setStartDate] = useState(new Date());
   const { registrationComplete, isLoaded } = useContext(AuthContext);
 
   const isInvalid = isInvalidName;
@@ -37,6 +42,17 @@ const ManagePage = () => {
   useEffect(() => {
     setFormName(name);
   }, [name]);
+  useEffect(() => {
+
+    if(dateBirth==''){
+      setStartDate(new Date());
+   
+    }
+    else{
+      setStartDate(new Date(dateBirth));
+    }
+  }, [dateBirth]);
+    
 
   if (!isLoaded) {
     return null;
@@ -51,6 +67,13 @@ const ManagePage = () => {
     const regEx = new RegExp('^[a-z0-9 -]+$', 'i');
     setIsInvalidName(!regEx.test(event.target.value));
   };
+  const handleDateChange = (date) => {
+    setStartDate(date);
+    
+  };
+  
+  
+  
 
   const topMarginStyle = css({
     marginTop: '20vh',
@@ -65,6 +88,22 @@ const ManagePage = () => {
     updateName(formName, getAccessTokenSilently).then((response) => {
       if (response.ok) {
         setName(formName);
+
+        // Setting a minimum time at least it was too fast on local
+        setTimeout(() => {
+          setSaving(false);
+          setSuccess(true);
+        }, 500);
+
+        setTimeout(() => {
+          setSuccess(false);
+        }, 3000);
+      }
+    });
+    updateDateBirth(dateBirth, getAccessTokenSilently).then((response) => {
+      
+      if (response.ok) {
+        setDate(moment(startDate).format('YYYY MM DD'));
 
         // Setting a minimum time at least it was too fast on local
         setTimeout(() => {
@@ -141,14 +180,18 @@ const ManagePage = () => {
                 controlId="name"
                 style={{ position: 'relative' }}
               >
-                <Form.Label>Name</Form.Label>
+                <div><Form.Label>Name</Form.Label>
                 <Form.Control
                   value={formName}
                   onChange={handleNameChange}
                   type="text"
                   placeholder="Enter name"
                   isInvalid={isInvalidName}
-                />
+                /></div>
+                <div><Form.Label>Date of birth</Form.Label>
+                <div><DatePicker selected={startDate}   onChange={handleDateChange} /></div></div>
+                
+                
                 <Form.Text className="text-muted">
                   This will be shown on your profile
                 </Form.Text>

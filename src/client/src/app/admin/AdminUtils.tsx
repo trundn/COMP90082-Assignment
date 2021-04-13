@@ -19,6 +19,15 @@ const updateName = async (
     name: name,
   });
 };
+const updateDateBirth = async (
+  dateBirth: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getAccessTokenSilently: (options?: any) => Promise<string>
+) => {
+  return updateProfile(getAccessTokenSilently, {
+    dateBirth: dateBirth,
+  });
+};
 
 const updateDescription = async (
   description: string,
@@ -67,4 +76,4 @@ const updateProfile = async (
   });
 };
 
-export { updateProfilePicture, updateName, updateDescription, updateTheme };
+export { updateProfilePicture, updateName, updateDescription, updateTheme,updateDateBirth};
