@@ -18,9 +18,7 @@ export const UrlForm = (props: UrlForm) => {
     props.setErrorMessage('');
   };
 
-  const handleSubmit = async (
-    event: React.ChangeEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     props.onSubmit(urlPath);
   };

@@ -5,6 +5,7 @@ import connectToDatabase from './config/db';
 import { notFound, errorHandler } from './middleware/errorMiddleware';
 import authRoutes from './routes/authRoutes';
 import portfolioRoutes from './routes/portfolioRoutes';
+import resumeRoutes from './routes/resumeRoutes';
 import swaggerSpec from './swaggerSpec';
 
 import * as dotenv from 'dotenv';
@@ -29,6 +30,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/portfolio', portfolioRoutes);
+app.use('/api/resume', resumeRoutes);
 app.use('/api/academics', academicRouter);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
