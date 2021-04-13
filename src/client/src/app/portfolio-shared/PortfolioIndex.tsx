@@ -59,15 +59,15 @@ const PortfolioIndex = () => {
           <Route exact path={`${path}`}>
             <PortfolioHome />
           </Route>
+          {/* New Staff */}
+          <Route exact path={`${path}/events`}>
+            <EventPage />
+          </Route>
           <Route exact path={`${path}/projects`}>
             <ProjectPage />
           </Route>
           <Route exact path={`${path}/blog`}>
             <BlogPage />
-          </Route>
-          {/* //新的东西 */}
-          <Route exact path={`${path}/events`}>
-            <EventPage />
           </Route>
           <Route exact path={`${path}/projects/:contentID`}>
             <ContentPage />
@@ -77,10 +77,6 @@ const PortfolioIndex = () => {
           </Route>
           <Route exact path={`${path}/about`}>
             <About />
-          </Route>
-          {/* //新的东西 */}
-          <Route exact path={`${path}/events/:contentID`}>
-            <ContentPage />
           </Route>
         </Switch>
         <FooterWrapper
