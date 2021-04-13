@@ -119,9 +119,9 @@ const GetStartedPage = () => {
     return null;
   }
 
-  // if (registrationComplete) {
-  //   return <Redirect to="/admin" />;
-  // }
+  if (registrationComplete) {
+    return <Redirect to="/admin" />;
+  }
 
   return (
     <BackgroundContainer background={GradientBackground}>
