@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  ChangeEvent,
+  Fragment,
+} from 'react';
 
 import * as Yup from 'yup';
 import moment from 'moment';
@@ -99,6 +105,34 @@ const ExperienceModal = ({
     );
   };
 
+  const buildResponsibilitiesSection = (
+    values: Experience,
+    handleChange: any,
+    handleBlur: any
+  ) => {
+    if (values.responsibilities) {
+      return (
+        <Fragment>
+          <Form.Group>
+            <Form.Label>Responsibilities</Form.Label>
+            <Form.Group>
+              <Form.Control
+                name="responsibilitiesContent"
+                as="textarea"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                rows={values.responsibilities.length || 10}
+                value={values.responsibilitiesContent}
+              />
+            </Form.Group>
+          </Form.Group>
+        </Fragment>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <Modal
       show={show}
@@ -185,7 +219,7 @@ const ExperienceModal = ({
                 <Form.Label>Role</Form.Label>
                 <Form.Control
                   type="text"
-                  name="city"
+                  name="role"
                   placeholder="Enter role"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -212,6 +246,8 @@ const ExperienceModal = ({
                   {errors.workSummary}
                 </Form.Control.Feedback>
               </Form.Group>
+
+              {buildResponsibilitiesSection(values, handleChange, handleBlur)}
 
               <Form.Row>
                 <Form.Group as={Col} xs={3}>

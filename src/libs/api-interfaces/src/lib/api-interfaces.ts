@@ -77,7 +77,8 @@ interface Experience {
   startDate: Date;
   endDate?: Date;
   role: string;
-  responsibilities?: Responsibility[];
+  responsibilities?: string[];
+  responsibilitiesContent?: string;
 }
 
 interface Skill extends Namable {

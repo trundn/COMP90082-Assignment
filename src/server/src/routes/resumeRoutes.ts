@@ -11,6 +11,9 @@ import {
   addCertificate,
   updateCertificate,
   deleteCertificate,
+  addExperience,
+  updateExperience,
+  deleteExperience,
   addSkill,
   updateSkill,
   deleteSkill,
@@ -42,6 +45,10 @@ router.route('/awards/delete').delete(deleteAward);
 router.route('/certificates/add').put(addCertificate);
 router.route('/certificates/update').put(updateCertificate);
 router.route('/certificates/delete').delete(deleteCertificate);
+
+router.route('/experiences/add').put(addExperience);
+router.route('/experiences/update').put(updateExperience);
+router.route('/experiences/delete').delete(deleteExperience);
 
 router.route('/skills/add').put(addSkill);
 router.route('/skills/update').put(updateSkill);

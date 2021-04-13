@@ -44,6 +44,8 @@ export const initialExpValues: Experience = {
   country: 'Australia',
   workSummary: '',
   role: '',
+  responsibilities: [],
+  responsibilitiesContent: '',
   startDate: new Date(),
   endDate: new Date(),
 };

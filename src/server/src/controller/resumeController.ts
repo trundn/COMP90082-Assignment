@@ -230,6 +230,80 @@ const deleteCertificate = async (req: Request, res: Response) => {
   }
 };
 
+const addExperience = async (req: Request, res: Response) => {
+  const { resume_id, new_experience } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        { _id: mongoose.Types.ObjectId(resume_id) },
+        { $push: { experiences: new_experience } }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const updateExperience = async (req: Request, res: Response) => {
+  const { resume_id, new_experience } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(resume_id),
+          experiences: { $elemMatch: { uuid: new_experience.uuid } },
+        },
+        {
+          $set: {
+            'experiences.$.organisation': new_experience.organisation,
+            'experiences.$.city': new_experience.city,
+            'experiences.$.country': new_experience.country,
+            'experiences.$.workSummary': new_experience.workSummary,
+            'experiences.$.role': new_experience.role,
+            'experiences.$.responsibilities': new_experience.responsibilities,
+            'experiences.$.startDate': new_experience.startDate,
+            'experiences.$.endDate': new_experience.endDate,
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const deleteExperience = async (req: Request, res: Response) => {
+  const { resume_id, experience_uuid } = req.body;
+
+  try {
+    try {
+      await ResumeModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(resume_id),
+        },
+        {
+          $pull: {
+            experiences: { uuid: experience_uuid },
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
 const addSkill = async (req: Request, res: Response) => {
   const { resume_id, new_skill } = req.body;
 
@@ -381,6 +455,9 @@ export {
   addCertificate,
   updateCertificate,
   deleteCertificate,
+  addExperience,
+  updateExperience,
+  deleteExperience,
   addSkill,
   updateSkill,
   deleteSkill,

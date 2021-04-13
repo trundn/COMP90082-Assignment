@@ -650,7 +650,7 @@ const ResumePage = () => {
   ): Qualification => {
     const newQualification = { ...oriQual };
     if (isDisableEndDate) {
-      newQualification.graduationDate = null;
+      newQualification.graduationDate = undefined;
     }
     return newQualification;
   };
@@ -661,7 +661,7 @@ const ResumePage = () => {
   ): Certificate => {
     const newCert = { ...oriCert };
     if (isDisableExpiryDate) {
-      newCert.expiryDate = null;
+      newCert.expiryDate = undefined;
     }
     return newCert;
   };
@@ -671,9 +671,19 @@ const ResumePage = () => {
     isDisableExpiryDate: boolean
   ): Experience => {
     const newExp = { ...oriExp };
+
     if (isDisableExpiryDate) {
-      newExp.endDate = null;
+      newExp.endDate = undefined;
     }
+
+    if (
+      newExp.responsibilitiesContent &&
+      newExp.responsibilitiesContent?.length > 0
+    ) {
+      newExp.responsibilities = newExp.responsibilitiesContent.split('\n');
+    }
+    newExp.responsibilitiesContent = undefined;
+
     return newExp;
   };
 
@@ -911,6 +921,11 @@ const ResumePage = () => {
       setSelectedCertificate(targetVal);
     }
     if (targetKind === ResumeSectionTypes.Work) {
+      if (targetVal?.responsibilities) {
+        targetVal.responsibilitiesContent = targetVal.responsibilities
+          .map((resp) => resp)
+          .join('\n');
+      }
       setSelectedExperience(targetVal);
     }
     if (targetKind === ResumeSectionTypes.Skills) {
@@ -1026,7 +1041,7 @@ const ResumePage = () => {
         return (
           <li key={`resp${index}`} className="resume-list-item">
             <span className="resume-list-icon">&#9679;</span>
-            <span className="resume-list-content">{resp.name}</span>
+            <span className="resume-list-content">{resp}</span>
           </li>
         );
       });

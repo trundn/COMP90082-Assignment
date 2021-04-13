@@ -18,10 +18,6 @@ class Award extends Namable {
   @prop({ required: true }) uuid?: string;
 }
 
-class Responsibility extends Namable {
-  @prop({ required: true }) uuid?: string;
-}
-
 class Certificate extends Namable {
   @prop({ required: true }) uuid?: string;
   @prop({ required: true }) issueOrganization!: string;
@@ -39,8 +35,8 @@ class Experience {
   @prop({ required: true }) startDate!: Date;
   @prop() endDate?: Date;
   @prop({ required: true }) role!: string;
-  @prop({ type: () => Responsibility, _id: false })
-  responsibilities?: Responsibility[];
+  @prop()
+  responsibilities?: string[];
 }
 
 class Skill extends Namable {
