@@ -12,7 +12,14 @@ const getResumeByUserName = async (req: Request, res: Response) => {
     if (item) {
       res.send(item);
     } else {
-      res.sendStatus(404);
+      const newResume = await ResumeModel.create({
+        user: mongoose.Types.ObjectId(userid),
+      });
+      if (newResume) {
+        res.send(newResume);
+      } else {
+        res.sendStatus(404);
+      }
     }
   } catch {
     res.sendStatus(400);
