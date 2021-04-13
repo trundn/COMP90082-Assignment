@@ -42,20 +42,19 @@ interface Namable {
   name: string;
 }
 
-interface SingalImage extends Namable {
+interface SingalImage {
   imageID: number;
   imageUrl: string;
 }
 
-interface Academic extends Namable {
-  academicID: number;
+interface Academic {
   title: string;
   author: string;
-  orginzation: string;
+  organization: string;
   createDate: Date;
   shortDescription: string;
   bodyParagraph: string;
-  academicReferences: String;
+  academicReferences: string;
   academicImage: string;
 }
 

@@ -6,18 +6,12 @@ class UserName {
   name!: string;
 }
 
-class SingalImage extends UserName {
-  @prop({ required: true, unique: true })
-  imageID!: number;
-
+class SingalImage {
   @prop({ required: true, unique: true })
   imageUrl!: string;
 }
 
-class Academic extends UserName {
-  @prop({ required: true, unique: true })
-  academicID!: number;
-
+class Academic {
   @prop({ required: true })
   title!: string;
 
@@ -25,7 +19,7 @@ class Academic extends UserName {
   author!: string;
 
   @prop()
-  orginzation!: string;
+  organization!: string;
 
   @prop({ required: true })
   createDate!: Date;
@@ -37,7 +31,7 @@ class Academic extends UserName {
   bodyParagraph!: string;
 
   @prop({ required: true })
-  academicReferences?: String;
+  academicReferences?: string;
 
   @prop({ required: true })
   academicImage!: string;
