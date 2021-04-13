@@ -67,10 +67,7 @@ const ManagePage = () => {
     const regEx = new RegExp('^[a-z0-9 -]+$', 'i');
     setIsInvalidName(!regEx.test(event.target.value));
   };
-  const handleDateChange = (date) => {
-    setStartDate(date);
-    
-  };
+  
   
   
   
@@ -100,7 +97,7 @@ const ManagePage = () => {
         }, 3000);
       }
     });
-    updateDateBirth(dateBirth, getAccessTokenSilently).then((response) => {
+    updateDateBirth(moment(startDate).format('YYYY MM DD'), getAccessTokenSilently).then((response) => {
       
       if (response.ok) {
         setDate(moment(startDate).format('YYYY MM DD'));
@@ -189,7 +186,7 @@ const ManagePage = () => {
                   isInvalid={isInvalidName}
                 /></div>
                 <div><Form.Label>Date of birth</Form.Label>
-                <div><DatePicker selected={startDate}   onChange={handleDateChange} /></div></div>
+                <div><DatePicker selected={startDate}   onChange={startDate=>setStartDate(startDate)} /></div></div>
                 
                 
                 <Form.Text className="text-muted">
