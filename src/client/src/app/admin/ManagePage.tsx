@@ -56,9 +56,7 @@ const ManagePage = () => {
     marginTop: '20vh',
   });
 
-  const handleSubmit = async (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     setSaving(true);
     setSuccess(false);
     event.preventDefault();

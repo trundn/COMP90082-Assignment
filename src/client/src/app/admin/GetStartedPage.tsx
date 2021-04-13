@@ -96,9 +96,7 @@ const GetStartedPage = () => {
     );
   };
 
-  const handleSubmit = async (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitting(true);
     try {

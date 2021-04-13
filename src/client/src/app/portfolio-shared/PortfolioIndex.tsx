@@ -5,6 +5,7 @@ import { NotFound } from '../NotFound';
 import { About } from './about/About';
 import { PortfolioHome } from './PortfolioHome';
 import { PortfolioNavBar } from './PortfolioNavBar';
+import ResumePage from '../pages/resume/ResumePage';
 import { ProjectPage } from './ProjectPage';
 import { FooterWrapper } from '../layout/FooterWrapper';
 import { PortfolioViewFooter } from './PortfolioViewFooter';
@@ -13,7 +14,7 @@ import { UserContext } from './UserContext';
 import { Container } from 'react-bootstrap';
 import { ContentPage } from '../content/ContentPage';
 //新的东西
-import { EventPage } from './EventPage';
+import { EventPage } from '../pages/eventPage/EventPage';
 
 const PortfolioIndex = () => {
   const [redirect, setRedirect] = useState(false);
@@ -58,6 +59,9 @@ const PortfolioIndex = () => {
         <Switch>
           <Route exact path={`${path}`}>
             <PortfolioHome />
+          </Route>
+          <Route exact path={`${path}/resume`}>
+            <ResumePage />
           </Route>
           {/* New Staff */}
           <Route exact path={`${path}/events`}>

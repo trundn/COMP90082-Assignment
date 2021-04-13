@@ -8,12 +8,13 @@ import { EditContext } from './EditContext';
 import { PortfolioEditFooter } from './PortfolioEditFooter';
 import { PortfolioHome } from './PortfolioHome';
 import { PortfolioNavBar } from './PortfolioNavBar';
+import ResumePage from '../pages/resume/ResumePage';
 import { ProjectPage } from './ProjectPage';
 import { AuthContext } from '../auth/AuthContext';
 import { Container } from 'react-bootstrap';
 
 //新的东西
-import { EventPage } from './EventPage';
+import { EventPage } from '../pages/eventPage/EventPage';
 
 const EditIndex = () => {
   const { registrationComplete, isLoaded } = useContext(AuthContext);
@@ -38,15 +39,18 @@ const EditIndex = () => {
           <Route exact path={`${path}`}>
             <PortfolioHome />
           </Route>
+          <Route exact path={`${path}/resume`}>
+            <ResumePage />
+          </Route>
+          {/* //新的东西 */}
+          <Route exact path={`${path}/events`}>
+            <EventPage />
+          </Route>
           <Route exact path={`${path}/projects`}>
             <ProjectPage />
           </Route>
           <Route exact path={`${path}/blog`}>
             <BlogPage />
-          </Route>
-          {/* //新的东西 */}
-          <Route exact path={`${path}/events`}>
-            <EventPage />
           </Route>
           <Route exact path={`${path}/projects/:contentID`}>
             <ContentPage />
