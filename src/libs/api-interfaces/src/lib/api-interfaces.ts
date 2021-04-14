@@ -108,12 +108,16 @@ interface Resume {
 
 // Event Model
 interface Event {
-  _id?: string;
-  eventName?: string;
+  eventName: string;
   eventHoster?: string;
   eventLocation?: string;
   startDate?: Date;
   endDate?: Date;
+}
+
+interface Events {
+  user: string;
+  events?: Event[];
 }
 
 export {
@@ -133,4 +137,5 @@ export {
   Reference,
   // For event modal
   Event,
+  Events,
 };

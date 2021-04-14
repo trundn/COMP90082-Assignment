@@ -26,12 +26,11 @@ app.use(
 );
 
 app.use(express.json());
-
 app.use('/api/auth', authRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/resume', resumeRoutes);
 // For event page
-app.use('api/event/', eventRoutes);
+app.use('/api/event', eventRoutes);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('*', (_req, res) => {

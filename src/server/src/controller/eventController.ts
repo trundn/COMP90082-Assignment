@@ -26,25 +26,36 @@ const getEventByUserName = async (req: Request, res: Response) => {
   }
 };
 
+// Create new event
 const addEvent = async (req: Request, res: Response) => {
-  const { event_id, new_event } = req.body;
+  const { user, event } = req.body;
 
+  console.log('event', event);
+  console.log('user', user);
   try {
-    try {
-      await EventModel.findOneAndUpdate(
-        { _id: mongoose.Types.ObjectId(event_id) },
-        { $push: { eventRef: new_event } }
-      );
-      res.sendStatus(201);
-    } catch {
-      res.sendStatus(404);
-      console.log('cannot find');
+    const item = await EventModel.findOne({
+      user: mongoose.Types.ObjectId(user),
+    });
+    console.log('Step1');
+    if (!item) {
+      console.log('Step2');
+      await EventModel.create({
+        user: mongoose.Types.ObjectId(user),
+        events: [],
+      });
     }
+    console.log('Step3');
+    await EventModel.findOneAndUpdate(
+      { user: mongoose.Types.ObjectId(user) },
+      { $push: { events: event } }
+    );
+    res.send(item);
   } catch {
-    res.sendStatus(400);
+    console.error;
   }
 };
 
+// update event
 const updateEvent = async (req: Request, res: Response) => {
   const { event_id, new_event } = req.body;
 
@@ -75,6 +86,7 @@ const updateEvent = async (req: Request, res: Response) => {
   }
 };
 
+// delete event
 const deleteEvent = async (req: Request, res: Response) => {
   const { event_id, event_uuid } = req.body;
 

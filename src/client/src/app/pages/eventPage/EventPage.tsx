@@ -8,7 +8,7 @@ import { Button, Container } from 'react-bootstrap';
 import { UserContext } from '../../portfolio-shared/UserContext';
 import { EditContext } from '../../portfolio-shared/EditContext';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Event } from '@pure-and-lazy/api-interfaces';
+import { Event, Events } from '@pure-and-lazy/api-interfaces';
 import EventItem from '../../components/event/EventItem';
 import EventModal from '../../components/event/EventModal';
 import './eventPage.css';
@@ -17,7 +17,7 @@ import './eventPage.css';
 const EventPage = () => {
   // Pre-pared content
 
-  const [eventData, setEventData] = useState<Event>();
+  const [eventData, setEventData] = useState<Events>();
 
   const [show, setShow] = useState(false);
   // login way
@@ -39,7 +39,7 @@ const EventPage = () => {
         url: `/api/event/${_id}`,
       });
 
-      setEventData(result.data as Event);
+      setEventData(result.data as Events);
     } catch (error) {
       console.log('Failed to fetch event data', error);
     }
@@ -48,7 +48,6 @@ const EventPage = () => {
   const handleEventSubmit = (values: Event): void => {
     const newEvent = cloneEvent(values);
     addEvent(newEvent);
-    console.log('handleEventSubmit');
     setShow(false);
     // alert(JSON.stringify(values));
   };
@@ -63,7 +62,8 @@ const EventPage = () => {
   const addEvent = async (newEvent: Event) => {
     try {
       const token = await getAccessTokenSilently();
-      console.log('Add Event Test');
+      console.log('event', newEvent);
+      console.log('_id', _id);
       await axios({
         method: 'PUT',
         // 接口地址
@@ -96,9 +96,9 @@ const EventPage = () => {
         />
         {/* All the events are in here */}
         <ul>
-          <EventItem></EventItem>
-          <EventItem></EventItem>
-          <EventItem></EventItem>
+          <EventItem />
+          <EventItem />
+          <EventItem />
         </ul>
       </div>
       <hr />
