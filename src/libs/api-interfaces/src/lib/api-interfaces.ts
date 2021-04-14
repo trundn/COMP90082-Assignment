@@ -30,7 +30,7 @@ interface UserProfile {
   theme?: UserTheme;
   themeDark?: boolean;
 
-  twitteLink?:string;
+  twitterLink?:string;
   facebookLink?:string;
   githubLink?:string;
   linkedinLink?:string;

@@ -45,8 +45,8 @@ const About = () => {
   const [editorOpen, setEditorOpen] = useState(false);
   //Description是About Meeditor里的内容，这里是从数据库里取用的接口内容
   const { description, setDescription, profilePicture, 
-    twitteLink, facebookLink,githubLink,linkedinLink, 
-    settwitteLink,setfacebookLink,setgithubLink,setlinkedinLink } = useContext(
+    twitterLink, facebookLink,githubLink,linkedinLink, 
+    settwitterLink,setfacebookLink,setgithubLink,setlinkedinLink } = useContext(
     UserContext
   );
 
@@ -124,7 +124,7 @@ const About = () => {
                 onOpenEditor={handleOpenEditor}
               />
               <MediaLink
-                twitteLink={twitteLink}
+                twitterLink={twitterLink}
                 facebookLink={facebookLink}
                 githubLink={githubLink}
                 linkedinLink={linkedinLink}

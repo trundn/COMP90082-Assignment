@@ -13,11 +13,11 @@ const UserContext = React.createContext({
   setName: (name) => null,
   theme: UserTheme.DEFAULT,
 
-  settwitteLink: (twitteLink) => null,
+  settwitterLink: (twitterLink) => null,
   setfacebookLink: (facebookLink) => null,
   setgithubLink: (githubLink) => null,
   setlinkedinLink: (linkedinLink) => null,
-  twitteLink:'',
+  twitterLink:'',
   facebookLink:'',
   githubLink:'',
   linkedinLink:'',

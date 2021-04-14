@@ -15,7 +15,7 @@ class User {
   theme?: UserTheme;
   @prop({ default: false }) themeDark?: boolean;
 
-  @prop() twitteLink?: string;
+  @prop() twitterLink?: string;
   @prop() facebookLink?: string;
   @prop() githubLink?: string;
   @prop() linkedinLink?: string;
@@ -27,7 +27,7 @@ class User {
     'theme',
     'themeDark',
     
-    'twitteLink',
+    'twitterLink',
     'facebookLink',
     'githubLink',
     'linkedinLink',
@@ -44,7 +44,7 @@ class User {
       theme: this.theme,
       themeDark: this.themeDark,
 
-      twitteLink: this.twitteLink,
+      twitterLink: this.twitterLink,
       facebookLink: this.facebookLink,
       githubLink: this.githubLink,
       linkedinLink: this.linkedinLink,
