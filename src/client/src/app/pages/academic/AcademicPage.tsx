@@ -72,7 +72,6 @@ const AcademicPage = () => {
   const editMode = useContext(EditContext);
   const { _id } = useContext(UserContext);
   const [academicData, setAcademicData] = useState<AcademicModels>();
-
   // show modal
   const [modalShow, setModalShow] = useState(false);
 
@@ -112,7 +111,6 @@ const AcademicPage = () => {
     //   );
     // }else{
     const newAcademic = cloneAcademic(values);
-    console.log('1');
     addAcademic(newAcademic);
     // }
   };
@@ -120,7 +118,6 @@ const AcademicPage = () => {
   const addAcademic = async (newAcademic: Academic) => {
     try {
       const token = await getAccessTokenSilently();
-      console.log('2');
       await axios({
         method: 'PUT',
         url: `/api/academics/add_academic`,

@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import { checkJwt } from '../middleware/authMiddleware';
-import { createAcademic } from '../controller/academicController';
+import {
+  createAcademic,
+  getAcademicByUserName,
+} from '../controller/academicController';
 
 const router = Router();
 
@@ -11,6 +14,8 @@ router.all('/*', (req, res, next) => {
     next();
   }
 });
+
+router.get('/:userid', getAcademicByUserName);
 
 router.route('/add_academic').put(createAcademic);
 
