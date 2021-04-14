@@ -104,7 +104,6 @@ const ResumePage = () => {
   const addQualification = async (newQualification: Qualification) => {
     try {
       const token = await getAccessTokenSilently();
-
       await axios({
         method: 'PUT',
         url: `/api/resume/qualifications/add`,
@@ -196,7 +195,7 @@ const ResumePage = () => {
   const addAward = async (newAward: Award) => {
     try {
       const token = await getAccessTokenSilently();
-
+      console.log('newAward', newAward);
       await axios({
         method: 'PUT',
         url: `/api/resume/awards/add`,

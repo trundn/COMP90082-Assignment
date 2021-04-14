@@ -1,6 +1,6 @@
 import { Event } from '@pure-and-lazy/api-interfaces';
 
-export const initialValues: Event = {
+export const initialEventValues: Event = {
   eventName: '',
   eventHoster: '',
   eventLocation: '',

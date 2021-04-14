@@ -36,15 +36,12 @@ const addEvent = async (req: Request, res: Response) => {
     const item = await EventModel.findOne({
       user: mongoose.Types.ObjectId(user),
     });
-    console.log('Step1');
     if (!item) {
-      console.log('Step2');
       await EventModel.create({
         user: mongoose.Types.ObjectId(user),
         events: [],
       });
     }
-    console.log('Step3');
     await EventModel.findOneAndUpdate(
       { user: mongoose.Types.ObjectId(user) },
       { $push: { events: event } }

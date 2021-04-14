@@ -10,18 +10,23 @@ import 'react-datepicker/dist/react-datepicker.css';
 // internal
 import { SetFieldValue } from '../../types/ResumeTypes';
 import { Event } from '@pure-and-lazy/api-interfaces';
-import { initialValues } from '../../constants/eventInitValues';
+import { initialEventValues } from '../../constants/eventInitValues';
 
 interface EventModalProps {
   show: boolean;
-  onSubmit: (values: Event) => void;
+  onSubmit: (values: Event, isAddMoreAction: boolean) => void;
   onClose: () => void;
 }
 
-const EventModal = ({ show, onSubmit, onClose }: EventModalProps) => {
+const EventModal = ({
+  show,
+  // selectedEvent,
+  onSubmit,
+  onClose,
+}: EventModalProps) => {
+  const isAddMoreAction = useRef(true);
   const setFieldValue = useRef<SetFieldValue>(null);
-
-  //useEffect(() => {
+  // useEffect(() => {
   //  isAddMoreAction.current = selectedEvent === initialEventValues;
   // }, [selectedEvent]);
 
@@ -77,11 +82,11 @@ const EventModal = ({ show, onSubmit, onClose }: EventModalProps) => {
         <Modal.Title>Event</Modal.Title>
       </Modal.Header>
       <Formik
-        initialValues={initialValues}
+        initialValues={initialEventValues}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          onSubmit(values);
+          onSubmit(values, isAddMoreAction.current);
           resetForm();
           setSubmitting(false);
         }}

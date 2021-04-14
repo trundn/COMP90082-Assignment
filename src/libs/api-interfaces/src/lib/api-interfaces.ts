@@ -108,6 +108,7 @@ interface Resume {
 
 // Event Model
 interface Event {
+  uuid?: string;
   eventName: string;
   eventHoster?: string;
   eventLocation?: string;

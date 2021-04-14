@@ -2,9 +2,9 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Component, useContext } from 'react';
 import { EditContext } from '../../portfolio-shared/EditContext';
+import { v4 as uuidv4 } from 'uuid';
 // Internal
 import './EventItem.css';
-const editMode = useContext(EditContext);
 
 export default class EventItem extends Component {
   handleUpdateEvent = () => {};
