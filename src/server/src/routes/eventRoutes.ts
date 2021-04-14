@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { checkJwt } from '../middleware/authMiddleware';
 import {
+  getEventByUserName,
   addEvent,
   updateEvent,
   deleteEvent,
@@ -15,6 +16,8 @@ router.all('/*', (req, res, next) => {
     next();
   }
 });
+// Get event data from database
+router.get('/:userid', getEventByUserName);
 
 router.route('/add').put(addEvent);
 router.route('/update').put(updateEvent);

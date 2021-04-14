@@ -109,4 +109,4 @@ const deleteEvent = async (req: Request, res: Response) => {
   }
 };
 
-export { addEvent, updateEvent, deleteEvent };
+export { addEvent, updateEvent, deleteEvent, getEventByUserName };
