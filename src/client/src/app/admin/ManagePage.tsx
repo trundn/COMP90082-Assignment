@@ -16,7 +16,7 @@ import {
 import { css } from 'emotion';
 import { UserContext } from '../portfolio-shared/UserContext';
 import { LinkContainer } from 'react-router-bootstrap';
-import { updateName,updateDateBirth,updateTwitter,updateFacebook, updateGithub,updateLinkedin} from './AdminUtils';
+import {updateDescription , updateName,updateDateBirth,updateTwitter,updateFacebook, updateGithub,updateLinkedin} from './AdminUtils';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
@@ -24,6 +24,8 @@ import { AuthContext } from '../auth/AuthContext';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import {AboutEditor} from '../portfolio-shared/about/AboutEditor';
+import { AboutDisplay } from '../portfolio-shared/about/AboutDisplay';
 // Manage Public Information Page
 
 const ManagePage = () => {
@@ -44,7 +46,32 @@ const ManagePage = () => {
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   
-  
+  const { description, setDescription, profilePicture } = useContext(
+    UserContext
+  );
+  //description function
+  //内容填写控制
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [editorSaveButtonDisabled, setSaveButtonDisabled] = useState(true);
+  const handleCancel = () => {
+    setEditorOpen(false);
+  };
+  const handleOpenEditor = () => {
+    setEditorOpen(true);
+  };
+
+  const handleSave = async (newDescription: string) => {
+    setSaveButtonDisabled(true);
+    try {
+      await updateDescription(newDescription, getAccessTokenSilently);
+    } catch (e) {
+      console.log(e);
+    }
+    setEditorOpen(false);
+    setSaveButtonDisabled(false);
+    setDescription(newDescription);
+  };
+
   const { registrationComplete, isLoaded } = useContext(AuthContext);
 
   const isInvalid = isInvalidName;
@@ -66,18 +93,13 @@ const ManagePage = () => {
 
   }, [name,dateBirth,facebookLink,twitterLink,githubLink,linkedinLink]);
   
-
- 
-
-  
-
   if (!isLoaded) {
     return null;
   }
 
-  // if (!registrationComplete) {
-  //   return <Redirect to="/getstarted" />;
-  // }  
+  if (!registrationComplete) {
+    return <Redirect to="/getstarted" />;
+  }  
 
   const handleNameChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormName(event.target.value);
@@ -214,7 +236,15 @@ const ManagePage = () => {
   const buttonStyle = {
     minWidth: '72px',
   };
-
+  const descriptionStyle = {
+    marginTop: '18%',
+    paddingBottom: '120px',
+  };
+  const containerStyle = {
+    backgroundColor: 'white',
+    overflow: 'auto',
+    height: '100%',
+  };
   interface SaveButton {
     isInvalid: boolean;
   }
@@ -332,6 +362,21 @@ const ManagePage = () => {
                 <SaveButton isInvalid={isInvalid} />
               </div>
             </Form>
+          </Col>
+          <Col sm={8} xs={12} className="pl-sm-5" css={descriptionStyle}>
+            <Container className="p-4 mx-auto" style={containerStyle}>
+              <AboutEditor
+                initialDescription={description}
+                editorSaveButtonDisabled={editorSaveButtonDisabled}
+                onCancel={handleCancel}
+                onSave={handleSave}
+                show={editorOpen}
+              />
+              <AboutDisplay
+                description={description}
+                onOpenEditor={handleOpenEditor}
+              />
+            </Container>
           </Col>
         </Row>
       </Container>
