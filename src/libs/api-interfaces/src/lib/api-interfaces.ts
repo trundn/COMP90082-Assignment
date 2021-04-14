@@ -105,8 +105,10 @@ interface Resume {
   skills?: Skill[];
   references?: Reference[];
 }
+
 // Event Model
 interface Event {
+  _id?: string;
   eventName?: string;
   eventHoster?: string;
   eventLocation?: string;

@@ -12,6 +12,62 @@ const getEventByUserName = async (req: Request, res: Response) => {
     if (item) {
       res.send(item);
     } else {
+      const newEvent = await EventModel.create({
+        user: mongoose.Types.ObjectId(userid),
+      });
+      if (newEvent) {
+        res.send(newEvent);
+      } else {
+        res.sendStatus(404);
+      }
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const addEvent = async (req: Request, res: Response) => {
+  const { event_id, new_event } = req.body;
+
+  try {
+    try {
+      await EventModel.findOneAndUpdate(
+        { _id: mongoose.Types.ObjectId(event_id) },
+        { $push: { eventRef: new_event } }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+      console.log('cannot find');
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+const updateEvent = async (req: Request, res: Response) => {
+  const { event_id, new_event } = req.body;
+
+  try {
+    try {
+      await EventModel.findOneAndUpdate(
+        {
+          // 可能不是event_id而是user_id
+          _id: mongoose.Types.ObjectId(event_id),
+          eventRef: { $elemMatch: { uuid: new_event.uuid } },
+        },
+        {
+          $set: {
+            'eventRef.$.eventName': new_event.eventName,
+            'eventRef.$.eventHoster': new_event.eventHoster,
+            'eventRef.$.eventLocation': new_event.eventLocation,
+            'eventRef.$.startDate': new_event.startDate,
+            'eventRef.$.endDate': new_event.endDate,
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
       res.sendStatus(404);
     }
   } catch {
@@ -19,9 +75,29 @@ const getEventByUserName = async (req: Request, res: Response) => {
   }
 };
 
-// const addEvent = async(req: Request, res: Response) =>{
-//     const {event_id, new_qualification} = req.body;
-//     try{
-//
-//     }
-// }
+const deleteEvent = async (req: Request, res: Response) => {
+  const { event_id, event_uuid } = req.body;
+
+  try {
+    try {
+      await EventModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(event_id),
+        },
+        {
+          $pull: {
+            // Should implement later
+            // eventRef: { uuid: event_uuid },
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
+
+export { addEvent, updateEvent, deleteEvent };
