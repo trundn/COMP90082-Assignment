@@ -53,6 +53,7 @@ const ManagePage = () => {
   //内容填写控制
   const [editorOpen, setEditorOpen] = useState(false);
   const [editorSaveButtonDisabled, setSaveButtonDisabled] = useState(true);
+  console.log(editorSaveButtonDisabled);
   const handleCancel = () => {
     setEditorOpen(false);
   };
