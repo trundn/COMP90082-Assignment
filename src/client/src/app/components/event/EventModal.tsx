@@ -14,21 +14,22 @@ import { initialEventValues } from '../../constants/eventInitValues';
 
 interface EventModalProps {
   show: boolean;
+  selectedEvent: Event;
   onSubmit: (values: Event, isAddMoreAction: boolean) => void;
   onClose: () => void;
 }
 
 const EventModal = ({
   show,
-  // selectedEvent,
+  selectedEvent,
   onSubmit,
   onClose,
 }: EventModalProps) => {
   const isAddMoreAction = useRef(true);
   const setFieldValue = useRef<SetFieldValue>(null);
-  // useEffect(() => {
-  //  isAddMoreAction.current = selectedEvent === initialEventValues;
-  // }, [selectedEvent]);
+  useEffect(() => {
+    isAddMoreAction.current = selectedEvent === initialEventValues;
+  }, [selectedEvent]);
 
   const validationSchema = Yup.object().shape({
     eventName: Yup.string().required('Event Name is required'),
@@ -82,7 +83,7 @@ const EventModal = ({
         <Modal.Title>Event</Modal.Title>
       </Modal.Header>
       <Formik
-        initialValues={initialEventValues}
+        initialValues={selectedEvent}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setSubmitting(true);

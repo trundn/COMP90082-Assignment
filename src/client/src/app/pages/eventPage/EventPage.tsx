@@ -16,7 +16,10 @@ import EventModal from '../../components/event/EventModal';
 import Confirmation from '../../components/ui/modals/Confirmation';
 import './eventPage.css';
 
-import { initialEventValues } from '../../constants/eventInitValues';
+import {
+  initialEventValues,
+  defaultTypesValues,
+} from '../../constants/eventInitValues';
 import { DB_DATE_FORMAT } from '../../constants/dateConstant';
 import { EventSectionTypes } from '../../constants/eventConstant';
 
@@ -30,6 +33,10 @@ const EventPage = () => {
   // Control Modal
   const [modalShow, setModalShow] = useState(false);
   const [show, setShow] = useState(false);
+
+  const [modalShows, setModalShows] = useState<{
+    [resumeType: string]: boolean;
+  }>(defaultTypesValues);
 
   // login way
   const editMode = useContext(EditContext);
@@ -48,10 +55,19 @@ const EventPage = () => {
       });
 
       setEventData(result.data as Events);
-      // console.log('result.data.events',result.data.events)
+      // console.log('result.data.events',result.data)
     } catch (error) {
       console.log('Failed to fetch event data', error);
     }
+  };
+
+  // Change modal statue
+  const updateModalShowStatus = (eventType: string, status: boolean): void => {
+    // console.log("updateModalShowStatus");
+    setModalShows((prevState) => {
+      console.log('prevState', prevState);
+      return { ...prevState, [eventType]: status };
+    });
   };
 
   // Display event items to webpage
@@ -69,7 +85,9 @@ const EventPage = () => {
             <Col md="auto">
               <Button
                 onClick={() => {
-                  setShow(true);
+                  // Change here
+                  setSelectedEvent(initialEventValues);
+                  updateModalShowStatus(sectionType, true);
                 }}
               >
                 <FontAwesomeIcon icon={faPlus} /> Add Event
@@ -103,6 +121,7 @@ const EventPage = () => {
                   <p>End Date: {event.endDate}</p>
                 </div>
               </Col>
+              {bindEditaAndDeletebleButton(event, EventSectionTypes.Event)}
             </Row>
           );
         });
@@ -113,7 +132,7 @@ const EventPage = () => {
   // handle 'add more' button and 'edit' icon
   const handleEventSubmit = (values: Event, isAddMoreAction: boolean) => {
     const newEvent = cloneEvent(values);
-    setShow(false);
+    updateModalShowStatus(EventSectionTypes.Event, false);
     if (isAddMoreAction) {
       console.log('isAddMoreAction is true');
       const foundEvent = eventData.events.find(
@@ -133,6 +152,7 @@ const EventPage = () => {
       updateEvent(newEvent);
     }
   };
+
   // Display "edit" and "delete" button
   const buildEditaAndDeletebleButton = (
     onEditClick,
@@ -162,25 +182,46 @@ const EventPage = () => {
       return null;
     }
   };
-  // bind actions to "edit" and "delete" button
-  // const bindEditaAndDeletebleButton = (
-  //   targetVal: any,
-  //   targetKind: EventSectionTypes
-  // ): JSX.Element => {
-  //   return buildEditaAndDeletebleButton(
-  //     () => handleEditAction(targetVal, targetKind, true),
-  //     () => handleDeleteAction(targetVal, targetKind, true)
-  //   )
-  // }
 
-  // const handleEditAction = (
-  //   targetVal: any,
-  //   targetKind: string,
-  //   status: boolean
-  // ): void => {
-  //   updateSelectedEventPart(targetKind, targetVal);
-  //   setShow(false);
-  // }
+  // bind actions to "edit" and "delete" button
+  const bindEditaAndDeletebleButton = (
+    targetVal: any,
+    targetKind: EventSectionTypes
+  ): JSX.Element => {
+    return buildEditaAndDeletebleButton(
+      () => handleUpdateAction(targetVal, targetKind, true),
+      () => handleDeleteAction(targetVal, targetKind, true)
+    );
+  };
+
+  // handle Update button
+  const handleUpdateAction = (
+    targetVal: any,
+    targetKind: string,
+    status: boolean
+  ): void => {
+    // console.log('handleEditAction');
+    updateSelectedEventPart(targetKind, targetVal);
+    updateModalShowStatus(targetKind, status);
+  };
+
+  const updateSelectedEventPart = (targetKind: string, targetVal: any) => {
+    if (targetKind === EventSectionTypes.Event) {
+      console.log('selectedEvent', targetVal);
+      setSelectedEvent(targetVal);
+    }
+  };
+
+  const handleEventModalCloseClick = () => {
+    updateModalShowStatus(EventSectionTypes.Event, false);
+  };
+
+  // handle Delete button
+  const handleDeleteAction = (
+    targetVal: any,
+    targetKind: string,
+    status: boolean
+  ): void => {};
 
   // Clone event data
   const cloneEvent = (event: Event): Event => {
@@ -233,7 +274,7 @@ const EventPage = () => {
       setEventData((prevState) => {
         return {
           ...prevState,
-          qualifications: prevState.events.map<Event>((event) => {
+          events: prevState.events.map<Event>((event) => {
             return event.uuid === updateEvent.uuid ? updateEvent : event;
           }),
         };
@@ -251,9 +292,10 @@ const EventPage = () => {
       <hr />
       <div>
         <EventModal
-          show={show}
+          selectedEvent={selectedEvent}
+          show={modalShows[EventSectionTypes.Event]}
           onSubmit={handleEventSubmit}
-          onClose={() => setShow(false)}
+          onClose={handleEventModalCloseClick}
         />
         {/* All the events are in here */}
         <Container>
@@ -261,16 +303,6 @@ const EventPage = () => {
         </Container>
       </div>
       <hr />
-      <div className={'Button'}>
-        <Button
-          onClick={() => {
-            // Use EventModal
-            setShow(true);
-          }}
-        >
-          <FontAwesomeIcon icon={faPlus} /> Add More
-        </Button>
-      </div>
     </div>
   );
 };
