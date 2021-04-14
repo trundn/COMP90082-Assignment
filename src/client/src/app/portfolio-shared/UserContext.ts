@@ -8,10 +8,21 @@ const UserContext = React.createContext({
   profilePicture: '',
   description: '',
   dateBirth:'',
+  twitterLink:'',
+  facebookLink:'',
+  githubLink:'',
+  linkedinLink:'',
   setProfilePicture: (profilePicture) => null,
   setDescription: (description) => null,
   setName: (name) => null,
   setDate:(dateBirth)=>null,
+  setTwitterLink: (twitterLink) => null,
+  setFacebookLink: (facebookLink) => null,
+  setGithubLink: (githubLink) => null,
+  setLinkedinLink: (linkedinLink) => null,
   theme: UserTheme.DEFAULT,
+
+  
+  
 });
 export { UserContext };

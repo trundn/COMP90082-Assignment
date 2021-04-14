@@ -39,6 +39,44 @@ const updateDescription = async (
   });
 };
 
+const updateTwitter = async (
+  twitterLink: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getAccessTokenSilently: (options?: any) => Promise<string>
+) => {
+  return updateProfile(getAccessTokenSilently, {
+    twitterLink:twitterLink,
+  });
+};
+const updateFacebook = async (
+  facebookLink: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getAccessTokenSilently: (options?: any) => Promise<string>
+) => {
+  return updateProfile(getAccessTokenSilently, {
+    facebookLink:facebookLink,
+  });
+};
+
+const updateGithub = async (
+  githubLink: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getAccessTokenSilently: (options?: any) => Promise<string>
+) => {
+  return updateProfile(getAccessTokenSilently, {
+    githubLink:githubLink,
+  });
+};
+
+const updateLinkedin = async (
+  linkedinLink: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getAccessTokenSilently: (options?: any) => Promise<string>
+) => {
+  return updateProfile(getAccessTokenSilently, {
+    linkedinLink:linkedinLink,
+  });
+};
 const updateTheme = async (
   theme: UserTheme,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -76,4 +114,4 @@ const updateProfile = async (
   });
 };
 
-export { updateProfilePicture, updateName, updateDescription, updateTheme,updateDateBirth};
+export { updateProfilePicture, updateName, updateDescription, updateTheme,updateDateBirth,updateTwitter,updateFacebook, updateGithub,updateLinkedin};

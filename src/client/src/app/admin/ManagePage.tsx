@@ -16,7 +16,7 @@ import {
 import { css } from 'emotion';
 import { UserContext } from '../portfolio-shared/UserContext';
 import { LinkContainer } from 'react-router-bootstrap';
-import { updateName,updateDateBirth } from './AdminUtils';
+import { updateName,updateDateBirth,updateTwitter,updateFacebook, updateGithub,updateLinkedin} from './AdminUtils';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
@@ -29,12 +29,22 @@ import 'react-datepicker/dist/react-datepicker.css';
 const ManagePage = () => {
   const { name, setName } = useContext(UserContext);
   const { dateBirth, setDate } = useContext(UserContext);
+  const { twitterLink,setTwitterLink}=useContext(UserContext);
+  const { facebookLink,setFacebookLink}=useContext(UserContext);
+  const { githubLink,setGithubLink}=useContext(UserContext);
+  const { linkedinLink,setLinkedinLink}=useContext(UserContext);
   const [formName, setFormName] = useState('');
+  const [startDate, setStartDate] = useState(new Date());
+  const [twitter,setTwitter]=useState('');
+  const [facebook,setFacebook]=useState('');
+  const [github,setGithub]=useState('');
+  const [linkedin,setLinkedin]=useState('');
   const [isInvalidName, setIsInvalidName] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+  
+  
   const { registrationComplete, isLoaded } = useContext(AuthContext);
 
   const isInvalid = isInvalidName;
@@ -43,16 +53,29 @@ const ManagePage = () => {
     setFormName(name);
   }, [name]);
   useEffect(() => {
-
     if(dateBirth==''){
       setStartDate(new Date());
-   
     }
     else{
       setStartDate(new Date(dateBirth));
     }
   }, [dateBirth]);
-    
+
+  useEffect(() => {
+    setFacebook(facebookLink);
+  }, [facebookLink]);
+
+  useEffect(() => {
+    setTwitter(twitterLink);
+  }, [twitterLink]);
+
+  useEffect(() => {
+    setGithub(githubLink);
+  }, [githubLink]);
+
+  useEffect(() => {
+    setLinkedin(linkedinLink);
+  }, [linkedinLink]);
 
   if (!isLoaded) {
     return null;
@@ -68,6 +91,20 @@ const ManagePage = () => {
     setIsInvalidName(!regEx.test(event.target.value));
   };
   
+  const handleTwitterChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTwitter(event.target.value);
+  };
+  const handleFacebookChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setFacebook(event.target.value);
+  };
+
+  const handleGithubChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setGithub(event.target.value);
+  };
+  const handleLinkedinChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLinkedin(event.target.value);
+  };
+
   
   
   
@@ -113,7 +150,72 @@ const ManagePage = () => {
         }, 3000);
       }
     });
+    updateTwitter(twitter, getAccessTokenSilently).then((response) => {
+      
+      if (response.ok) {
+        setTwitterLink(twitter);
+
+        // Setting a minimum time at least it was too fast on local
+        setTimeout(() => {
+          setSaving(false);
+          setSuccess(true);
+        }, 500);
+
+        setTimeout(() => {
+          setSuccess(false);
+        }, 3000);
+      }
+    });
+    updateFacebook(facebook, getAccessTokenSilently).then((response) => {
+      
+      if (response.ok) {
+        setFacebookLink(facebook);
+
+        // Setting a minimum time at least it was too fast on local
+        setTimeout(() => {
+          setSaving(false);
+          setSuccess(true);
+        }, 500);
+
+        setTimeout(() => {
+          setSuccess(false);
+        }, 3000);
+      }
+    });
+    updateGithub(github, getAccessTokenSilently).then((response) => {
+      
+      if (response.ok) {
+        setGithubLink(github);
+
+        // Setting a minimum time at least it was too fast on local
+        setTimeout(() => {
+          setSaving(false);
+          setSuccess(true);
+        }, 500);
+
+        setTimeout(() => {
+          setSuccess(false);
+        }, 3000);
+      }
+    });
+    updateLinkedin(linkedin, getAccessTokenSilently).then((response) => {
+      
+      if (response.ok) {
+        setLinkedinLink(linkedin);
+
+        // Setting a minimum time at least it was too fast on local
+        setTimeout(() => {
+          setSaving(false);
+          setSuccess(true);
+        }, 500);
+
+        setTimeout(() => {
+          setSuccess(false);
+        }, 3000);
+      }
+    });
   };
+
 
   const buttonStyle = {
     minWidth: '72px',
@@ -187,6 +289,35 @@ const ManagePage = () => {
                 /></div>
                 <div><Form.Label>Date of birth</Form.Label>
                 <div><DatePicker selected={startDate}   onChange={startDate=>setStartDate(startDate)} /></div></div>
+
+                <div><Form.Label>Twitter</Form.Label>
+                <Form.Control
+                  value={twitter}
+                  onChange={handleTwitterChange}
+                  type="text"
+                  placeholder="Enter Twitter link"
+                /></div>
+                <div><Form.Label>Facebook</Form.Label>
+                <Form.Control
+                  value={facebook}
+                  onChange={handleFacebookChange}
+                  type="text"
+                  placeholder="Enter Facebook link"
+                /></div>
+                <div><Form.Label>Github</Form.Label>
+                <Form.Control
+                  value={github}
+                  onChange={handleGithubChange}
+                  type="text"
+                  placeholder="Enter Github link"
+                /></div>
+                <div><Form.Label>Linkedin</Form.Label>
+                <Form.Control
+                  value={linkedin}
+                  onChange={handleLinkedinChange}
+                  type="text"
+                  placeholder="Enter Linkedin link"
+                /></div>
                 
                 
                 <Form.Text className="text-muted">
