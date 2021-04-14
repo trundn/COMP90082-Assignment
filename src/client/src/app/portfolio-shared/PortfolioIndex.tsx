@@ -13,6 +13,8 @@ import { UserContext } from './UserContext';
 import { Container } from 'react-bootstrap';
 import { ContentPage } from '../content/ContentPage';
 
+import{FunfactPage} from './FunfactPage';
+
 const PortfolioIndex = () => {
   const [redirect, setRedirect] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -71,6 +73,9 @@ const PortfolioIndex = () => {
           </Route>
           <Route exact path={`${path}/about`}>
             <About />
+          </Route>
+          <Route exact path={`${path}/funfact`}>
+            <FunfactPage />
           </Route>
         </Switch>
         <FooterWrapper

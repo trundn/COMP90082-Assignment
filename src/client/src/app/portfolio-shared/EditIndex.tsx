@@ -12,6 +12,8 @@ import { ProjectPage } from './ProjectPage';
 import { AuthContext } from '../auth/AuthContext';
 import { Container } from 'react-bootstrap';
 
+import{FunfactPage} from './FunfactPage';
+
 const EditIndex = () => {
   const { registrationComplete, isLoaded } = useContext(AuthContext);
   const isEditMode = true;
@@ -49,6 +51,9 @@ const EditIndex = () => {
           </Route>
           <Route exact path={`${path}/about`}>
             <About />
+          </Route>
+          <Route exact path={`${path}/funfact`}>
+            <FunfactPage />
           </Route>
         </Switch>
         <FooterWrapper footer={footer} hidden={!isEditMode} />
