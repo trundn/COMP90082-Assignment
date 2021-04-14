@@ -47,12 +47,12 @@ const LoggedInUserContextProvider = (props: LoggedInUserContextProvider) => {
       return { ...prevState, githubLink: githubLink };
     });
   };
-  const setLinkedinLink= (LinkedinLink: string) => {
+  const setLinkedinLink= (linkedinLink: string) => {
     setUser((prevState) => {
-      return { ...prevState, LinkedinLink: LinkedinLink };
+      return { ...prevState, linkedinLink: linkedinLink };
     });
   };
-  const contextState = { ...user, setProfilePicture, setDescription, setName,setDate,setTwitterLink,setGithubLink,setLinkedinLink,setFacebookLink};
+  const contextState = { ...user, setProfilePicture, setDescription, setName,setDate,setTwitterLink,setGithubLink,setFacebookLink,setLinkedinLink};
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 

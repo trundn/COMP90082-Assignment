@@ -50,23 +50,20 @@ const ManagePage = () => {
   const isInvalid = isInvalidName;
 
   useEffect(() => {
-    const creatInt = setInterval(() => {    //假设这里写了定时器来更新update
-      setFormName(name);
-      if(dateBirth==''){
-        setStartDate(new Date());
-      }
-      else{
-        setStartDate(new Date(dateBirth));
-      }
-      setFacebook(facebookLink);
-      setTwitter(twitterLink);
-      setGithub(githubLink);
-      setLinkedin(linkedinLink);
-    }, 2000);
-return () => {
-      clearInterval(creatInt);   //（重点）这里清除掉定时器  
-    };
-  
+    setFormName(name);
+    if(dateBirth==''){
+      setStartDate(new Date());
+    }
+    else{
+      setStartDate(new Date(dateBirth));
+    }
+    setFacebook(facebookLink);
+    setTwitter(twitterLink);
+    setGithub(githubLink);
+    setLinkedin(linkedinLink);
+    
+
+
   }, [name,dateBirth,facebookLink,twitterLink,githubLink,linkedinLink]);
   
 
