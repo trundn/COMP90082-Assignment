@@ -50,32 +50,29 @@ const ManagePage = () => {
   const isInvalid = isInvalidName;
 
   useEffect(() => {
-    setFormName(name);
-  }, [name]);
-  useEffect(() => {
-    if(dateBirth==''){
-      setStartDate(new Date());
-    }
-    else{
-      setStartDate(new Date(dateBirth));
-    }
-  }, [dateBirth]);
+    const creatInt = setInterval(() => {    //假设这里写了定时器来更新update
+      setFormName(name);
+      if(dateBirth==''){
+        setStartDate(new Date());
+      }
+      else{
+        setStartDate(new Date(dateBirth));
+      }
+      setFacebook(facebookLink);
+      setTwitter(twitterLink);
+      setGithub(githubLink);
+      setLinkedin(linkedinLink);
+    }, 2000);
+return () => {
+      clearInterval(creatInt);   //（重点）这里清除掉定时器  
+    };
+  
+  }, [name,dateBirth,facebookLink,twitterLink,githubLink,linkedinLink]);
+  
 
-  useEffect(() => {
-    setFacebook(facebookLink);
-  }, [facebookLink]);
+ 
 
-  useEffect(() => {
-    setTwitter(twitterLink);
-  }, [twitterLink]);
-
-  useEffect(() => {
-    setGithub(githubLink);
-  }, [githubLink]);
-
-  useEffect(() => {
-    setLinkedin(linkedinLink);
-  }, [linkedinLink]);
+  
 
   if (!isLoaded) {
     return null;
