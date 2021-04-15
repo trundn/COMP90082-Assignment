@@ -44,11 +44,12 @@ interface Namable {
 }
 
 interface SingalImage {
-  imageID: number;
+  uuid?: string;
   imageUrl: string;
 }
 
 interface Academic {
+  uuid?: string;
   title: string;
   author: string;
   organization: string;
