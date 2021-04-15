@@ -30,8 +30,8 @@ const getEventByUserName = async (req: Request, res: Response) => {
 const addEvent = async (req: Request, res: Response) => {
   const { user, event } = req.body;
 
-  console.log('event', event);
-  console.log('user', user);
+  // console.log('event', event);
+  // console.log('user', user);
   try {
     const item = await EventModel.findOne({
       user: mongoose.Types.ObjectId(user),
@@ -54,23 +54,24 @@ const addEvent = async (req: Request, res: Response) => {
 
 // update event
 const updateEvent = async (req: Request, res: Response) => {
-  const { event_id, new_event } = req.body;
-
+  const { user, event } = req.body;
+  console.log('event', event);
+  // console.log("user", user);
   try {
     try {
       await EventModel.findOneAndUpdate(
         {
           // 可能不是event_id而是user_id
-          _id: mongoose.Types.ObjectId(event_id),
-          eventRef: { $elemMatch: { uuid: new_event.uuid } },
+          user: mongoose.Types.ObjectId(user),
+          events: { $elemMatch: { uuid: event.uuid } },
         },
         {
           $set: {
-            'eventRef.$.eventName': new_event.eventName,
-            'eventRef.$.eventHoster': new_event.eventHoster,
-            'eventRef.$.eventLocation': new_event.eventLocation,
-            'eventRef.$.startDate': new_event.startDate,
-            'eventRef.$.endDate': new_event.endDate,
+            'events.$.eventName': event.eventName,
+            'events.$.eventHoster': event.eventHoster,
+            'events.$.eventLocation': event.eventLocation,
+            'events.$.startDate': event.startDate,
+            'events.$.endDate': event.endDate,
           },
         }
       );

@@ -65,7 +65,7 @@ const EventPage = () => {
   const updateModalShowStatus = (eventType: string, status: boolean): void => {
     // console.log("updateModalShowStatus");
     setModalShows((prevState) => {
-      console.log('prevState', prevState);
+      // console.log('prevState', prevState);
       return { ...prevState, [eventType]: status };
     });
   };
@@ -109,9 +109,9 @@ const EventPage = () => {
           let dateB = moment(b.startDate, DB_DATE_FORMAT);
           return dateB.diff(dateA);
         })
-        .map((event, index) => {
+        .map((event) => {
           return (
-            <Row>
+            <Row key={event.uuid}>
               <Col xs={editMode ? 10 : 12}>
                 <div>
                   <h5>{event.eventName}</h5>
@@ -207,7 +207,7 @@ const EventPage = () => {
 
   const updateSelectedEventPart = (targetKind: string, targetVal: any) => {
     if (targetKind === EventSectionTypes.Event) {
-      console.log('selectedEvent', targetVal);
+      // console.log('selectedEvent', targetVal);
       setSelectedEvent(targetVal);
     }
   };
@@ -257,7 +257,8 @@ const EventPage = () => {
   const updateEvent = async (updateEvent: Event) => {
     try {
       const token = await getAccessTokenSilently();
-
+      // console.log("update", updateEvent);
+      // console.log("update", _id);
       await axios({
         method: 'PUT',
         url: `/api/event/update`,
@@ -280,7 +281,7 @@ const EventPage = () => {
         };
       });
     } catch (error) {
-      console.log('Failed to update qualification', error);
+      console.log('Failed to update event', error);
     }
   };
 
