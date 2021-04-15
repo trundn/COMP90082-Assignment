@@ -85,8 +85,10 @@ const ResumePage = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    fetchResumeData();
-  }, []);
+    if (_id) {
+      fetchResumeData();
+    }
+  }, [_id]);
 
   const fetchResumeData = async () => {
     try {
