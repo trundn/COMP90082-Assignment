@@ -1,19 +1,18 @@
 // External
-import React, { useState, useEffect, useContext, Fragment } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { faEdit, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
+import Confirmation from '../../components/ui/modals/Confirmation';
 // Internal
 import { UserContext } from '../../portfolio-shared/UserContext';
 import { EditContext } from '../../portfolio-shared/EditContext';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Event, Events } from '@pure-and-lazy/api-interfaces';
-import EventItem from '../../components/event/EventItem';
 import EventModal from '../../components/event/EventModal';
-import Confirmation from '../../components/ui/modals/Confirmation';
 import './eventPage.css';
 
 import {
@@ -31,11 +30,16 @@ const EventPage = () => {
 
   const [selectedEvent, setSelectedEvent] = useState<Event>(initialEventValues);
   // Control Modal
+  const [modalShows, setModalShows] = useState<{
+    [eventType: string]: boolean;
+  }>(defaultTypesValues);
   const [modalShow, setModalShow] = useState(false);
   const [show, setShow] = useState(false);
 
-  const [modalShows, setModalShows] = useState<{
-    [resumeType: string]: boolean;
+  // Control Confirmation
+  const [deleteConfirmationShow, setDeleteConfirmationShow] = useState(false);
+  const [deleteTargetKind, setDeleteTargetKinds] = useState<{
+    [eventsType: string]: boolean;
   }>(defaultTypesValues);
 
   // login way
@@ -53,7 +57,7 @@ const EventPage = () => {
         method: 'GET',
         url: `/api/event/${_id}`,
       });
-
+      console.log('success get method');
       setEventData(result.data as Events);
       // console.log('result.data.events',result.data)
     } catch (error) {
@@ -76,24 +80,21 @@ const EventPage = () => {
     sectionType: EventSectionTypes
   ): JSX.Element => {
     return (
-      <Container className="row-separator">
-        <Row>
-          <Col md={8}>{contentBuilder()}</Col>
-        </Row>
+      <Container>
+        <div className={'events'}>
+          <div>{contentBuilder()}</div>
+        </div>
         {editMode && (
-          <Row>
-            <Col md="auto">
-              <Button
-                onClick={() => {
-                  // Change here
-                  setSelectedEvent(initialEventValues);
-                  updateModalShowStatus(sectionType, true);
-                }}
-              >
-                <FontAwesomeIcon icon={faPlus} /> Add Event
-              </Button>
-            </Col>
-          </Row>
+          <div className={'Button'}>
+            <Button
+              onClick={() => {
+                setSelectedEvent(initialEventValues);
+                updateModalShowStatus(sectionType, true);
+              }}
+            >
+              <FontAwesomeIcon icon={faPlus} /> Add Event
+            </Button>
+          </div>
         )}
       </Container>
     );
@@ -113,12 +114,20 @@ const EventPage = () => {
           return (
             <Row key={event.uuid}>
               <Col xs={editMode ? 10 : 12}>
-                <div>
-                  <h5>{event.eventName}</h5>
-                  <h5>Event Hoster: {event.eventHoster}</h5>
-                  <h5>Event Location: {event.eventLocation}</h5>
-                  <p>Start Date: {event.startDate}</p>
-                  <p>End Date: {event.endDate}</p>
+                <div className={'item'}>
+                  <div className={'date'}>
+                    <p>Start: {event.startDate.toString().slice(0, 10)}</p>
+                    <p>End: {event.endDate.toString().slice(0, 10)}</p>
+                  </div>
+                  <div className={'event-details'}>
+                    <h3>{event.eventName}</h3>
+                    <span className={'hoster'}>
+                      Hoster: {event.eventHoster}
+                    </span>
+                    <span className={'location'}>
+                      Location: {event.eventLocation}
+                    </span>
+                  </div>
                 </div>
               </Col>
               {bindEditaAndDeletebleButton(event, EventSectionTypes.Event)}
@@ -221,7 +230,15 @@ const EventPage = () => {
     targetVal: any,
     targetKind: string,
     status: boolean
-  ): void => {};
+  ): void => {
+    updateSelectedEventPart(targetKind, targetVal);
+    setDeleteConfirmationShow(true);
+    setDeleteTargetKinds((prevState) => {
+      return { ...prevState, [targetKind]: status };
+    });
+  };
+
+  const handleConfirmDelete = () => {};
 
   // Clone event data
   const cloneEvent = (event: Event): Event => {
@@ -247,6 +264,13 @@ const EventPage = () => {
           user: _id,
           event: newEvent,
         },
+      });
+
+      setEventData((prevState) => {
+        return {
+          ...prevState,
+          events: [newEvent, ...prevState.events],
+        };
       });
     } catch (error) {
       console.log('Failed to add Event', error);
@@ -298,12 +322,21 @@ const EventPage = () => {
           onSubmit={handleEventSubmit}
           onClose={handleEventModalCloseClick}
         />
+        <Confirmation
+          show={deleteConfirmationShow}
+          onConfirm={handleConfirmDelete}
+          title="Delete Event"
+          confirmation="Are you sure you want to delete this event?"
+          okText="Yes"
+          cancelText="Cancel"
+          okButtonStyle="danger"
+          cancelButtonStyle="secondary"
+        />
         {/* All the events are in here */}
-        <Container>
+        <div>
           {buildEventsSection(buildEventSection, EventSectionTypes.Event)}
-        </Container>
+        </div>
       </div>
-      <hr />
     </div>
   );
 };
