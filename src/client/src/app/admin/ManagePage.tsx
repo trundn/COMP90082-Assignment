@@ -25,7 +25,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import {AboutEditor} from '../portfolio-shared/about/AboutEditor';
-import { AboutDisplay } from '../portfolio-shared/about/AboutDisplay';
+import { AboutDisplayManagaePage } from 'src/client/src/app/admin/ManagePage_AboutMe';
 // Manage Public Information Page
 
 const ManagePage = () => {
@@ -52,7 +52,7 @@ const ManagePage = () => {
   //description function
   //内容填写控制
   const [editorOpen, setEditorOpen] = useState(false);
-  const [editorSaveButtonDisabled, setSaveButtonDisabled] = useState(true);
+  const [editorSaveButtonDisabled, setSaveButtonDisabled] = useState(false);
   console.log(editorSaveButtonDisabled);
   const handleCancel = () => {
     setEditorOpen(false);
@@ -237,14 +237,11 @@ const ManagePage = () => {
   const buttonStyle = {
     minWidth: '72px',
   };
-  const descriptionStyle = {
-    marginTop: '18%',
-    paddingBottom: '120px',
-  };
+  
   const containerStyle = {
     backgroundColor: 'white',
     overflow: 'auto',
-    height: '100%',
+    height: '30%',
   };
   interface SaveButton {
     isInvalid: boolean;
@@ -343,7 +340,22 @@ const ManagePage = () => {
                   type="text"
                   placeholder="Enter Linkedin link"
                 /></div>
-                
+                <div>
+                  <Form.Label>About Me</Form.Label>
+                  <Container className="p-4 mx-auto" style={containerStyle}>
+                  <AboutEditor
+                    initialDescription={description}
+                    editorSaveButtonDisabled={editorSaveButtonDisabled}
+                    onCancel={handleCancel}
+                    onSave={handleSave}
+                    show={editorOpen}
+                  />
+                  <AboutDisplayManagaePage
+                    description={description}
+                    onOpenEditor={handleOpenEditor}
+                  />
+                </Container>
+              </div>
                 
                 <Form.Text className="text-muted">
                   This will be shown on your profile
@@ -362,23 +374,10 @@ const ManagePage = () => {
                 </LinkContainer>
                 <SaveButton isInvalid={isInvalid} />
               </div>
+              
             </Form>
           </Col>
-          <Col sm={8} xs={12} className="pl-sm-5" css={descriptionStyle}>
-            <Container className="p-4 mx-auto" style={containerStyle}>
-              <AboutEditor
-                initialDescription={description}
-                editorSaveButtonDisabled={editorSaveButtonDisabled}
-                onCancel={handleCancel}
-                onSave={handleSave}
-                show={editorOpen}
-              />
-              <AboutDisplay
-                description={description}
-                onOpenEditor={handleOpenEditor}
-              />
-            </Container>
-          </Col>
+          
         </Row>
       </Container>
     </BackgroundContainer>
