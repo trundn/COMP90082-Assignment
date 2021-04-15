@@ -29,8 +29,8 @@ const getFunfactByUserName = async (req: Request, res: Response) => {
     const addFunfact = async (req: Request, res: Response) => {
       const { user, funfact } = req.body;
 
-      console.log('funfact', funfact);
-      console.log('user', user);
+      //console.log('funfact', funfact);
+      //console.log('user', user);
     
       try {
         const item = await FunfactModel.findOne({
@@ -53,19 +53,18 @@ const getFunfactByUserName = async (req: Request, res: Response) => {
     };
     
     const updateFunfact = async (req: Request, res: Response) => {
-      const { funfact_id, new_funfact} = req.body;
+      const { user, funfact} = req.body;
       try {
         try {
           await FunfactModel.findOneAndUpdate(
             {
-              // 可能不是event_id而是user_id
-              _id: mongoose.Types.ObjectId(funfact_id),
-              funfactRef: { $elemMatch: { uuid: new_funfact.uuid } },
+              user: mongoose.Types.ObjectId(user),
+              funfacts: { $elemMatch: { uuid: funfact.uuid } },
             },
             {
               $set: {
-                'eventRef.$.factName': new_funfact.factName,
-                'eventRef.$.factDelete': new_funfact.factDelete,
+                'funfactRef.$.factName': funfact.factName,
+                'funfactRef.$.factDelete': funfact.factDelete,
               },
             }
           );

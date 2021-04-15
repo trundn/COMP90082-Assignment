@@ -57,7 +57,7 @@ const FunfactPage = () => {
   const updateModalShowStatus = (funfactType: string, status: boolean): void => {
     // console.log("updateModalShowStatus");
     setModalShows((prevState) => {
-      console.log('prevState', prevState);
+      //console.log('prevState', prevState);
       return { ...prevState, [funfactType]: status };
     });
   };
@@ -94,9 +94,9 @@ const FunfactPage = () => {
     let funfactEls: JSX.Element[] = null;
     if (FunfactData) {
       funfactEls = FunfactData.funfacts
-        .map((funfact, index) => {
+        .map((funfact) => {
           return (
-            <Row>
+            <Row key={funfact.uuid}>
               <Col xs={editMode ? 10 : 12}>
                 <div>
                   <h5>{funfact.factName}</h5>
@@ -184,7 +184,7 @@ const FunfactPage = () => {
   };
   const updateSelectedEventPart = (targetKind: string, targetVal: any) => {
     if (targetKind === FunfactSectionTypes.Funfact) {
-      console.log('selectedFunfact', targetVal);
+      //console.log('selectedFunfact', targetVal);
       setSelectedFunfact(targetVal);
     }
   };
