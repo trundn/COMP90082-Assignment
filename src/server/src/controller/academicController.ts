@@ -4,7 +4,6 @@ import { AcademicModel } from '../models/academicModels';
 
 const getAcademicByUserName = async (req: Request, res: Response) => {
   const { userid } = req.params;
-  console.log(userid);
   try {
     const item = await AcademicModel.findOne({
       user: mongoose.Types.ObjectId(userid),
@@ -48,9 +47,6 @@ const createAcademic = async (req: Request, res: Response) => {
 const updateAcademic = async (req: Request, res: Response) => {
   const aca_id = req.body._id;
   const update_academic = req.body.academic;
-
-  console.log(aca_id);
-  console.log(update_academic);
   try {
     try {
       await AcademicModel.findOneAndUpdate(
@@ -81,13 +77,37 @@ const updateAcademic = async (req: Request, res: Response) => {
   }
 };
 
-const viewAcademic = async (req, res) => {};
+const deleteAcademic = async (req: Request, res: Response) => {
+  console.log(req.body);
+  const aca_id = req.body._id;
+  const academic_uuid = req.body.academic_uuid;
 
-const deleteAcademic = async (req, res) => {};
+  console.log('11', aca_id);
+  console.log(academic_uuid);
+
+  try {
+    try {
+      await AcademicModel.findOneAndUpdate(
+        {
+          _id: mongoose.Types.ObjectId(aca_id),
+        },
+        {
+          $pull: {
+            academics: { uuid: academic_uuid },
+          },
+        }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(400);
+  }
+};
 
 export {
   createAcademic,
-  viewAcademic,
   deleteAcademic,
   getAcademicByUserName,
   updateAcademic,

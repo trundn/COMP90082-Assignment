@@ -45,6 +45,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { initialValues } from '../academic/initialAcademicValues';
+import Confirmation from '../../components/ui/modals/Confirmation';
 
 // install Swiper modules
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, EffectFade, Virtual]);
@@ -92,9 +93,12 @@ const AcademicPage = () => {
 
   const [saveData, setSaveDate] = useState<AcademicModels>();
   const [selectAcademic, setSelectAcademic] = useState<Academic>(initialValues);
+  const [deleteConfirmationShow, setDeleteConfirmationShow] = useState(false);
 
   useEffect(() => {
-    fetchAcademicData();
+    if (_id) {
+      fetchAcademicData();
+    }
   }, []);
 
   const fetchAcademicData = async () => {
@@ -171,7 +175,6 @@ const AcademicPage = () => {
   const updateAcademic = async (updateAcademic: Academic) => {
     try {
       const token = await getAccessTokenSilently();
-      console.log(1);
       await axios({
         method: 'put',
         url: `/api/academics/update_academic`,
@@ -195,7 +198,7 @@ const AcademicPage = () => {
         };
       });
     } catch (error) {
-      console.log('Failed to add Academic', error);
+      console.log('Failed to update Academic', error);
     }
   };
 
@@ -208,7 +211,7 @@ const AcademicPage = () => {
   const bootstrap = require('../academic/bootstrap.css');
   const boxStyle = require('../academic/cardBoxes.css');
 
-  const editAndDeletdButton = (onEditClick): JSX.Element => {
+  const editAndDeletdButton = (onEditClick, onDeleteClick): JSX.Element => {
     if (editMode) {
       return (
         <Col xs={2} className="align-self-center">
@@ -220,12 +223,12 @@ const AcademicPage = () => {
               color="#28a745"
               className="mr-2"
             />
-            {/* <FontAwesomeIcon
+            <FontAwesomeIcon
               onClick={onDeleteClick}
               icon={faTrashAlt}
               size="lg"
               color="#dc3545"
-            /> */}
+            />
           </span>
         </Col>
       );
@@ -236,8 +239,8 @@ const AcademicPage = () => {
 
   const bindEditableButtons = (academic: Academic): JSX.Element => {
     return editAndDeletdButton(
-      () => handleAcademicEdit(academic, true)
-      // () => handleAcademicDelete(academic,true)
+      () => handleAcademicEdit(academic, true),
+      () => handleAcademicDelete(academic, true)
     );
   };
 
@@ -249,9 +252,39 @@ const AcademicPage = () => {
     // });
   };
 
-  // const handleAcademicDelete = ( academic : Academic , status : boolean){
+  const handleAcademicDelete = (academic: Academic, status: boolean) => {
+    setSelectAcademic(academic);
+    setDeleteConfirmationShow(status);
+  };
 
-  // }
+  const handleAcademicDeleteConfirm = (value: boolean) => {
+    if (value) {
+      deleteAcademic(selectAcademic);
+      setSelectAcademic(null);
+    }
+    setDeleteConfirmationShow(false);
+  };
+
+  const deleteAcademic = async (deleteAcademic: Academic) => {
+    try {
+      const token = await getAccessTokenSilently();
+      await axios({
+        method: 'PUT',
+        url: `/api/academics/delete_academic`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          _id: academicData._id,
+          academic_uuid: deleteAcademic.uuid,
+        },
+      });
+      fetchAcademicData();
+    } catch (error) {
+      console.log('Failed to delete Academic', error);
+    }
+  };
 
   const singleCard = (): JSX.Element[] => {
     let allCards: JSX.Element[] = null;
@@ -349,7 +382,17 @@ const AcademicPage = () => {
             </Col>
           </Row>
         </Container>
-        <Container>{singleCard()}</Container>
+        <Confirmation
+          show={deleteConfirmationShow}
+          onConfirm={handleAcademicDeleteConfirm}
+          title="Delete"
+          confirmation="Are you sure you want to delete this?"
+          okText="Confirm Delete"
+          cancelText="Cancel"
+          okButtonStyle="danger"
+          cancelButtonStyle="secondary"
+        />
+        <Container>{singleCard}</Container>
       </>
     );
   } else {
