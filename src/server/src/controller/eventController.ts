@@ -55,7 +55,7 @@ const addEvent = async (req: Request, res: Response) => {
 // update event
 const updateEvent = async (req: Request, res: Response) => {
   const { user, event } = req.body;
-  console.log('event', event);
+  // console.log('event', event);
   // console.log("user", user);
   try {
     try {
@@ -86,18 +86,17 @@ const updateEvent = async (req: Request, res: Response) => {
 
 // delete event
 const deleteEvent = async (req: Request, res: Response) => {
-  const { event_id, event_uuid } = req.body;
-
+  const { user, eventUUID } = req.body;
+  console.log('delete', eventUUID);
   try {
     try {
       await EventModel.findOneAndUpdate(
         {
-          _id: mongoose.Types.ObjectId(event_id),
+          user: mongoose.Types.ObjectId(user),
         },
         {
           $pull: {
-            // Should implement later
-            // eventRef: { uuid: event_uuid },
+            events: { uuid: eventUUID },
           },
         }
       );

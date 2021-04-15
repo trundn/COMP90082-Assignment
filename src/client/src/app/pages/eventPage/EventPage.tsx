@@ -238,7 +238,48 @@ const EventPage = () => {
     });
   };
 
-  const handleConfirmDelete = () => {};
+  const handleConfirmDelete = (value: boolean) => {
+    if (value) {
+      if (deleteTargetKind[EventSectionTypes.Event]) {
+        deleteEvent(selectedEvent);
+        setSelectedEvent(null);
+        setDeleteTargetKinds((prevState) => {
+          return { ...prevState, [EventSectionTypes.Event]: false };
+        });
+      }
+    }
+    setDeleteConfirmationShow(false);
+  };
+
+  //
+  const deleteEvent = async (delEvent: Event) => {
+    try {
+      const token = await getAccessTokenSilently();
+      await axios({
+        method: 'DELETE',
+        url: `/api/event/delete`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          user: _id,
+          eventUUID: delEvent.uuid,
+        },
+      });
+
+      setEventData((prevState) => {
+        return {
+          ...prevState,
+          events: prevState.events.filter<Event>(
+            (eve): eve is Event => eve.uuid !== delEvent.uuid
+          ),
+        };
+      });
+    } catch (error) {
+      console.log('Failed to delete this event', error);
+    }
+  };
 
   // Clone event data
   const cloneEvent = (event: Event): Event => {
