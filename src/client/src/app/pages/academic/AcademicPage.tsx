@@ -392,7 +392,7 @@ const AcademicPage = () => {
           okButtonStyle="danger"
           cancelButtonStyle="secondary"
         />
-        <Container>{singleCard}</Container>
+        <Container>{singleCard()}</Container>
       </>
     );
   } else {
