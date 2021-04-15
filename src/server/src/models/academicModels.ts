@@ -7,11 +7,17 @@ class UserName {
 }
 
 class SingalImage {
+  @prop({ required: true })
+  uuid?: string;
+
   @prop({ required: true, unique: true })
   imageUrl!: string;
 }
 
 class Academic {
+  @prop({ required: true })
+  uuid?: string;
+
   @prop({ required: true })
   title!: string;
 
