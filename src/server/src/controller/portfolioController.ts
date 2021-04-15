@@ -144,7 +144,9 @@ const viewProfile = async (req: Req<{}>, res: Res<UserProfile>) => {
   try {
     const user = await UserModel.findOne({ username });
     if (user) {
-      res.send(user.toProfile());
+      const profile = user.toProfile();
+      profile._id = user.id;
+      res.send(profile);
     } else {
       res.sendStatus(404);
     }
@@ -157,7 +159,9 @@ const viewProfileByJwt = async (req: Req<{}>, res: Res<UserProfile>) => {
   try {
     const user = await UserModel.findOne({ auth0Id: req.user.sub });
     if (user) {
-      res.send(user.toProfile());
+      const profile = user.toProfile();
+      profile._id = user.id;
+      res.send(profile);
     } else {
       res.sendStatus(404);
     }

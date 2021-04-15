@@ -48,18 +48,58 @@ const getFunfactByUserName = async (req: Request, res: Response) => {
         );
         res.send(item);
       } catch {
-        res.sendStatus(400);
+        console.error;
       }
     };
     
     const updateFunfact = async (req: Request, res: Response) => {
-      const { funfact_id, new_funfact } = req.body;
-
+      const { funfact_id, new_funfact} = req.body;
+      try {
+        try {
+          await FunfactModel.findOneAndUpdate(
+            {
+              // 可能不是event_id而是user_id
+              _id: mongoose.Types.ObjectId(funfact_id),
+              funfactRef: { $elemMatch: { uuid: new_funfact.uuid } },
+            },
+            {
+              $set: {
+                'eventRef.$.factName': new_funfact.factName,
+                'eventRef.$.factDelete': new_funfact.factDelete,
+              },
+            }
+          );
+          res.sendStatus(201);
+        } catch {
+          res.sendStatus(404);
+        }
+      } catch {
+        res.sendStatus(400);
+      }
     };
     
     const deleteFunfact = async (req: Request, res: Response) => {
-      const { funfact_id, event_uuid } = req.body;
-    
+      const { funfact_id, funfact_uuid } = req.body;
+      try {
+        try {
+          await FunfactModel.findOneAndUpdate(
+            {
+              _id: mongoose.Types.ObjectId(funfact_id),
+            },
+            {
+              $pull: {
+                // Should implement later
+                // eventRef: { uuid: event_uuid },
+              },
+            }
+          );
+          res.sendStatus(201);
+        } catch {
+          res.sendStatus(404);
+        }
+      } catch {
+        res.sendStatus(400);
+      }
 };
 
 export { addFunfact, updateFunfact, deleteFunfact,getFunfactByUserName };
