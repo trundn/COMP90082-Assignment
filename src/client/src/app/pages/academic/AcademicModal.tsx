@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
 
 import { Academic } from '@pure-and-lazy/api-interfaces';
@@ -9,15 +9,23 @@ import 'react-datepicker/dist/react-datepicker.css';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 
+import { generateCloudinaryUrl } from '../../cloudinaryUtility';
+import { SetFieldValue } from '../../types/ResumeTypes';
 import { initialValues } from '../academic/initialAcademicValues';
 
 interface AcademicModalProps {
   show: boolean;
   onClose(): void;
-  onSubmit: (values: Academic) => void;
+  onSubmit: (values: Academic, isAddMoreAcademic: boolean) => void;
+  selectedAcademic: Academic;
 }
 
-const AcademicModal = ({ show, onClose, onSubmit }: AcademicModalProps) => {
+const AcademicModal = ({
+  show,
+  onClose,
+  onSubmit,
+  selectedAcademic,
+}: AcademicModalProps) => {
   /**
    * 
    * 
@@ -31,7 +39,11 @@ const AcademicModal = ({ show, onClose, onSubmit }: AcademicModalProps) => {
     academicImage: ''
    * 
    */
+  const isAddMoreAcademic = useRef(true);
   const [startDate, setStartDate] = useState(new Date());
+  const setFieldValueFunc = useRef<SetFieldValue>(null);
+
+  isAddMoreAcademic.current = selectedAcademic === initialValues;
 
   const validation_schema = yup.object().shape({
     title: yup.string().required('Title is required!'),
@@ -40,8 +52,13 @@ const AcademicModal = ({ show, onClose, onSubmit }: AcademicModalProps) => {
     shortDescription: yup.string().required('Short description is required!'),
     bodyParagraph: yup.string().required('Body is required!'),
     academicReferences: yup.string().required('References are required!'),
-    academicImage: yup.mixed().required('Image file is required!'),
+    academicImage: yup.string().required('Image file is required!'),
   });
+
+  const handleImage = async (file) => {
+    const imageUrl = await generateCloudinaryUrl(file);
+    setFieldValueFunc.current('academicImage', imageUrl);
+  };
 
   return (
     <Modal
@@ -60,16 +77,24 @@ const AcademicModal = ({ show, onClose, onSubmit }: AcademicModalProps) => {
 
       <Formik
         validationSchema={validation_schema}
-        initialValues={initialValues}
+        initialValues={selectedAcademic}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          onSubmit(values);
+          onSubmit(values, isAddMoreAcademic.current);
           resetForm();
           setSubmitting(false);
         }}
       >
-        {({ handleSubmit, handleChange, handleBlur, values, errors }) => (
+        {({
+          handleSubmit,
+          handleChange,
+          handleBlur,
+          setFieldValue,
+          values,
+          errors,
+        }) => (
           <Form onSubmit={handleSubmit}>
+            {(setFieldValueFunc.current = setFieldValue)}
             <Modal.Body>
               <Form.Group>
                 <Form.Label>Title </Form.Label>
@@ -124,6 +149,7 @@ const AcademicModal = ({ show, onClose, onSubmit }: AcademicModalProps) => {
                     selected={startDate}
                     name="createDate"
                     onChange={(date) => setStartDate(date)}
+                    value={values.createDate}
                     dateFormat="yyy/MM/dd"
                     customInput={<Form.Control type="text" />}
                   />
@@ -182,12 +208,14 @@ const AcademicModal = ({ show, onClose, onSubmit }: AcademicModalProps) => {
 
               <Form.Group>
                 <Form.File
+                  id="fileUpload"
                   className="image_upload"
                   name="academicImage"
                   label="Image Upload"
-                  onChange={handleChange}
+                  onChange={(event) => handleImage(event.target.files[0])}
+                  feedback={errors.academicImage}
+                  isInvalid={!!errors.academicImage}
                 />
-                <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
               </Form.Group>
             </Modal.Body>
             <Modal.Footer>
