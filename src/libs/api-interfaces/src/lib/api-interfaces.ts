@@ -139,7 +139,7 @@ export {
   Certificate,
   Skill,
   Reference,
-  // For event modal
+  // For funfact modal
   Funfact,
   Funfacts,
 };

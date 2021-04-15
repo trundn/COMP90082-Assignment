@@ -233,7 +233,8 @@ const addFunfact = async (newFunfact: Funfact) => {
   const updateFunfact = async (updateFunfact: Funfact) => {
     try {
       const token = await getAccessTokenSilently();
-
+       console.log("update", updateFunfact);
+       console.log("update", _id);
       await axios({
         method: 'PUT',
         url: `/api/funfact/update`,
@@ -256,7 +257,7 @@ const addFunfact = async (newFunfact: Funfact) => {
         };
       });
     } catch (error) {
-      console.log('Failed to update qualification', error);
+      console.log('Failed to update funfacts', error);
     }
   };
 
