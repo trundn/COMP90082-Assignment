@@ -13,7 +13,7 @@ import { UserContext } from './UserContext';
 import { Container } from 'react-bootstrap';
 import { ContentPage } from '../content/ContentPage';
 
-import{FunfactPage} from './FunfactPage';
+import{FunfactPage} from '../pages/funfactPage/FunfactPage';
 
 const PortfolioIndex = () => {
   const [redirect, setRedirect] = useState(false);

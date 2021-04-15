@@ -2,6 +2,7 @@ import React from 'react';
 import { UserTheme } from '@pure-and-lazy/api-interfaces';
 //LoggedInUserContextProvider 负责在登录后更新这里面的内容
 const UserContext = React.createContext({
+  _id: '',
   username: '',
   email: '',
   name: '',

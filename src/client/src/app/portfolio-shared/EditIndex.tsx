@@ -12,7 +12,7 @@ import { ProjectPage } from './ProjectPage';
 import { AuthContext } from '../auth/AuthContext';
 import { Container } from 'react-bootstrap';
 
-import{FunfactPage} from './FunfactPage';
+import{FunfactPage} from '../pages/funfactPage/FunfactPage';
 
 const EditIndex = () => {
   const { registrationComplete, isLoaded } = useContext(AuthContext);

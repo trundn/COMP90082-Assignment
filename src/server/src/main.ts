@@ -7,6 +7,8 @@ import authRoutes from './routes/authRoutes';
 import portfolioRoutes from './routes/portfolioRoutes';
 import swaggerSpec from './swaggerSpec';
 
+import funfactRoutes from './routes/funfactRoutes';
+
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -27,6 +29,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/funfact', funfactRoutes);
 
 app.get('*', (_req, res) => {
   res.sendFile('index.html', {
