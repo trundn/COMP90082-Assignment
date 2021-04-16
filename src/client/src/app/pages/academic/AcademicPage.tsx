@@ -35,7 +35,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 import AcademicModal from '../academic/AcademicModal';
-import AcademicVeiwModal from '../../components/resume/academic/academicViewModal';
+import AcademicVeiwModal from '../../components/academic/academicViewModal';
 import {
   SingalImage,
   Academic,
