@@ -78,12 +78,8 @@ const updateAcademic = async (req: Request, res: Response) => {
 };
 
 const deleteAcademic = async (req: Request, res: Response) => {
-  console.log(req.body);
   const aca_id = req.body._id;
   const academic_uuid = req.body.academic_uuid;
-
-  console.log('11', aca_id);
-  console.log(academic_uuid);
 
   try {
     try {
@@ -106,9 +102,29 @@ const deleteAcademic = async (req: Request, res: Response) => {
   }
 };
 
+const addImage = async (req: Request, res: Response) => {
+  const aca_id = req.body._id;
+  const new_singalImage = req.body.singalImage;
+
+  try {
+    try {
+      await AcademicModel.findOneAndUpdate(
+        { _id: mongoose.Types.ObjectId(aca_id) },
+        { $push: { images: new_singalImage } }
+      );
+      res.sendStatus(201);
+    } catch {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(404);
+  }
+};
+
 export {
   createAcademic,
   deleteAcademic,
   getAcademicByUserName,
   updateAcademic,
+  addImage,
 };
