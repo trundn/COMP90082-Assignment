@@ -63,8 +63,8 @@ const getFunfactByUserName = async (req: Request, res: Response) => {
             },
             {
               $set: {
-                'funfactRef.$.factName': funfact.factName,
-                'funfactRef.$.factDelete': funfact.factDelete,
+                'funfacts.$.factName': funfact.factName,
+                'funfacts.$.factDetail': funfact.factDetail,
               },
             }
           );
