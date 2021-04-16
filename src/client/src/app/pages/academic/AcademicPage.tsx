@@ -35,6 +35,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 import AcademicModal from '../academic/AcademicModal';
+import AcademicVeiwModal from '../../components/resume/academic/academicViewModal';
 import {
   SingalImage,
   Academic,
@@ -94,6 +95,8 @@ const AcademicPage = () => {
   const [saveData, setSaveDate] = useState<AcademicModels>();
   const [selectAcademic, setSelectAcademic] = useState<Academic>(initialValues);
   const [deleteConfirmationShow, setDeleteConfirmationShow] = useState(false);
+  const [viewAcademic, setViewAcademic] = useState<Academic>(initialValues);
+  const [viewModalShow, setViewModalShow] = useState(false);
 
   useEffect(() => {
     if (_id) {
@@ -214,23 +217,29 @@ const AcademicPage = () => {
   const editAndDeletdButton = (onEditClick, onDeleteClick): JSX.Element => {
     if (editMode) {
       return (
-        <Col xs={2} className="align-self-center">
-          <span>
-            <FontAwesomeIcon
-              onClick={onEditClick}
-              icon={faEdit}
-              size="lg"
-              color="#28a745"
-              className="mr-2"
-            />
-            <FontAwesomeIcon
-              onClick={onDeleteClick}
-              icon={faTrashAlt}
-              size="lg"
-              color="#dc3545"
-            />
-          </span>
-        </Col>
+        <Row>
+          <Col xs={1} className="align-self-right">
+            <span>
+              <FontAwesomeIcon
+                onClick={onEditClick}
+                icon={faEdit}
+                size="lg"
+                color="#28a745"
+                className="mr-2"
+              />
+            </span>
+          </Col>
+          <Col xs={1} className="align-self-center">
+            <span>
+              <FontAwesomeIcon
+                onClick={onDeleteClick}
+                icon={faTrashAlt}
+                size="lg"
+                color="#dc3545"
+              />
+            </span>
+          </Col>
+        </Row>
       );
     } else {
       return null;
@@ -302,7 +311,17 @@ const AcademicPage = () => {
                   Short Description: {academic.shortDescription}
                 </Card.Text>
               </Card.Body>
-              <Card.Footer>{bindEditableButtons(academic)}</Card.Footer>
+              <Card.Footer>
+                {bindEditableButtons(academic)},
+                <Button
+                  onClick={() => {
+                    setViewModalShow(true);
+                    setViewAcademic(academic);
+                  }}
+                >
+                  View
+                </Button>
+              </Card.Footer>
             </Card>
           );
         });
@@ -318,6 +337,16 @@ const AcademicPage = () => {
                   Short Description: {academic.shortDescription}
                 </Card.Text>
               </Card.Body>
+              <Card.Footer>
+                <Button
+                  onClick={() => {
+                    setViewModalShow(true);
+                    setViewAcademic(academic);
+                  }}
+                >
+                  View
+                </Button>
+              </Card.Footer>
             </Card>
           );
         });
@@ -363,6 +392,14 @@ const AcademicPage = () => {
           onSubmit={handleAcademicSubmit}
           selectedAcademic={selectAcademic}
         />
+        <AcademicVeiwModal
+          show={viewModalShow}
+          onClose={() => {
+            setViewModalShow(false);
+            // setViewAcademic(initialValues);
+          }}
+          selectedAcademic={viewAcademic}
+        />
         <Container>
           <Row className="justify-content-center ">
             <Col md="auto">
@@ -392,6 +429,7 @@ const AcademicPage = () => {
           okButtonStyle="danger"
           cancelButtonStyle="secondary"
         />
+
         <Container>{singleCard()}</Container>
       </>
     );
@@ -423,6 +461,14 @@ const AcademicPage = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+        <AcademicVeiwModal
+          show={viewModalShow}
+          onClose={() => {
+            setViewModalShow(false);
+            // setViewAcademic(initialValues);
+          }}
+          selectedAcademic={viewAcademic}
+        />
         <Container>{singleCard()}</Container>
       </>
     );
