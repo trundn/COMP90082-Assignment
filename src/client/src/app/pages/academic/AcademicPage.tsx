@@ -36,6 +36,7 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 import AcademicModal from '../academic/AcademicModal';
 import AcademicVeiwModal from '../../components/academic/academicViewModal';
+import UploadImageModal from '../../components/academic/uploadImageModal';
 import {
   SingalImage,
   Academic,
@@ -47,6 +48,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { initialValues } from '../academic/initialAcademicValues';
 import Confirmation from '../../components/ui/modals/Confirmation';
+import { __values } from 'tslib';
 
 // install Swiper modules
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, EffectFade, Virtual]);
@@ -97,6 +99,7 @@ const AcademicPage = () => {
   const [deleteConfirmationShow, setDeleteConfirmationShow] = useState(false);
   const [viewAcademic, setViewAcademic] = useState<Academic>(initialValues);
   const [viewModalShow, setViewModalShow] = useState(false);
+  const [imageModalShow, setImageModalShow] = useState(false);
 
   useEffect(() => {
     if (_id) {
@@ -295,6 +298,34 @@ const AcademicPage = () => {
     }
   };
 
+  const handleImageSubmit = async (newImage: SingalImage) => {
+    setImageModalShow(false);
+    try {
+      newImage.uuid = uuidv4();
+      const token = await getAccessTokenSilently();
+      await axios({
+        method: 'PUT',
+        url: `/api/academics/add_image`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          _id: academicData._id,
+          singalImage: newImage,
+        },
+      });
+      setAcademicData((prevState) => {
+        return {
+          ...prevState,
+          images: [newImage, ...prevState.images],
+        };
+      });
+    } catch (error) {
+      console.log('Failed to add Academic', error);
+    }
+  };
+
   const singleCard = (): JSX.Element[] => {
     let allCards: JSX.Element[] = null;
 
@@ -312,7 +343,7 @@ const AcademicPage = () => {
                 </Card.Text>
               </Card.Body>
               <Card.Footer>
-                {bindEditableButtons(academic)},
+                {bindEditableButtons(academic)}
                 <Button
                   onClick={() => {
                     setViewModalShow(true);
@@ -400,11 +431,25 @@ const AcademicPage = () => {
           }}
           selectedAcademic={viewAcademic}
         />
+        <UploadImageModal
+          show={imageModalShow}
+          onClose={() => {
+            setImageModalShow(false);
+          }}
+          onSubmit={handleImageSubmit}
+        />
         <Container>
           <Row className="justify-content-center ">
             <Col md="auto">
               <ButtonGroup aria-label="button_group">
-                <Button variant="primary">Add Image</Button>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    setImageModalShow(true);
+                  }}
+                >
+                  Add Image
+                </Button>
                 <Button variant="primary">Delete Image</Button>
                 <Button
                   variant="primary"
@@ -429,7 +474,6 @@ const AcademicPage = () => {
           okButtonStyle="danger"
           cancelButtonStyle="secondary"
         />
-
         <Container>{singleCard()}</Container>
       </>
     );
