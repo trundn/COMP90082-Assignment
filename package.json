@@ -71,6 +71,7 @@
     "styled-components": "5.1.1",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4",
+    "swiper": "^6.5.4",
     "tslib": "^2.0.1",
     "typeface-roboto": "^1.1.13",
     "uuid": "^3.4.0",

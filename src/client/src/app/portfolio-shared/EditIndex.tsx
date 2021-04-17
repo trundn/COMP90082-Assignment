@@ -12,6 +12,7 @@ import ResumePage from '../pages/resume/ResumePage';
 import { ProjectPage } from './ProjectPage';
 import { AuthContext } from '../auth/AuthContext';
 import { Container } from 'react-bootstrap';
+import { AcademicPage } from '../pages/academic/AcademicPage';
 
 
 import{FunfactPage} from '../pages/funfactPage/FunfactPage';
@@ -61,9 +62,11 @@ const EditIndex = () => {
           <Route exact path={`${path}/blog/:contentID`}>
             <ContentPage />
           </Route>
-          {/* //新的东西 */}
-          <Route exact path={`${path}/events/:contentID`}>
-            <ContentPage />
+          <Route exact path={`${path}/academic`}>
+            <AcademicPage />
+          </Route>
+          <Route exact path={`${path}/academic/:contentID`}>
+            <AcademicPage />
           </Route>
           <Route exact path={`${path}/about`}>
             <About />

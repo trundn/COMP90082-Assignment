@@ -51,6 +51,29 @@ interface Namable {
   name: string;
 }
 
+interface SingalImage {
+  uuid?: string;
+  imageUrl: string;
+}
+
+interface Academic {
+  uuid?: string;
+  title: string;
+  author: string;
+  organization: string;
+  createDate: Date;
+  shortDescription: string;
+  bodyParagraph: string;
+  academicReferences: string;
+  academicImage: string;
+}
+
+interface AcademicModels {
+  _id?: string;
+  images?: SingalImage[];
+  academics?: Academic[];
+}
+
 interface Qualification {
   uuid?: string;
   institutionName: string;
@@ -147,6 +170,9 @@ export {
   PortfolioCategory,
   UserProfile,
   UserTheme,
+  SingalImage,
+  Academic,
+  AcademicModels,
   Resume,
   Qualification,
   Award,
