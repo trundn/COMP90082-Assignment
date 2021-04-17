@@ -16,7 +16,15 @@ import {
 import { css } from 'emotion';
 import { UserContext } from '../portfolio-shared/UserContext';
 import { LinkContainer } from 'react-router-bootstrap';
-import {updateDescription , updateName,updateDateBirth,updateTwitter,updateFacebook, updateGithub,updateLinkedin} from './AdminUtils';
+import {
+  updateDescription,
+  updateName,
+  updateDateBirth,
+  updateTwitter,
+  updateFacebook,
+  updateGithub,
+  updateLinkedin,
+} from './AdminUtils';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
@@ -24,28 +32,28 @@ import { AuthContext } from '../auth/AuthContext';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import {AboutEditor} from '../portfolio-shared/about/AboutEditor';
-import { AboutDisplayManagaePage } from 'src/client/src/app/admin/ManagePage_AboutMe';
+import { AboutEditor } from '../portfolio-shared/about/AboutEditor';
+import { AboutDisplayManagaePage } from './ManagePage_AboutMe';
 // Manage Public Information Page
 
 const ManagePage = () => {
   const { name, setName } = useContext(UserContext);
   const { dateBirth, setDate } = useContext(UserContext);
-  const { twitterLink,setTwitterLink}=useContext(UserContext);
-  const { facebookLink,setFacebookLink}=useContext(UserContext);
-  const { githubLink,setGithubLink}=useContext(UserContext);
-  const { linkedinLink,setLinkedinLink}=useContext(UserContext);
+  const { twitterLink, setTwitterLink } = useContext(UserContext);
+  const { facebookLink, setFacebookLink } = useContext(UserContext);
+  const { githubLink, setGithubLink } = useContext(UserContext);
+  const { linkedinLink, setLinkedinLink } = useContext(UserContext);
   const [formName, setFormName] = useState('');
   const [startDate, setStartDate] = useState(new Date());
-  const [twitter,setTwitter]=useState('');
-  const [facebook,setFacebook]=useState('');
-  const [github,setGithub]=useState('');
-  const [linkedin,setLinkedin]=useState('');
+  const [twitter, setTwitter] = useState('');
+  const [facebook, setFacebook] = useState('');
+  const [github, setGithub] = useState('');
+  const [linkedin, setLinkedin] = useState('');
   const [isInvalidName, setIsInvalidName] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
-  
+
   const { description, setDescription, profilePicture } = useContext(
     UserContext
   );
@@ -79,60 +87,58 @@ const ManagePage = () => {
 
   useEffect(() => {
     setFormName(name);
-    if(dateBirth==''){
+    if (dateBirth == '') {
       setStartDate(new Date());
-    }
-    else{
+    } else {
       setStartDate(new Date(dateBirth));
     }
     setFacebook(facebookLink);
     setTwitter(twitterLink);
     setGithub(githubLink);
     setLinkedin(linkedinLink);
-    
+  }, [name, dateBirth, facebookLink, twitterLink, githubLink, linkedinLink]);
 
-
-  }, [name,dateBirth,facebookLink,twitterLink,githubLink,linkedinLink]);
-  
   if (!isLoaded) {
     return null;
   }
 
   if (!registrationComplete) {
     return <Redirect to="/getstarted" />;
-  }  
+  }
 
   const handleNameChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormName(event.target.value);
     const regEx = new RegExp('^[a-z0-9 -]+$', 'i');
     setIsInvalidName(!regEx.test(event.target.value));
   };
-  
-  const handleTwitterChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+
+  const handleTwitterChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setTwitter(event.target.value);
   };
-  const handleFacebookChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleFacebookChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setFacebook(event.target.value);
   };
 
-  const handleGithubChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleGithubChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setGithub(event.target.value);
   };
-  const handleLinkedinChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleLinkedinChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setLinkedin(event.target.value);
   };
-
-  
-  
-  
 
   const topMarginStyle = css({
     marginTop: '20vh',
   });
 
-  const handleSubmit = async (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     setSaving(true);
     setSuccess(false);
     event.preventDefault();
@@ -151,8 +157,10 @@ const ManagePage = () => {
         }, 3000);
       }
     });
-    updateDateBirth(moment(startDate).format('YYYY MM DD'), getAccessTokenSilently).then((response) => {
-      
+    updateDateBirth(
+      moment(startDate).format('YYYY MM DD'),
+      getAccessTokenSilently
+    ).then((response) => {
       if (response.ok) {
         setDate(moment(startDate).format('YYYY MM DD'));
 
@@ -168,7 +176,6 @@ const ManagePage = () => {
       }
     });
     updateTwitter(twitter, getAccessTokenSilently).then((response) => {
-      
       if (response.ok) {
         setTwitterLink(twitter);
 
@@ -184,7 +191,6 @@ const ManagePage = () => {
       }
     });
     updateFacebook(facebook, getAccessTokenSilently).then((response) => {
-      
       if (response.ok) {
         setFacebookLink(facebook);
 
@@ -200,7 +206,6 @@ const ManagePage = () => {
       }
     });
     updateGithub(github, getAccessTokenSilently).then((response) => {
-      
       if (response.ok) {
         setGithubLink(github);
 
@@ -216,7 +221,6 @@ const ManagePage = () => {
       }
     });
     updateLinkedin(linkedin, getAccessTokenSilently).then((response) => {
-      
       if (response.ok) {
         setLinkedinLink(linkedin);
 
@@ -233,11 +237,10 @@ const ManagePage = () => {
     });
   };
 
-
   const buttonStyle = {
     minWidth: '72px',
   };
-  
+
   const containerStyle = {
     backgroundColor: 'white',
     overflow: 'auto',
@@ -301,62 +304,79 @@ const ManagePage = () => {
                 controlId="name"
                 style={{ position: 'relative' }}
               >
-                <div><Form.Label>Name</Form.Label>
-                <Form.Control
-                  value={formName}
-                  onChange={handleNameChange}
-                  type="text"
-                  placeholder="Enter name"
-                  isInvalid={isInvalidName}
-                /></div>
-                <div><Form.Label>Date of birth</Form.Label>
-                <div><DatePicker selected={startDate}   onChange={startDate=>setStartDate(startDate)} /></div></div>
+                <div>
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    value={formName}
+                    onChange={handleNameChange}
+                    type="text"
+                    placeholder="Enter name"
+                    isInvalid={isInvalidName}
+                  />
+                </div>
+                <div>
+                  <Form.Label>Date of birth</Form.Label>
+                  <div>
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(startDate) => setStartDate(startDate)}
+                    />
+                  </div>
+                </div>
 
-                <div><Form.Label>Twitter</Form.Label>
-                <Form.Control
-                  value={twitter}
-                  onChange={handleTwitterChange}
-                  type="text"
-                  placeholder="Enter Twitter link"
-                /></div>
-                <div><Form.Label>Facebook</Form.Label>
-                <Form.Control
-                  value={facebook}
-                  onChange={handleFacebookChange}
-                  type="text"
-                  placeholder="Enter Facebook link"
-                /></div>
-                <div><Form.Label>Github</Form.Label>
-                <Form.Control
-                  value={github}
-                  onChange={handleGithubChange}
-                  type="text"
-                  placeholder="Enter Github link"
-                /></div>
-                <div><Form.Label>Linkedin</Form.Label>
-                <Form.Control
-                  value={linkedin}
-                  onChange={handleLinkedinChange}
-                  type="text"
-                  placeholder="Enter Linkedin link"
-                /></div>
+                <div>
+                  <Form.Label>Twitter</Form.Label>
+                  <Form.Control
+                    value={twitter}
+                    onChange={handleTwitterChange}
+                    type="text"
+                    placeholder="Enter Twitter link"
+                  />
+                </div>
+                <div>
+                  <Form.Label>Facebook</Form.Label>
+                  <Form.Control
+                    value={facebook}
+                    onChange={handleFacebookChange}
+                    type="text"
+                    placeholder="Enter Facebook link"
+                  />
+                </div>
+                <div>
+                  <Form.Label>Github</Form.Label>
+                  <Form.Control
+                    value={github}
+                    onChange={handleGithubChange}
+                    type="text"
+                    placeholder="Enter Github link"
+                  />
+                </div>
+                <div>
+                  <Form.Label>Linkedin</Form.Label>
+                  <Form.Control
+                    value={linkedin}
+                    onChange={handleLinkedinChange}
+                    type="text"
+                    placeholder="Enter Linkedin link"
+                  />
+                </div>
                 <div>
                   <Form.Label>About Me</Form.Label>
                   <Container className="p-4 mx-auto" style={containerStyle}>
-                  <AboutEditor
-                    initialDescription={description}
-                    editorSaveButtonDisabled={editorSaveButtonDisabled}
-                    onCancel={handleCancel}
-                    onSave={handleSave}
-                    show={editorOpen}
-                  />
-                  <AboutDisplayManagaePage
-                    description={description}
-                    onOpenEditor={handleOpenEditor}
-                  />
-                </Container>
-              </div>
-                
+                    <AboutEditor
+                      initialDescription={description}
+                      editorSaveButtonDisabled={editorSaveButtonDisabled}
+                      onCancel={handleCancel}
+                      onSave={handleSave}
+                      show={editorOpen}
+                    />
+                    <AboutDisplayManagaePage
+                      description={description}
+                      onOpenEditor={handleOpenEditor}
+                    />
+                  </Container>
+                </div>
+
                 <Form.Text className="text-muted">
                   This will be shown on your profile
                 </Form.Text>
@@ -374,10 +394,8 @@ const ManagePage = () => {
                 </LinkContainer>
                 <SaveButton isInvalid={isInvalid} />
               </div>
-              
             </Form>
           </Col>
-          
         </Row>
       </Container>
     </BackgroundContainer>

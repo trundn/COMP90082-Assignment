@@ -21,6 +21,7 @@ interface PortfolioItem {
 type PortfolioItemValue = PortfolioItem[keyof PortfolioItem];
 
 interface UserProfile {
+  _id?: string;
   username: string;
   email: string;
   name?: string;
@@ -29,12 +30,12 @@ interface UserProfile {
   profilePicture?: string;
   theme?: UserTheme;
   themeDark?: boolean;
-  dateBirth?:string;
+  dateBirth?: string;
 
-  twitterLink?:string;
-  facebookLink?:string;
-  githubLink?:string;
-  linkedinLink?:string;
+  twitterLink?: string;
+  facebookLink?: string;
+  githubLink?: string;
+  linkedinLink?: string;
 }
 
 enum UserTheme {
@@ -44,6 +45,72 @@ enum UserTheme {
   JILDEN,
 }
 
+interface Namable {
+  name: string;
+}
+
+interface Qualification {
+  uuid?: string;
+  institutionName: string;
+  degree: string;
+  description: string;
+  startDate: Date;
+  graduationDate?: Date;
+}
+
+interface Award extends Namable {
+  uuid?: string;
+}
+
+interface Responsibility extends Namable {
+  uuid?: string;
+}
+
+interface Certificate extends Namable {
+  uuid?: string;
+  issueOrganization: string;
+  credentialId?: string;
+  issuedDate: Date;
+  expiryDate?: Date;
+}
+
+interface Experience {
+  uuid?: string;
+  organisation: string;
+  city: string;
+  country: string;
+  workSummary: string;
+  startDate: Date;
+  endDate?: Date;
+  role: string;
+  responsibilities?: string[];
+  responsibilitiesContent?: string;
+}
+
+interface Skill extends Namable {
+  uuid?: string;
+  level: number;
+  yearOfExperiences: number;
+}
+
+interface Reference extends Namable {
+  uuid?: string;
+  position: string;
+  organisation: string;
+  phoneNumber?: string;
+  email: string;
+}
+
+interface Resume {
+  _id?: string;
+  qualifications?: Qualification[];
+  certificates?: Certificate[];
+  awards?: Award[];
+  experiences?: Experience[];
+  skills?: Skill[];
+  references?: Reference[];
+}
+
 export {
   Message,
   PortfolioItem,
@@ -51,4 +118,12 @@ export {
   PortfolioCategory,
   UserProfile,
   UserTheme,
+  Resume,
+  Qualification,
+  Award,
+  Responsibility,
+  Experience,
+  Certificate,
+  Skill,
+  Reference,
 };

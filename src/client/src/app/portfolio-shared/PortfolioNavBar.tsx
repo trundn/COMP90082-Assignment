@@ -38,6 +38,9 @@ const PortfolioNavBar = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="ml-auto" activeKey="blog">
+          <LinkContainer to={`${URL_PREFIX}/resume`}>
+            <Nav.Link eventKey="/resume">Resume</Nav.Link>
+          </LinkContainer>
           <LinkContainer to={`${URL_PREFIX}/projects`}>
             <Nav.Link eventKey="/projects">Projects</Nav.Link>
           </LinkContainer>
@@ -47,7 +50,6 @@ const PortfolioNavBar = () => {
           <LinkContainer to={`${URL_PREFIX}/about`}>
             <Nav.Link eventKey="/about">About</Nav.Link>
           </LinkContainer>
-          
         </Nav>
       </Navbar.Collapse>
     </Navbar>
