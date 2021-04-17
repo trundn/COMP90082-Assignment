@@ -85,8 +85,10 @@ const ResumePage = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    fetchResumeData();
-  }, []);
+    if (_id) {
+      fetchResumeData();
+    }
+  }, [_id]);
 
   const fetchResumeData = async () => {
     try {
@@ -104,7 +106,6 @@ const ResumePage = () => {
   const addQualification = async (newQualification: Qualification) => {
     try {
       const token = await getAccessTokenSilently();
-
       await axios({
         method: 'PUT',
         url: `/api/resume/qualifications/add`,

@@ -5,6 +5,7 @@ interface Message {
 enum PortfolioCategory {
   PROJECTS = 'projects',
   BLOG = 'blog',
+  FUNFACT = 'funfact',
 }
 
 interface PortfolioItem {
@@ -18,6 +19,7 @@ interface PortfolioItem {
   image?: string;
   public?: boolean;
 }
+
 type PortfolioItemValue = PortfolioItem[keyof PortfolioItem];
 
 interface UserProfile {
@@ -30,6 +32,12 @@ interface UserProfile {
   profilePicture?: string;
   theme?: UserTheme;
   themeDark?: boolean;
+  dateBirth?: string;
+
+  twitterLink?: string;
+  facebookLink?: string;
+  githubLink?: string;
+  linkedinLink?: string;
 }
 
 enum UserTheme {
@@ -127,6 +135,33 @@ interface Resume {
   skills?: Skill[];
   references?: Reference[];
 }
+// Funfact Model
+interface Funfact {
+  uuid?: string;
+  factName?: string;
+  factDetail?: string;
+}
+
+interface Funfacts {
+  user: string;
+  funfacts?: Funfact[];
+}
+
+
+// Event Model
+interface Event {
+  uuid?: string;
+  eventName: string;
+  eventHoster?: string;
+  eventLocation?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
+
+interface Events {
+  user: string;
+  events?: Event[];
+}
 
 export {
   Message,
@@ -146,4 +181,10 @@ export {
   Certificate,
   Skill,
   Reference,
+  // For funfact modal
+  Funfact,
+  Funfacts,
+  // For event modal
+  Event,
+  Events,
 };

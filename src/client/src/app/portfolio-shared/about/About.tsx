@@ -9,10 +9,44 @@ import { HomeAvatar } from '../../homepage/HomeAvatar';
 import { ThemedBackgroundContainer } from '../ThemedBackgroundContainer';
 import { css } from '@emotion/core';
 
+import { MediaLink} from './MediaLink';
+
+/* TODO:
+1. Update this page to add new content area to show the connect me info.
+
+2. Update line 22 to read the media link info from UserContext.
+
+3. Update Usercontext.ts(line 7) to add media link to the info included in UserContext.
+
+4. Update '\src\client\src\app\portfolio-shared\LoggedInUserContextProvider.tsx'
+   to add the fetch of media links when login.
+
+5. Update 'src\libs\api-interfaces\src\lib\api-interfaces.ts'
+   to change content of 'UserProfile' to include medialinks. ????????
+
+6. Update 'src\server\src\models\user.ts' to change data model.
+    and change toProfile(). I guess yes. ??????
+
+7. Router not clear now. 
+  'src\client\src\app\App.tsx' in client has basic structure of router. 
+      line 54 <PortfolioIndex />
+          line 73 <About />
+
+    For 'src\server\src\controller\portfolioController.ts'
+    what is actual usage of 'viewProfile'?
+    'editProfile' works as an update of userprofile? Need change or not?what page links to it?
+8. Update 'src\client\src\app\admin\AdminUtils.tsx' to include the update of
+    media info.   
+       
+*/
+
 const About = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [editorOpen, setEditorOpen] = useState(false);
-  const { description, setDescription, profilePicture } = useContext(
+  //Description是About Meeditor里的内容，这里是从数据库里取用的接口内容
+  const { description, setDescription, profilePicture, 
+    twitterLink, facebookLink,githubLink,linkedinLink, 
+    settwitterLink,setfacebookLink,setgithubLink,setlinkedinLink } = useContext(
     UserContext
   );
 
@@ -55,6 +89,20 @@ const About = () => {
     setDescription(newDescription);
   };
 
+
+
+  /*delete for function changes
+  const handleSubmit = async (newMedialinks: []) => {
+    try {
+      await updateMedialinks(newMedialinks, getAccessTokenSilently);
+    } catch (e) {
+      console.log(e);
+    }
+    //setEditorOpen(false);
+    //setSaveButtonDisabled(false);
+    setMedialinks(newMedialinks);
+  };*/
+
   return (
     <ThemedBackgroundContainer>
       <Container className="pt-5">
@@ -75,6 +123,14 @@ const About = () => {
                 description={description}
                 onOpenEditor={handleOpenEditor}
               />
+              <MediaLink
+                twitterLink={twitterLink}
+                facebookLink={facebookLink}
+                githubLink={githubLink}
+                linkedinLink={linkedinLink}
+                //onSubmit = {handleSubmit}
+              />
+
             </Container>
           </Col>
         </Row>
