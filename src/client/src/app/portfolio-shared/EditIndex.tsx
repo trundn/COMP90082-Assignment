@@ -8,6 +8,7 @@ import { EditContext } from './EditContext';
 import { PortfolioEditFooter } from './PortfolioEditFooter';
 import { PortfolioHome } from './PortfolioHome';
 import { PortfolioNavBar } from './PortfolioNavBar';
+import ResumePage from '../pages/resume/ResumePage';
 import { ProjectPage } from './ProjectPage';
 import { AuthContext } from '../auth/AuthContext';
 import { Container } from 'react-bootstrap';
@@ -36,6 +37,9 @@ const EditIndex = () => {
         <Switch>
           <Route exact path={`${path}`}>
             <PortfolioHome />
+          </Route>
+          <Route exact path={`${path}/resume`}>
+            <ResumePage />
           </Route>
           <Route exact path={`${path}/projects`}>
             <ProjectPage />

@@ -26,16 +26,33 @@ const LoggedInUserContextProvider = (props: LoggedInUserContextProvider) => {
       return { ...prevState, name: name };
     });
   };
-
-
-  //To fetch the medialinks
-  const setMedialinks = (medialinks: Array<string>) => {
+  const setDate= (dateBirth: string) => {
     setUser((prevState) => {
-      return { ...prevState, medialinks: medialinks };
+      return { ...prevState, dateBirth: dateBirth };
     });
   };
 
-  const contextState = { ...user, setProfilePicture, setDescription, setName,setMedialinks };
+  const setTwitterLink= (twitterLink: string) => {
+    setUser((prevState) => {
+      return { ...prevState, twitterLink: twitterLink };
+    });
+  };
+  const setFacebookLink= (facebookLink: string) => {
+    setUser((prevState) => {
+      return { ...prevState, facebookLink: facebookLink };
+    });
+  };
+  const setGithubLink= (githubLink: string) => {
+    setUser((prevState) => {
+      return { ...prevState, githubLink: githubLink };
+    });
+  };
+  const setLinkedinLink= (linkedinLink: string) => {
+    setUser((prevState) => {
+      return { ...prevState, linkedinLink: linkedinLink };
+    });
+  };
+  const contextState = { ...user, setProfilePicture, setDescription, setName,setDate,setTwitterLink,setGithubLink,setFacebookLink,setLinkedinLink};
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 

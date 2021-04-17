@@ -1,0 +1,136 @@
+#resume {
+  background: #fff;
+  padding-top: 50px;
+  padding-bottom: 72px;
+  overflow: hidden;
+}
+
+#resume a,
+#resume a:visited {
+  color: #0762f9;
+}
+#resume a:hover,
+#resume a:focus {
+  color: #313131;
+}
+
+#resume h1 {
+  font: 18px/24px 'opensans-bold', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+#resume h1 span {
+  border-bottom: 3px solid #0762f9;
+  padding-bottom: 6px;
+}
+#resume h3 {
+  font: 25px/30px 'opensans-bold', sans-serif;
+}
+#resume h4 {
+  font: 17px/20px 'opensans-bold', sans-serif;
+}
+#resume h5 {
+  font: 15px/20px 'opensans-bold', sans-serif;
+}
+
+#resume .header-col {
+  padding-top: 9px;
+}
+
+#resume .main-col {
+  padding-right: 10%;
+}
+
+#resume .info {
+  font: 16px/24px 'librebaskerville-italic', serif;
+  color: #6e7881;
+  margin-bottom: 18px;
+  margin-top: 9px;
+}
+
+#resume .subcontent {
+  font: 16px/24px 'librebaskerville-italic', serif;
+  color: #6e7881;
+  margin-bottom: 0;
+}
+
+#resume .info span {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+#resume .date {
+  font: 15px/24px 'opensans-regular', sans-serif;
+  margin-top: 6px;
+}
+
+.row-separator {
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.resume-list-no-padding {
+  padding: 0 !important;
+}
+
+.resume-list-item {
+  margin-bottom: 0.5rem;
+  overflow-wrap: break-word;
+  list-style-type: none;
+}
+
+.resume-list-icon {
+  color: #0762f9;
+  margin-right: 0.5rem !important;
+  padding: 0 !important;
+}
+
+.resume-list-content {
+  font-weight: normal;
+}
+
+.bars {
+  width: 100%;
+  float: left;
+  padding: 0;
+  text-align: left;
+}
+
+.bars .skill-lists {
+  margin-top: 36px;
+  list-style: none;
+  padding: 0 !important;
+}
+
+.bars li {
+  position: relative;
+  margin-bottom: 60px;
+  background: #333;
+  height: 42px;
+  border-radius: 0px;
+}
+
+.bars li em {
+  font: 15px 'opensans-bold', sans-serif;
+  color: #313131;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: normal;
+  position: relative;
+  top: -36px;
+}
+
+.bar-expand {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  margin: 0;
+  padding-right: 24px;
+  background: #313131;
+  display: inline-block;
+  height: 42px;
+  line-height: 42px;
+  border-radius: 0px;
+}

@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { AboutDisplay } from './AboutDisplay';
 import { AboutEditor } from './AboutEditor';
-import { updateDescription,updateMedialinks } from '../../admin/AdminUtils';
+import { updateDescription } from '../../admin/AdminUtils';
 import { UserContext } from '../UserContext';
 import { HomeAvatar } from '../../homepage/HomeAvatar';
 import { ThemedBackgroundContainer } from '../ThemedBackgroundContainer';
