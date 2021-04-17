@@ -1,0 +1,59 @@
+.Header {
+  text-align: center;
+  background-color: white;
+}
+
+.Button {
+  text-align: center;
+}
+
+h3 {
+  color: #d33405 !important;
+}
+
+.item {
+  margin-bottom: 1.5em;
+  padding-bottom: 1em;
+  border-bottom: 1px dotted #dedede;
+}
+
+.date {
+  float: left;
+  border-right: #000;
+  margin-right: 2em;
+  color: #767676;
+  margin-top: 1em;
+  min-width: 10em;
+  margin-bottom: 0;
+  font-size: 0.9em;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.date p {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+
+.event-details {
+  overflow: hidden;
+  display: inline;
+}
+
+.hoster {
+  color: #000;
+  font-weight: 700;
+  margin-right: 1em;
+}
+
+.content {
+  display: inline-block;
+  margin-right: 2em;
+}
+
+.buttons {
+  display: inline;
+}
+
+.events {
+  text-align: center;
+}

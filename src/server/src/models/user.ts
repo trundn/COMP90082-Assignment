@@ -29,7 +29,7 @@ class User {
     'theme',
     'themeDark',
     'dateBirth',
-    
+
     'twitterLink',
     'facebookLink',
     'githubLink',

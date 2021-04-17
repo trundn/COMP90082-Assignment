@@ -52,7 +52,7 @@ const PortfolioAddButton = (props: ProjectAddButton) => {
     props.category === PortfolioCategory.BLOG
       ? 'Add post'
       : 'Add project/Events';
-      
+
   const handleUpdateItem = (
     key: keyof PortfolioItem,
     value: PortfolioItemValue

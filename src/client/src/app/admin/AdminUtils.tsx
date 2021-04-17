@@ -45,7 +45,7 @@ const updateTwitter = async (
   getAccessTokenSilently: (options?: any) => Promise<string>
 ) => {
   return updateProfile(getAccessTokenSilently, {
-    twitterLink:twitterLink,
+    twitterLink: twitterLink,
   });
 };
 const updateFacebook = async (
@@ -54,7 +54,7 @@ const updateFacebook = async (
   getAccessTokenSilently: (options?: any) => Promise<string>
 ) => {
   return updateProfile(getAccessTokenSilently, {
-    facebookLink:facebookLink,
+    facebookLink: facebookLink,
   });
 };
 
@@ -64,7 +64,7 @@ const updateGithub = async (
   getAccessTokenSilently: (options?: any) => Promise<string>
 ) => {
   return updateProfile(getAccessTokenSilently, {
-    githubLink:githubLink,
+    githubLink: githubLink,
   });
 };
 
@@ -74,7 +74,7 @@ const updateLinkedin = async (
   getAccessTokenSilently: (options?: any) => Promise<string>
 ) => {
   return updateProfile(getAccessTokenSilently, {
-    linkedinLink:linkedinLink,
+    linkedinLink: linkedinLink,
   });
 };
 const updateTheme = async (
@@ -114,4 +114,14 @@ const updateProfile = async (
   });
 };
 
-export { updateProfilePicture, updateName, updateDescription, updateTheme,updateDateBirth,updateTwitter,updateFacebook, updateGithub,updateLinkedin};
+export {
+  updateProfilePicture,
+  updateName,
+  updateDescription,
+  updateTheme,
+  updateDateBirth,
+  updateTwitter,
+  updateFacebook,
+  updateGithub,
+  updateLinkedin,
+};

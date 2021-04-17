@@ -20,20 +20,18 @@ const AboutDisplayManagaePage = (props: AboutDisplayManagaePage) => {
 
   return (
     <Container>
-     
       <Row sm={10} style={{ wordWrap: 'break-word' }} className="ml-0">
-      
         <ReactMarkdown
           source={props.description}
           escapeHtml={false}
           css={contentStyle}
         />
-        <Col  md={{ span: 3, offset: 4 }}>
-            <Pencil
+        <Col md={{ span: 3, offset: 4 }}>
+          <Pencil
             onClick={props.onOpenEditor}
             className="pointer float-right"
-            />
-      </Col>
+          />
+        </Col>
       </Row>
     </Container>
   );

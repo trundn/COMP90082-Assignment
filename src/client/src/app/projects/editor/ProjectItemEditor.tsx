@@ -31,6 +31,8 @@ const ProjectItemEditor = (props: ProjectItemEditor) => {
 
   const handleSave = () => {
     props.onSave();
+    // 进行监测（后面要删除）
+    console.log('save is done');
   };
 
   const handleImageChange = (image: string) => {

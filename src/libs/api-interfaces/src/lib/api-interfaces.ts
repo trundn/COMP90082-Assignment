@@ -19,6 +19,7 @@ interface PortfolioItem {
   image?: string;
   public?: boolean;
 }
+
 type PortfolioItemValue = PortfolioItem[keyof PortfolioItem];
 
 interface UserProfile {
@@ -124,6 +125,21 @@ interface Funfacts {
 }
 
 
+// Event Model
+interface Event {
+  uuid?: string;
+  eventName: string;
+  eventHoster?: string;
+  eventLocation?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
+
+interface Events {
+  user: string;
+  events?: Event[];
+}
+
 export {
   Message,
   PortfolioItem,
@@ -142,4 +158,7 @@ export {
   // For funfact modal
   Funfact,
   Funfacts,
+  // For event modal
+  Event,
+  Events,
 };
