@@ -20,7 +20,6 @@ interface FunfactModalProps {
 const FunfactModal = ({ show, selectedFunfact, onSubmit, onClose }: FunfactModalProps) => {
 
     const isAddMoreAction = useRef(true);
-
   useEffect(() => {
     isAddMoreAction.current = selectedFunfact === initialFunfactValues;
    }, [selectedFunfact]);
@@ -84,7 +83,7 @@ const FunfactModal = ({ show, selectedFunfact, onSubmit, onClose }: FunfactModal
               </Form.Group>
               {/* Funfact Details */}
               <Form.Row>
-                <Form.Group as={Col} md={3}>
+                <Form.Group as={Col} md={12}>
                   {/* Hoster */}
                   <Form.Label>One sentence fact</Form.Label>
                   <Form.Control

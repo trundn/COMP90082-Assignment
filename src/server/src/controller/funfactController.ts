@@ -1,4 +1,4 @@
-import { Request, response, Response } from 'express';
+import { Request, Response } from 'express';
 import * as mongoose from 'mongoose';
 import { FunfactModel } from '../models/funfact';
 
@@ -28,10 +28,6 @@ const getFunfactByUserName = async (req: Request, res: Response) => {
     
     const addFunfact = async (req: Request, res: Response) => {
       const { user, funfact } = req.body;
-
-      //console.log('funfact', funfact);
-      //console.log('user', user);
-    
       try {
         const item = await FunfactModel.findOne({
             user: mongoose.Types.ObjectId(user),
@@ -78,17 +74,16 @@ const getFunfactByUserName = async (req: Request, res: Response) => {
     };
     
     const deleteFunfact = async (req: Request, res: Response) => {
-      const { funfact_id, funfact_uuid } = req.body;
+      const { user, funfactUUID } = req.body;
       try {
         try {
           await FunfactModel.findOneAndUpdate(
             {
-              _id: mongoose.Types.ObjectId(funfact_id),
+              user: mongoose.Types.ObjectId(user),
             },
             {
               $pull: {
-                // Should implement later
-                // eventRef: { uuid: event_uuid },
+                funfacts: {uuid: funfactUUID},
               },
             }
           );

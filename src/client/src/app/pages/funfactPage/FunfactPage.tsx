@@ -1,38 +1,42 @@
-import React, { useState, useEffect, useContext, Fragment } from 'react';
+import React, { useState, useEffect, useContext, } from 'react';
 import { faEdit, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Container, Row} from 'react-bootstrap';
+import axios from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
+import { v4 as uuidv4 } from 'uuid';
+
 import { UserContext } from '../../portfolio-shared/UserContext';
 import { EditContext } from '../../portfolio-shared/EditContext';
 import './funfactPage.css';
-import FunfactItem from '../../components/funfact/FunfactItem';
 import FunfactModal from '../../components/funfact/FunfactModal';
-import axios from 'axios';
-import { useAuth0 } from '@auth0/auth0-react';
 import { Funfact,Funfacts } from '@pure-and-lazy/api-interfaces';
-import { v4 as uuidv4 } from 'uuid';
 import Confirmation from '../../components/ui/modals/Confirmation';
 import { initialFunfactValues,defaultTypesValues } from '../../constants/funfactInitValues';
-import moment from 'moment';
 import { FunfactSectionTypes } from '../../constants/funfactConstant';
 
 const FunfactPage = () => {
  // Pre-pared content
-
  const [FunfactData, setFunfactData] = useState<Funfacts>();
-
  const [selectedFunfact, setSelectedFunfact] = useState<Funfact>(initialFunfactValues);
+ 
  // Control Modal
  const [modalShow, setModalShow] = useState(false);
  const [show, setShow] = useState(false);
  const [modalShows, setModalShows] = useState<{
-  [resumeType: string]: boolean;
-}>(defaultTypesValues);
+    [funfactType: string]: boolean;
+  }>(defaultTypesValues);
 
- // login way
- const editMode = useContext(EditContext);
- const { _id } = useContext(UserContext);
- const { getAccessTokenSilently } = useAuth0();
+  // Control Confirmation
+  const [deleteConfirmationShow, setDeleteConfirmationShow] = useState(false);
+  const [deleteTargetKind, setDeleteTargetKinds] = useState<{
+      [funfactsType: string]: boolean;
+    }>(defaultTypesValues);
+
+  // login way
+  const editMode = useContext(EditContext);
+  const { _id } = useContext(UserContext);
+  const { getAccessTokenSilently } = useAuth0();
 
 
    // Get funfact data
@@ -45,9 +49,7 @@ const FunfactPage = () => {
          method: 'GET',
          url: `/api/funfact/${_id}`,
        });
- 
        setFunfactData(result.data as Funfacts);
-       //console.log('result.data', result.data);
      } catch (error) {
        console.log('Failed to fetch funfact data', error);
      }
@@ -55,9 +57,7 @@ const FunfactPage = () => {
 
      // Change modal statue
   const updateModalShowStatus = (funfactType: string, status: boolean): void => {
-    // console.log("updateModalShowStatus");
     setModalShows((prevState) => {
-      //console.log('prevState', prevState);
       return { ...prevState, [funfactType]: status };
     });
   };
@@ -184,7 +184,6 @@ const FunfactPage = () => {
   };
   const updateSelectedEventPart = (targetKind: string, targetVal: any) => {
     if (targetKind === FunfactSectionTypes.Funfact) {
-      //console.log('selectedFunfact', targetVal);
       setSelectedFunfact(targetVal);
     }
   };
@@ -196,7 +195,55 @@ const FunfactPage = () => {
       targetVal: any,
       targetKind: string,
       status: boolean
-    ): void => {};
+    ): void => {
+      updateSelectedEventPart(targetKind, targetVal);
+      setDeleteConfirmationShow(true);
+      setDeleteTargetKinds((prevState) => {
+        return { ...prevState, [targetKind]: status };
+      });
+    };
+
+    const handleConfirmDelete = (value: boolean) => {
+      if (value) {
+        if (deleteTargetKind[FunfactSectionTypes.Funfact]) {
+          deleteFunfact(selectedFunfact);
+          setSelectedFunfact(null);
+          setDeleteTargetKinds((prevState) => {
+            return { ...prevState, [FunfactSectionTypes.Funfact]: false };
+          });
+        }
+      }
+      setDeleteConfirmationShow(false);
+    };
+  
+    const deleteFunfact = async (delFunfact: Funfact) => {
+      try {
+        const token = await getAccessTokenSilently();
+        await axios({
+          method: 'DELETE',
+          url: `/api/funfact/delete`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          data: {
+            user: _id,
+            funfactUUID: delFunfact.uuid,
+          },
+        });
+  
+        setFunfactData((prevState) => {
+          return {
+            ...prevState,
+            funfacts: prevState.funfacts.filter<Funfact>(
+              (fun): fun is Funfact => fun.uuid !== delFunfact.uuid
+            ),
+          };
+        });
+      } catch (error) {
+        console.log('Failed to delete this funfact', error);
+      }
+    };
 
 
 // Clone newFunfact data
@@ -209,8 +256,6 @@ const cloneFunfact = (funfact: Funfact): Funfact => {
 const addFunfact = async (newFunfact: Funfact) => {
   try {
     const token = await getAccessTokenSilently();
-    //console.log('newFunfact', newFunfact);
-    //console.log('_id', _id);
     await axios({
       method: 'PUT',
       // 接口地址
@@ -274,6 +319,16 @@ const addFunfact = async (newFunfact: Funfact) => {
          onSubmit={handleFunfactSubmit}
          onClose={handleFunfactModalCloseClick}
        />
+        <Confirmation
+          show={deleteConfirmationShow}
+          onConfirm={handleConfirmDelete}
+          title="Delete Funfact"
+          confirmation="Are you sure you want to delete this funfact?"
+          okText="Yes"
+          cancelText="Cancel"
+          okButtonStyle="danger"
+          cancelButtonStyle="secondary"
+        />
        {/* All the newFunfacts are in here */}
        <ul>
        <Container>
