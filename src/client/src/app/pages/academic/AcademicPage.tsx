@@ -215,7 +215,6 @@ const AcademicPage = () => {
 
   const button_sytle = require('../academic/Academic.css');
   const bootstrap = require('../academic/bootstrap.css');
-  const boxStyle = require('../academic/cardBoxes.css');
 
   const editAndDeletdButton = (onEditClick, onDeleteClick): JSX.Element => {
     if (editMode) {
