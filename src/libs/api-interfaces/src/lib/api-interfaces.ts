@@ -31,6 +31,12 @@ interface UserProfile {
   profilePicture?: string;
   theme?: UserTheme;
   themeDark?: boolean;
+  dateBirth?: string;
+
+  twitterLink?: string;
+  facebookLink?: string;
+  githubLink?: string;
+  linkedinLink?: string;
 }
 
 enum UserTheme {
