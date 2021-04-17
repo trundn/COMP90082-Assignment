@@ -21,6 +21,7 @@ class User {
   @prop() githubLink?: string;
   @prop() linkedinLink?: string;
 
+
   static editableFields = [
     'name',
     'description',

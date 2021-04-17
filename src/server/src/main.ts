@@ -10,6 +10,8 @@ import resumeRoutes from './routes/resumeRoutes';
 import eventRoutes from './routes/eventRoutes';
 import swaggerSpec from './swaggerSpec';
 
+import funfactRoutes from './routes/funfactRoutes';
+
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -32,6 +34,7 @@ app.use('/api/resume', resumeRoutes);
 // For event page
 app.use('/api/event', eventRoutes);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/funfact', funfactRoutes);
 
 app.get('*', (_req, res) => {
   res.sendFile('index.html', {

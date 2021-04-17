@@ -16,6 +16,8 @@ import { ContentPage } from '../content/ContentPage';
 //新的东西
 import { EventPage } from '../pages/eventPage/EventPage';
 
+import{FunfactPage} from '../pages/funfactPage/FunfactPage';
+
 const PortfolioIndex = () => {
   const [redirect, setRedirect] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -81,6 +83,9 @@ const PortfolioIndex = () => {
           </Route>
           <Route exact path={`${path}/about`}>
             <About />
+          </Route>
+          <Route exact path={`${path}/funfact`}>
+            <FunfactPage />
           </Route>
         </Switch>
         <FooterWrapper

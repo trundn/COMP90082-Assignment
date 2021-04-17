@@ -20,6 +20,7 @@ const AboutDisplay = (props: AboutDisplay) => {
   };
 
   return (
+    // BootStrap Grid布局方式
     <Container>
       <Row xs={10} className="pb-3">
         <Col xs={10}>
