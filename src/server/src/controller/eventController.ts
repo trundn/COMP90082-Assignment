@@ -4,7 +4,7 @@ import { EventModel } from '../models/event';
 
 const getEventByUserName = async (req: Request, res: Response) => {
   const { userid } = req.params;
-  console.log('userid', userid);
+  // console.log('userid', userid);
   try {
     const item = await EventModel.findOne({
       user: mongoose.Types.ObjectId(userid),
