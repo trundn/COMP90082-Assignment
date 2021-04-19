@@ -57,7 +57,7 @@ const EventPage = () => {
         method: 'GET',
         url: `/api/event/${_id}`,
       });
-      console.log('success get method');
+      console.log('success get event method');
       setEventData(result.data as Events);
       // console.log('result.data.events',result.data)
     } catch (error) {
@@ -96,6 +96,9 @@ const EventPage = () => {
             </Button>
           </div>
         )}
+        <br />
+        <br />
+        <br />
       </Container>
     );
   };
@@ -112,6 +115,7 @@ const EventPage = () => {
         })
         .map((event) => {
           return (
+            // move this part into eventitem component
             <Row key={event.uuid}>
               <Col xs={editMode ? 10 : 12}>
                 <div className={'item'}>
@@ -251,7 +255,6 @@ const EventPage = () => {
     setDeleteConfirmationShow(false);
   };
 
-  //
   const deleteEvent = async (delEvent: Event) => {
     try {
       const token = await getAccessTokenSilently();
