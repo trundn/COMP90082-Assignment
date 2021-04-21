@@ -13,6 +13,11 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { UserContext } from './UserContext';
 import { Container } from 'react-bootstrap';
 import { ContentPage } from '../content/ContentPage';
+import { AcademicPage } from '../pages/academic/AcademicPage';
+//新的东西
+import { EventPage } from '../pages/eventPage/EventPage';
+
+import{FunfactPage} from '../pages/funfactPage/FunfactPage';
 
 const PortfolioIndex = () => {
   const [redirect, setRedirect] = useState(false);
@@ -61,6 +66,10 @@ const PortfolioIndex = () => {
           <Route exact path={`${path}/resume`}>
             <ResumePage />
           </Route>
+          {/* New Staff */}
+          <Route exact path={`${path}/events`}>
+            <EventPage />
+          </Route>
           <Route exact path={`${path}/projects`}>
             <ProjectPage />
           </Route>
@@ -75,6 +84,15 @@ const PortfolioIndex = () => {
           </Route>
           <Route exact path={`${path}/about`}>
             <About />
+          </Route>
+          <Route exact path={`${path}/academic`}>
+            <AcademicPage />
+          </Route>
+          <Route exact path={`${path}/academic/:contentID`}>
+            <AcademicPage />
+          </Route>
+          <Route exact path={`${path}/funfact`}>
+            <FunfactPage />
           </Route>
         </Switch>
         <FooterWrapper

@@ -41,14 +41,23 @@ const PortfolioNavBar = () => {
           <LinkContainer to={`${URL_PREFIX}/resume`}>
             <Nav.Link eventKey="/resume">Resume</Nav.Link>
           </LinkContainer>
+          <LinkContainer to={`${URL_PREFIX}/events`}>
+            <Nav.Link eventKey="/event">Events</Nav.Link>
+          </LinkContainer>
           <LinkContainer to={`${URL_PREFIX}/projects`}>
             <Nav.Link eventKey="/projects">Projects</Nav.Link>
           </LinkContainer>
           <LinkContainer to={`${URL_PREFIX}/blog`}>
             <Nav.Link eventKey="/blog">Blog</Nav.Link>
           </LinkContainer>
+          <LinkContainer to={`${URL_PREFIX}/academic`}>
+            <Nav.Link eventKey="/academic">Academic</Nav.Link>
+          </LinkContainer>
           <LinkContainer to={`${URL_PREFIX}/about`}>
             <Nav.Link eventKey="/about">About</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to={`${URL_PREFIX}/funfact`}>
+            <Nav.Link eventKey="/about">Funfact</Nav.Link>
           </LinkContainer>
         </Nav>
       </Navbar.Collapse>
