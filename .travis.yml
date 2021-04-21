@@ -12,8 +12,7 @@ branches:
 deploy:
   provider: heroku
   skip_cleanup: true
-  api_key:
-    secure: RwSN8RJvzyhM9RGqiKp97gP+t0klZqCfrytLIayM9r7xPy3CNcll+j+NOUTkM9j4OIcbqIVUb/l5+5vy2eBeZ8LwYHZEdQpZm83eMcuySBSS0TuZEd4gXmA/A1G+Fvo1G2jM+4CL100I5rku0SmneqRjyH3A1QvzHgugVCUElsBVxghWV8LNrjV1D139fMv04JFCKNE3I9aXbx5Ixhq3PaUS0kzMO9TIEF5rxE14DZkAAHzMd5bCcd5YU7ijeY46RUQtezOSObbks6mzj7umQcQ5mn2OUFzM1qWq5oVKJSUn24VncOE/Qs3qAEFUzvJXDO+q5vlNfa6xKdw7UX4drkUMzggQ7RVo2bwGaeLihG9QuY1ldLLtAzpNnRqQKZdBnIa5e+m6pLLJLSWs0b6sdShpn+gtKfPgQKyIqVKHL2+OwL5Vn97y9eXpnafNvqJ2ZnQgTk/+NCRFcjwLmWjVB0vhVnKoBk0yvkTqAfRHXZeIKZwTbK14s3UD2oaRjwpu+0LoU5QN+oEt1Ioqb6PgNe+mXYwF2WrtPNJc2izlsH2No2FUiymWTeUgK1xLTEQq1KCbeGnPJzhrHli6Kmr+Z3SPEPWvQA4y25XhzhHW58pq7wx+2R9vuCL9QtFTeQZ3hzqg4MJF5xGUJyX1RVwkfx5iwN/bmxVbozy1ij78C7A=
+  api_key: $HEROKU_API_KEY
   app: comp90082-cicd
   on:
     branch: ductrungn
