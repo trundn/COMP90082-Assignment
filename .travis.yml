@@ -9,6 +9,8 @@ script:
 branches:
   only:
   - ductrungn
+notifications:
+  slack: comp90082soft-ryy5393:HBjhfHRoKWDWbX5L50O7Szym
 deploy:
   provider: heroku
   skip_cleanup: true
