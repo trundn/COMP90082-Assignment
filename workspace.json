@@ -2,7 +2,7 @@
   "version": 1,
   "projects": {
     "client": {
-      "root": "src/client",
+      "root": "apps/client",
       "sourceRoot": "src/client/src",
       "projectType": "application",
       "schematics": {},
@@ -79,7 +79,7 @@
       }
     },
     "client-e2e": {
-      "root": "src/client-e2e",
+      "root": "apps/client-e2e",
       "sourceRoot": "src/client-e2e/src",
       "projectType": "application",
       "architect": {
@@ -107,7 +107,7 @@
       }
     },
     "server": {
-      "root": "src/server",
+      "root": "apps/server",
       "sourceRoot": "src/server/src",
       "projectType": "application",
       "prefix": "server",
