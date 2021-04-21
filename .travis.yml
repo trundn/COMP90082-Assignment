@@ -4,10 +4,19 @@ node_js:
 cache:
   directories:
     - node_modules
+
 script:
 - npm run build
+
+branches:
+  only:
+  - ductrungn
+
 deploy:
   provider: heroku
+  skip_cleanup: true
   api_key:
     secure: S1OoacnVf0yJq25ZVnZYYTg1zzZzhbjTI0pfeVyiPRPj3omh5pq0B4cGAl4EHGYMYeqAQ9jKb/iloI2eJ4yn+25pXaWTUbUhw8tXzx34H12X8t5884Ic34ejkH/KMsQ4B7jiFrfTJvX6HUCRqnIshSxFIbnkPK6mrK/LvuVIe3FSXPG0v8nOSXyZNGaAKPFF8pVCVLZw69sB6sZw6J3W4PA2rslbgkfBCRVtHKa/FIuKO9FWO/xoA2nGK3En9NtNMhAwgJs3Qo6o5wcsxl3RT1eIPiaVeATMjpy2q2dMqMjIfi+81m+ml1xt6hOdjCsrifoz5pNwGlwQg9xRr5dYe2/kivGPNugeVeZgi8fYu2g5MIAEs9Jcxzwe2I1JTS+9DmvuZlZig4iIaLyZHVwyXRaXFQHbGypPWevHezaYn3Jx18VILlTf6s8fH+nzQB9bEl7wdSgfRmy0HlKv5/0plRFciQpN5mK/k7U5l8jjt6Q2VpcbmpRoTzR8sbUXxCtJA/+Ge/OaeLsIspth8aKCMnQUYO3XufjCIvCV48+8ulu8HnwLpgJva0huwYYE5kMuWNhP9ZK0OfvwR3FoxtaWaotjvVvyjjLcB+2PWNENay63JsStjhEU+rS5dwK0emnhGtuLDA/LcxqjAlinGaL0YcAWLVL4e6/hP8MUkUxIhsU=
   app: comp90082-cicd
+  on:
+    branch: ductrungn
