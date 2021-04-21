@@ -148,8 +148,12 @@ const AcademicModal = ({
                   <DatePicker
                     selected={startDate}
                     name="createDate"
-                    onChange={(date) => setStartDate(date)}
-                    value={values.createDate}
+                    onChange={(date) => {
+                      if (date instanceof Date) {
+                        setStartDate(date);
+                      }
+                    }}
+                    // value={values.createDate}
                     dateFormat="yyy/MM/dd"
                     customInput={<Form.Control type="text" />}
                   />

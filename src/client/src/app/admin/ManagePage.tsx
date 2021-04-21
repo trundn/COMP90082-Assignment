@@ -319,7 +319,11 @@ const ManagePage = () => {
                   <div>
                     <DatePicker
                       selected={startDate}
-                      onChange={(startDate) => setStartDate(startDate)}
+                      onChange={(startDate) => {
+                        if (startDate instanceof Date) {
+                          setStartDate(startDate);
+                        }
+                      }}
                     />
                   </div>
                 </div>
