@@ -124,7 +124,7 @@ const EventPage = () => {
                     <p>End: {event.endDate.toString().slice(0, 10)}</p>
                   </div>
                   <div className={'event-details'}>
-                    <h3>{event.eventName}</h3>
+                    <h3 className={'event-name'}>{event.eventName}</h3>
                     <span className={'hoster'}>
                       Hoster: {event.eventHoster}
                     </span>
