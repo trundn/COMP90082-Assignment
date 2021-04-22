@@ -15,6 +15,6 @@ deploy:
   provider: heroku
   skip_cleanup: true
   api_key: $HEROKU_API_KEY
-  app: comp90082-cicd
+  app: comp90082-pure-and-lazy
   on:
     branch: ductrungn
