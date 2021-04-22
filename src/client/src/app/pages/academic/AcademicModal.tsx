@@ -12,7 +12,7 @@ import { Formik } from 'formik';
 import { generateCloudinaryUrl } from '../../cloudinaryUtility';
 import { SetFieldValue } from '../../types/ResumeTypes';
 import { initialValues } from '../academic/initialAcademicValues';
-
+import moment from 'moment';
 interface AcademicModalProps {
   show: boolean;
   onClose(): void;
@@ -148,9 +148,13 @@ const AcademicModal = ({
                   <DatePicker
                     selected={startDate}
                     name="createDate"
-                    onChange={(date) => setStartDate(date)}
-                    value={values.createDate}
-                    dateFormat="yyy/MM/dd"
+                    onChange={(date) => {
+                      if (date instanceof Date) {
+                        setStartDate(date);
+                      }
+                    }}
+                    value={moment(values.createDate).format('yyyy/MM/dd')}
+                    dateFormat="yyyy/MM/dd"
                     customInput={<Form.Control type="text" />}
                   />
                 </Form.Group>
