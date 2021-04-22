@@ -87,9 +87,11 @@ const ManagePage = () => {
 
   useEffect(() => {
     setFormName(name);
-    if (dateBirth == '') {
+    console.log(dateBirth);
+    if (dateBirth == ""||dateBirth == null) {
       setStartDate(new Date());
-    } else {
+      
+    }else {
       setStartDate(new Date(dateBirth));
     }
     setFacebook(facebookLink);
