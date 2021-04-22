@@ -12,7 +12,7 @@ export const useAuth0Api = () => {
   } = useAuth0();
 
   // Auth0 Management API constants
-  const auth0Domain = 'comp90082ug.au.auth0.com';
+  const auth0Domain = 'pure-and-lazy.au.auth0.com';
   const audience = `https://${auth0Domain}/api/v2/`;
   const userDetailsByIdUrl = isAuthenticated
     ? `https://${auth0Domain}/api/v2/users/${user.sub}`

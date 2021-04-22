@@ -9,7 +9,7 @@ function (user, context, callback) {
   }
   // Set redirect url
   context.redirect = {
-    url: "https://comp90082-pure-and-lazy.herokuapp.com/admin"
+    url: "https://pure-and-lazy.herokuapp.com/admin"
   };
   // Set registration status
   user.user_metadata = user.user_metadata || {};

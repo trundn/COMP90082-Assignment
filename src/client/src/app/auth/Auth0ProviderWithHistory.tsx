@@ -8,9 +8,9 @@ import { Auth0Provider } from '@auth0/auth0-react';
 
 // Note: Auth0ProviderWithHistory needs to be a child of BrowserRouter
 const Auth0ProviderWithHistory = ({ children }) => {
-  const auth0Domain = 'comp90082ug.au.auth0.com';
-  const auth0ClientId = 'dbhzQcoJAQVUWQDWl0eHIsx0XKgC9ymS';
-  const auth0ApiIdentifier = 'https://comp90082ug.au.auth0.com/api/v2/';
+  const auth0Domain = 'pure-and-lazy.au.auth0.com';
+  const auth0ClientId = 'dvv0VQp1XRJGwhppPeUvMTTebM2zEDE8';
+  const auth0ApiIdentifier = 'https://pure-and-lazy-backend';
   // The above strings are safe to share publicly
 
   const history = useHistory();
