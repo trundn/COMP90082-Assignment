@@ -105,7 +105,7 @@ const AcademicPage = () => {
     if (_id) {
       fetchAcademicData();
     }
-  }, []);
+  }, [academicData]);
 
   const fetchAcademicData = async () => {
     try {
