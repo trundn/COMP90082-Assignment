@@ -386,6 +386,16 @@ const AcademicPage = () => {
     return allCards;
   };
 
+  const swiperSlides = [];
+  var len = academicData?.images.length;
+  for (let num = 0; num < len; num++){
+    swiperSlides.push(
+      <SwiperSlide key={`slide-${num}`}>
+        <img src={academicData.images[num].imageUrl} />
+      </SwiperSlide>
+    )
+  }
+
   if (editMode) {
     return (
       <>
@@ -404,15 +414,7 @@ const AcademicPage = () => {
           onSlideChange={() => console.log('slide change')}
           onSwiper={(swiper) => console.log(swiper)}
         >
-          {data.map((user) => (
-            <SwiperSlide key={user.id} className="slide">
-              <div className="slide-content">
-                <div className="academic_image">
-                  <img src={Leon} alt="" className="user_photo" />
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
+          {swiperSlides}
         </Swiper>
         <AcademicModal
           show={modalShow}
@@ -494,15 +496,7 @@ const AcademicPage = () => {
           onSlideChange={() => console.log('slide change')}
           onSwiper={(swiper) => console.log(swiper)}
         >
-          {data.map((user) => (
-            <SwiperSlide key={user.id} className="slide">
-              <div className="slide-content">
-                <div className="academic_image">
-                  <img src={Leon} alt="" className="user_photo" />
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
+        {swiperSlides}
         </Swiper>
         <AcademicVeiwModal
           show={viewModalShow}
