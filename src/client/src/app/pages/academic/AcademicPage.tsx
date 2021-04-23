@@ -20,7 +20,7 @@ import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/components/scrollbar/scrollbar.scss';
-import Leon from '../academic/he.png';
+
 import {
   Button,
   Container,
@@ -53,34 +53,6 @@ import { __values } from 'tslib';
 // install Swiper modules
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, EffectFade, Virtual]);
 
-// Test Data
-const data = [
-  {
-    id: 1,
-    username: 'ABC',
-    testimonial: 'LLLLLLL',
-  },
-  {
-    id: 2,
-    username: 'BBB',
-    testimonial: 'LLLLLLL',
-  },
-  {
-    id: 3,
-    username: 'CCC',
-    testimonial: 'LLLLLLL',
-  },
-  {
-    id: 4,
-    username: 'DDD',
-    testimonial: 'LLLLLLL',
-  },
-  {
-    id: 5,
-    username: 'EEE',
-    testimonial: 'LLLLLLL',
-  },
-];
 
 const AcademicPage = () => {
   const { getAccessTokenSilently } = useAuth0();
