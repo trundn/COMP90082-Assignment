@@ -30,6 +30,7 @@ import {
   Card,
   CardColumns,
   CardDeck,
+  CardGroup,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
@@ -184,9 +185,6 @@ const AcademicPage = () => {
     const newAcademic = { ...academic };
     return newAcademic;
   };
-
-  const button_sytle = require('../academic/Academic.css');
-  const bootstrap = require('../academic/bootstrap.css');
 
   const editAndDeletdButton = (onEditClick, onDeleteClick): JSX.Element => {
     if (editMode) {
@@ -375,19 +373,20 @@ const AcademicPage = () => {
           title="Academic"
           subtitle="My academics and academic picture."
         />
-        <Swiper
-          className="swiper_con"
-          css={button_sytle}
-          spaceBetween={5}
-          slidesPerView={2}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
+        <Container fluid="xl">
+          <Swiper
+            className="swiper_con"
+            spaceBetween={2}
+            slidesPerView={2}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
           {swiperSlides}
-        </Swiper>
+          </Swiper>
+        </Container>
         <AcademicModal
           show={modalShow}
           onClose={() => {
@@ -447,7 +446,7 @@ const AcademicPage = () => {
           okButtonStyle="danger"
           cancelButtonStyle="secondary"
         />
-        <Container>{singleCard()}</Container>
+        <Container fluid="xl" css="margin-bottom: 70px"><Row xs="3" css="">{singleCard()}</Row></Container>
       </>
     );
   } else {
@@ -457,28 +456,29 @@ const AcademicPage = () => {
           title="Academic"
           subtitle="My academics and academic picture."
         />
-        <Swiper
-          className="swiper_con"
-          css={button_sytle}
-          spaceBetween={5}
-          slidesPerView={2}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
-        {swiperSlides}
-        </Swiper>
         <AcademicVeiwModal
-          show={viewModalShow}
-          onClose={() => {
-            setViewModalShow(false);
-            // setViewAcademic(initialValues);
-          }}
-          selectedAcademic={viewAcademic}
+            show={viewModalShow}
+            onClose={() => {
+              setViewModalShow(false);
+              // setViewAcademic(initialValues);
+            }}
+            selectedAcademic={viewAcademic}
         />
-        <Container>{singleCard()}</Container>
+        <Container fluid="xl" css="margin-bottom: 70px">
+          <Swiper
+            className="swiper_con"
+            spaceBetween={5}
+            slidesPerView={2}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+          {swiperSlides}
+          </Swiper>
+          <Row xs="3">{singleCard()}</Row>
+        </Container>
       </>
     );
   }
