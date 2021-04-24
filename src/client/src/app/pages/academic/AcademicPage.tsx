@@ -50,6 +50,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { initialValues } from '../academic/initialAcademicValues';
 import Confirmation from '../../components/ui/modals/Confirmation';
 import { __values } from 'tslib';
+import DeleteImageModal from '../../components/academic/deleteImageModal';
 
 // install Swiper modules
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, EffectFade, Virtual]);
@@ -73,6 +74,7 @@ const AcademicPage = () => {
   const [viewAcademic, setViewAcademic] = useState<Academic>(initialValues);
   const [viewModalShow, setViewModalShow] = useState(false);
   const [imageModalShow, setImageModalShow] = useState(false);
+  const [deleteImageModalShow,setDeleteImageModalShow] = useState(false);
 
   useEffect(() => {
     if (_id) {
@@ -295,6 +297,34 @@ const AcademicPage = () => {
     }
   };
 
+  const handleImageDelete = async (newImage: SingalImage) => {
+    setDeleteImageModalShow(false);
+    console.log(newImage)
+    try {
+      const token = await getAccessTokenSilently();
+      await axios({
+        method: 'PUT',
+        url: `/api/academics/delete_image`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          _id: academicData._id,
+          singalImage: newImage,
+        },
+      });
+      setAcademicData((prevState) => {
+        return {
+          ...prevState,
+          images: [newImage, ...prevState.images],
+        };
+      });
+    } catch (error) {
+      console.log('Failed to delete image', error);
+    }
+  };
+
   const singleCard = (): JSX.Element[] => {
     let allCards: JSX.Element[] = null;
 
@@ -373,6 +403,7 @@ const AcademicPage = () => {
           title="Academic"
           subtitle="My academics and academic picture."
         />
+        <React.StrictMode></React.StrictMode>
         <Container fluid="xl">
           <Swiper
             className="swiper_con"
@@ -410,6 +441,14 @@ const AcademicPage = () => {
           }}
           onSubmit={handleImageSubmit}
         />
+        <DeleteImageModal 
+          show={deleteImageModalShow}
+          onClosed={() => {
+            setDeleteImageModalShow(false);
+          }}
+          academicModels={academicData}
+          onSubmit={handleImageDelete}
+        />
         <Container>
           <Row className="justify-content-center ">
             <Col md="auto">
@@ -422,7 +461,9 @@ const AcademicPage = () => {
                 >
                   Add Image
                 </Button>
-                <Button variant="primary">Delete Image</Button>
+                <Button variant="primary" onClick={() => {
+                  setDeleteImageModalShow(true);
+                }}>Delete Image</Button>
                 <Button
                   variant="primary"
                   onClick={() => {
