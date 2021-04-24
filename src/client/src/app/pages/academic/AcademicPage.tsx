@@ -107,7 +107,6 @@ const AcademicPage = () => {
   ): void => {
     setModalShow(false);
     if (isAddMoreAcademic) {
-      console.log(1);
       const foundExistAca = academicData.academics?.find(
         (item) => item.title.toLowerCase() === values.title.toLowerCase()
       );
@@ -293,7 +292,7 @@ const AcademicPage = () => {
         };
       });
     } catch (error) {
-      console.log('Failed to add Academic', error);
+      console.log('Failed to add image', error);
     }
   };
 
