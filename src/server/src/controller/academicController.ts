@@ -123,7 +123,7 @@ const addImage = async (req: Request, res: Response) => {
 
 const deleteImage = async (req: Request, res: Response) => {
   const aca_id = req.body._id;
-  const singleImage_uuid = req.body.singalImage_uuid;
+  const singleImage_uuid = req.body.singalImage.uuid;
 
   try {
     try {
