@@ -351,7 +351,7 @@ const EventPage = () => {
   };
 
   return (
-    <div>
+    <div css="margin-bottom: 4em">
       <div className={'Header'}>
         <h1>Events</h1>
       </div>
