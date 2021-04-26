@@ -292,11 +292,8 @@ const EventPage = () => {
   const addEvent = async (newEvent: Event) => {
     try {
       const token = await getAccessTokenSilently();
-      // console.log('event', newEvent);
-      // console.log('_id', _id);
       await axios({
         method: 'PUT',
-        // 接口地址
         url: `/api/event/add`,
         headers: {
           Authorization: `Bearer ${token}`,
