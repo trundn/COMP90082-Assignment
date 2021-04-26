@@ -99,7 +99,7 @@ const ProjectItemEditor = (props: ProjectItemEditor) => {
                   <Form.Control
                     type="text"
                     name = "ProjectTitle"
-                    placeholder = "Enter Project Title"
+                    placeholder = {`Enter ${props.initialInfo.category} Title`}
                     onChange={handleTitleChange}
                     size="lg"
                     value={name}
