@@ -21,6 +21,7 @@ import {
 } from '../../constants/eventInitValues';
 import { DB_DATE_FORMAT } from '../../constants/dateConstant';
 import { EventSectionTypes } from '../../constants/eventConstant';
+import { LinkContainer } from 'react-router-bootstrap';
 
 // Content of the project tab
 const EventPage = () => {
@@ -67,9 +68,7 @@ const EventPage = () => {
 
   // Change modal statue
   const updateModalShowStatus = (eventType: string, status: boolean): void => {
-    // console.log("updateModalShowStatus");
     setModalShows((prevState) => {
-      // console.log('prevState', prevState);
       return { ...prevState, [eventType]: status };
     });
   };
@@ -96,9 +95,6 @@ const EventPage = () => {
             </Button>
           </div>
         )}
-        <br />
-        <br />
-        <br />
       </Container>
     );
   };
@@ -124,7 +120,9 @@ const EventPage = () => {
                     <p>End: {event.endDate.toString().slice(0, 10)}</p>
                   </div>
                   <div className={'event-details'}>
+                  <LinkContainer to={`events/${event.uuid}`} className="pointer">
                     <h3 className={'event-name'}>{event.eventName}</h3>
+                  </LinkContainer>
                     <span className={'hoster'}>
                       Hoster: {event.eventHoster}
                     </span>
