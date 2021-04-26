@@ -22,7 +22,6 @@ const DeleteImageModal = ({show, onClosed,academicModels,onSubmit} : DeleteImage
     }
 
     return (
-        <>
         <Modal
         show={show}
         onHide={onClosed}
@@ -78,7 +77,6 @@ const DeleteImageModal = ({show, onClosed,academicModels,onSubmit} : DeleteImage
           </Button>
         </Modal.Footer>
         </Modal>
-        </>
     );
 
 }
