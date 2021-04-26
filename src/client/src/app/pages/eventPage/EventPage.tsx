@@ -50,14 +50,14 @@ const EventPage = () => {
   // Get event data
   useEffect(() => {
     fetchEventData();
-  }, []);
+  }, [_id]);
   const fetchEventData = async () => {
     try {
       const result = await axios({
         method: 'GET',
         url: `/api/event/${_id}`,
       });
-      console.log('success get method');
+      
       setEventData(result.data as Events);
       // console.log('result.data.events',result.data)
     } catch (error) {

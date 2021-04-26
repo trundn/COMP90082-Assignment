@@ -4,12 +4,13 @@ import 'react-mde/lib/styles/css/react-mde-all.css';
 import { EditorBody } from './EditorBody';
 import { ProjectItemImage } from './ProjectItemImage';
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { ErrorMessage, Formik } from 'formik';
 import {
   PortfolioItem,
   PortfolioItemValue,
 } from '@pure-and-lazy/api-interfaces';
 import { PrivacyToggle } from './PrivacyToggle';
+import { isError } from 'util';
 
 interface ProjectItemEditor {
   initialInfo: PortfolioItem;
@@ -49,21 +50,18 @@ const ProjectItemEditor = (props: ProjectItemEditor) => {
 
   // schema validation
   const validationSchema = Yup.object().shape({
-
+    name: Yup.string().required(`${props.initialInfo.name} Name is required`),
+    ProjectDescription: Yup.string().required(`${props.initialInfo.name} Description is required`),
   });
 
   const { name, image, description, content } = props.infoState;
   const isPublic = props.infoState.public;
 
-  const handleFormClose = () => {
-    
-  };
-
   return (
     <Modal 
       show={props.show}
       centered
-      onHide={handleFormClose}
+      onHide={props.onCancel}
       dialogClassName="modal-xl"
       size="lg"
       backdrop="static"
@@ -77,6 +75,7 @@ const ProjectItemEditor = (props: ProjectItemEditor) => {
       </Modal.Header>
       <Formik
         initialValues={props.initialInfo}
+        validationSchema={validationSchema}
         onSubmit={()=>{
 
         }}
@@ -105,6 +104,9 @@ const ProjectItemEditor = (props: ProjectItemEditor) => {
                     size="lg"
                     value={name}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {name}
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group controlId="formGroupDescription">
                   <Form.Label>Description</Form.Label>

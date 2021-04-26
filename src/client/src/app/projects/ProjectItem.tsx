@@ -8,6 +8,8 @@ import {
   PortfolioItem,
   PortfolioItemValue,
 } from '@pure-and-lazy/api-interfaces';
+import Confirmation from '../components/ui/modals/Confirmation';
+
 
 interface ProjectItem {
   onUpdate: () => void;
@@ -43,7 +45,19 @@ const ProjectItem = (props: ProjectItem) => {
     props.onUpdate();
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
+    setDeleteConfirmationShow(true);
+  };
+
+  const [deleteConfirmationShow, setDeleteConfirmationShow] = useState(false);
+  const handleConfirmDelete = (value:boolean) => {
+    if(value){
+      deleteProject();
+    }
+    setDeleteConfirmationShow(false);
+  };
+
+  const deleteProject = async () => {
     try {
       await deleteProjectItem(id, getAccessTokenSilently);
     } catch (e) {
@@ -72,6 +86,16 @@ const ProjectItem = (props: ProjectItem) => {
         onSave={handleSave}
         show={editorOpen}
       />
+      <Confirmation
+          show={deleteConfirmationShow}
+          onConfirm={handleConfirmDelete}
+          title= {`Delete ${props.itemInfo.category}`}
+          confirmation= {`Are you sure you want to delete this ${props.itemInfo.category}`}
+          okText="Yes"
+          cancelText="Cancel"
+          okButtonStyle="danger"
+          cancelButtonStyle="secondary"
+        />
       <ProjectItemDisplay
         title={title}
         image={image}
