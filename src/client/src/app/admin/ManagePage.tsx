@@ -87,9 +87,11 @@ const ManagePage = () => {
 
   useEffect(() => {
     setFormName(name);
-    if (dateBirth == '') {
+    console.log(dateBirth);
+    if (dateBirth == ""||dateBirth == null) {
       setStartDate(new Date());
-    } else {
+      
+    }else {
       setStartDate(new Date(dateBirth));
     }
     setFacebook(facebookLink);
@@ -319,7 +321,11 @@ const ManagePage = () => {
                   <div>
                     <DatePicker
                       selected={startDate}
-                      onChange={(startDate) => setStartDate(startDate)}
+                      onChange={(startDate) => {
+                        if (startDate instanceof Date) {
+                          setStartDate(startDate);
+                        }
+                      }}
                     />
                   </div>
                 </div>

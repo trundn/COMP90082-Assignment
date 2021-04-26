@@ -50,14 +50,14 @@ const EventPage = () => {
   // Get event data
   useEffect(() => {
     fetchEventData();
-  }, []);
+  }, [_id]);
   const fetchEventData = async () => {
     try {
       const result = await axios({
         method: 'GET',
         url: `/api/event/${_id}`,
       });
-      console.log('success get event method');
+      
       setEventData(result.data as Events);
       // console.log('result.data.events',result.data)
     } catch (error) {
@@ -354,7 +354,7 @@ const EventPage = () => {
   };
 
   return (
-    <div>
+    <div css="margin-bottom: 4em">
       <div className={'Header'}>
         <h1>Events</h1>
       </div>
