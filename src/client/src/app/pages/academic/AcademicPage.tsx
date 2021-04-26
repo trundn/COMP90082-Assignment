@@ -20,7 +20,7 @@ import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/components/scrollbar/scrollbar.scss';
-import Leon from '../academic/he.png';
+
 import {
   Button,
   Container,
@@ -30,6 +30,7 @@ import {
   Card,
   CardColumns,
   CardDeck,
+  CardGroup,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
@@ -49,38 +50,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { initialValues } from '../academic/initialAcademicValues';
 import Confirmation from '../../components/ui/modals/Confirmation';
 import { __values } from 'tslib';
+import DeleteImageModal from '../../components/academic/deleteImageModal';
 
 // install Swiper modules
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, EffectFade, Virtual]);
 
-// Test Data
-const data = [
-  {
-    id: 1,
-    username: 'ABC',
-    testimonial: 'LLLLLLL',
-  },
-  {
-    id: 2,
-    username: 'BBB',
-    testimonial: 'LLLLLLL',
-  },
-  {
-    id: 3,
-    username: 'CCC',
-    testimonial: 'LLLLLLL',
-  },
-  {
-    id: 4,
-    username: 'DDD',
-    testimonial: 'LLLLLLL',
-  },
-  {
-    id: 5,
-    username: 'EEE',
-    testimonial: 'LLLLLLL',
-  },
-];
 
 const AcademicPage = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -100,12 +74,13 @@ const AcademicPage = () => {
   const [viewAcademic, setViewAcademic] = useState<Academic>(initialValues);
   const [viewModalShow, setViewModalShow] = useState(false);
   const [imageModalShow, setImageModalShow] = useState(false);
+  const [deleteImageModalShow,setDeleteImageModalShow] = useState(false);
 
   useEffect(() => {
     if (_id) {
       fetchAcademicData();
     }
-  }, []);
+  }, [academicData]);
 
   const fetchAcademicData = async () => {
     try {
@@ -132,7 +107,6 @@ const AcademicPage = () => {
   ): void => {
     setModalShow(false);
     if (isAddMoreAcademic) {
-      console.log(1);
       const foundExistAca = academicData.academics?.find(
         (item) => item.title.toLowerCase() === values.title.toLowerCase()
       );
@@ -212,9 +186,6 @@ const AcademicPage = () => {
     const newAcademic = { ...academic };
     return newAcademic;
   };
-
-  const button_sytle = require('../academic/Academic.css');
-  const bootstrap = require('../academic/bootstrap.css');
 
   const editAndDeletdButton = (onEditClick, onDeleteClick): JSX.Element => {
     if (editMode) {
@@ -321,7 +292,35 @@ const AcademicPage = () => {
         };
       });
     } catch (error) {
-      console.log('Failed to add Academic', error);
+      console.log('Failed to add image', error);
+    }
+  };
+
+  const handleImageDelete = async (newImage: SingalImage) => {
+    setDeleteImageModalShow(false);
+    console.log(newImage)
+    try {
+      const token = await getAccessTokenSilently();
+      await axios({
+        method: 'PUT',
+        url: `/api/academics/delete_image`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          _id: academicData._id,
+          singalImage: newImage,
+        },
+      });
+      setAcademicData((prevState) => {
+        return {
+          ...prevState,
+          images: [newImage, ...prevState.images],
+        };
+      });
+    } catch (error) {
+      console.log('Failed to delete image', error);
     }
   };
 
@@ -386,6 +385,16 @@ const AcademicPage = () => {
     return allCards;
   };
 
+  const swiperSlides = [];
+  var len = academicData?.images.length;
+  for (let num = 0; num < len; num++){
+    swiperSlides.push(
+      <SwiperSlide key={`slide-${num}`}>
+        <img src={academicData.images[num].imageUrl} />
+      </SwiperSlide>
+    )
+  }
+
   if (editMode) {
     return (
       <>
@@ -393,27 +402,21 @@ const AcademicPage = () => {
           title="Academic"
           subtitle="My academics and academic picture."
         />
-        <Swiper
-          className="swiper_con"
-          css={button_sytle}
-          spaceBetween={5}
-          slidesPerView={2}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
-          {data.map((user) => (
-            <SwiperSlide key={user.id} className="slide">
-              <div className="slide-content">
-                <div className="academic_image">
-                  <img src={Leon} alt="" className="user_photo" />
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <React.StrictMode></React.StrictMode>
+        <Container fluid="xl">
+          <Swiper
+            className="swiper_con"
+            spaceBetween={2}
+            slidesPerView={2}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+          {swiperSlides}
+          </Swiper>
+        </Container>
         <AcademicModal
           show={modalShow}
           onClose={() => {
@@ -437,6 +440,14 @@ const AcademicPage = () => {
           }}
           onSubmit={handleImageSubmit}
         />
+        <DeleteImageModal 
+          show={deleteImageModalShow}
+          onClosed={() => {
+            setDeleteImageModalShow(false);
+          }}
+          academicModels={academicData}
+          onSubmit={handleImageDelete}
+        />
         <Container>
           <Row className="justify-content-center ">
             <Col md="auto">
@@ -449,7 +460,9 @@ const AcademicPage = () => {
                 >
                   Add Image
                 </Button>
-                <Button variant="primary">Delete Image</Button>
+                <Button variant="primary" onClick={() => {
+                  setDeleteImageModalShow(true);
+                }}>Delete Image</Button>
                 <Button
                   variant="primary"
                   onClick={() => {
@@ -473,7 +486,7 @@ const AcademicPage = () => {
           okButtonStyle="danger"
           cancelButtonStyle="secondary"
         />
-        <Container>{singleCard()}</Container>
+        <Container fluid="xl" css="margin-bottom: 70px"><Row xs="3" css="">{singleCard()}</Row></Container>
       </>
     );
   } else {
@@ -483,36 +496,29 @@ const AcademicPage = () => {
           title="Academic"
           subtitle="My academics and academic picture."
         />
-        <Swiper
-          className="swiper_con"
-          css={button_sytle}
-          spaceBetween={5}
-          slidesPerView={2}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
-          {data.map((user) => (
-            <SwiperSlide key={user.id} className="slide">
-              <div className="slide-content">
-                <div className="academic_image">
-                  <img src={Leon} alt="" className="user_photo" />
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
         <AcademicVeiwModal
-          show={viewModalShow}
-          onClose={() => {
-            setViewModalShow(false);
-            // setViewAcademic(initialValues);
-          }}
-          selectedAcademic={viewAcademic}
+            show={viewModalShow}
+            onClose={() => {
+              setViewModalShow(false);
+              // setViewAcademic(initialValues);
+            }}
+            selectedAcademic={viewAcademic}
         />
-        <Container>{singleCard()}</Container>
+        <Container fluid="xl" css="margin-bottom: 70px">
+          <Swiper
+            className="swiper_con"
+            spaceBetween={5}
+            slidesPerView={2}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+          {swiperSlides}
+          </Swiper>
+          <Row xs="3">{singleCard()}</Row>
+        </Container>
       </>
     );
   }

@@ -151,10 +151,11 @@ const AcademicModal = ({
                     onChange={(date) => {
                       if (date instanceof Date) {
                         setStartDate(date);
+                        setFieldValueFunc.current("createDate",date);
                       }
                     }}
-                    value={moment(startDate).format('YYYY MM DD')}
-                    dateFormat="YYYY MM DD"
+                    value={moment(values.createDate).format("YYYY/MM/DD")}
+                    dateFormat="YYYY/MM/DD"
                     customInput={<Form.Control type="text" />}
                   />
                 </Form.Group>
