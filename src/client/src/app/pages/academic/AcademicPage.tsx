@@ -80,7 +80,7 @@ const AcademicPage = () => {
     if (_id) {
       fetchAcademicData();
     }
-  }, [academicData]);
+  }, [_id]);
 
   const fetchAcademicData = async () => {
     try {
