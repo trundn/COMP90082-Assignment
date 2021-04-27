@@ -21,6 +21,7 @@ import {
 } from '../../constants/eventInitValues';
 import { DB_DATE_FORMAT } from '../../constants/dateConstant';
 import { EventSectionTypes } from '../../constants/eventConstant';
+import { LinkContainer } from 'react-router-bootstrap';
 
 // Content of the project tab
 const EventPage = () => {
@@ -67,9 +68,7 @@ const EventPage = () => {
 
   // Change modal statue
   const updateModalShowStatus = (eventType: string, status: boolean): void => {
-    // console.log("updateModalShowStatus");
     setModalShows((prevState) => {
-      // console.log('prevState', prevState);
       return { ...prevState, [eventType]: status };
     });
   };
@@ -112,6 +111,7 @@ const EventPage = () => {
         })
         .map((event) => {
           return (
+            // move this part into eventitem component
             <Row key={event.uuid}>
               <Col xs={editMode ? 10 : 12}>
                 <div className={'item'}>
@@ -120,7 +120,9 @@ const EventPage = () => {
                     <p>End: {event.endDate.toString().slice(0, 10)}</p>
                   </div>
                   <div className={'event-details'}>
-                    <h3>{event.eventName}</h3>
+                  <LinkContainer to={`events/${event.uuid}`} className="pointer">
+                    <h3 className={'event-name'}>{event.eventName}</h3>
+                  </LinkContainer>
                     <span className={'hoster'}>
                       Hoster: {event.eventHoster}
                     </span>
@@ -251,7 +253,6 @@ const EventPage = () => {
     setDeleteConfirmationShow(false);
   };
 
-  //
   const deleteEvent = async (delEvent: Event) => {
     try {
       const token = await getAccessTokenSilently();
@@ -291,11 +292,8 @@ const EventPage = () => {
   const addEvent = async (newEvent: Event) => {
     try {
       const token = await getAccessTokenSilently();
-      // console.log('event', newEvent);
-      // console.log('_id', _id);
       await axios({
         method: 'PUT',
-        // 接口地址
         url: `/api/event/add`,
         headers: {
           Authorization: `Bearer ${token}`,

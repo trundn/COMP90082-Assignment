@@ -14,10 +14,9 @@ import { UserContext } from './UserContext';
 import { Container } from 'react-bootstrap';
 import { ContentPage } from '../content/ContentPage';
 import { AcademicPage } from '../pages/academic/AcademicPage';
-//新的东西
 import { EventPage } from '../pages/eventPage/EventPage';
-
 import{FunfactPage} from '../pages/funfactPage/FunfactPage';
+import {EventContentPage} from '../content/EventContentPage';
 
 const PortfolioIndex = () => {
   const [redirect, setRedirect] = useState(false);
@@ -66,9 +65,13 @@ const PortfolioIndex = () => {
           <Route exact path={`${path}/resume`}>
             <ResumePage />
           </Route>
-          {/* New Staff */}
+          {/* Event Page */}
           <Route exact path={`${path}/events`}>
             <EventPage />
+          </Route>
+          {/* Event Page Content */}
+          <Route exact path={`${path}/events/:contentID`}>
+            <EventContentPage />
           </Route>
           <Route exact path={`${path}/projects`}>
             <ProjectPage />
