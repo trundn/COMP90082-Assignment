@@ -18,7 +18,6 @@ router.all('/*', (req, res, next) => {
 });
 // Get event data from database
 router.get('/:userid', getEventByUserName);
-
 router.route('/add').put(addEvent);
 router.route('/update').put(updateEvent);
 router.route('/delete').delete(deleteEvent);

@@ -37,6 +37,7 @@ const ProjectItemDisplay = (props: ProjectItemDisplay) => {
     'object-fit': 'cover',
     height: '25vh',
   };
+  console.log(props.link);
 
   const cardNew = {};
   return (
@@ -46,7 +47,7 @@ const ProjectItemDisplay = (props: ProjectItemDisplay) => {
           <Card.Img variant="top" src={props.image || null} css={imageStyle} />
         </LinkContainer>
         <Card.Body>
-          <LinkContainer to={props.link} className="pointer">
+          <LinkContainer to={props.link} className="pointer" >
             <Card.Title>
               <strong>{props.title}</strong>
             </Card.Title>

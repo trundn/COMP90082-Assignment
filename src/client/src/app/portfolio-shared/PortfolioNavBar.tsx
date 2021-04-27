@@ -42,7 +42,7 @@ const PortfolioNavBar = () => {
             <Nav.Link eventKey="/resume">Resume</Nav.Link>
           </LinkContainer>
           <LinkContainer to={`${URL_PREFIX}/events`}>
-            <Nav.Link eventKey="/event">Events</Nav.Link>
+            <Nav.Link eventKey="/events">Events</Nav.Link>
           </LinkContainer>
           <LinkContainer to={`${URL_PREFIX}/projects`}>
             <Nav.Link eventKey="/projects">Projects</Nav.Link>
