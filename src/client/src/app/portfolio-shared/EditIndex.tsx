@@ -8,9 +8,17 @@ import { EditContext } from './EditContext';
 import { PortfolioEditFooter } from './PortfolioEditFooter';
 import { PortfolioHome } from './PortfolioHome';
 import { PortfolioNavBar } from './PortfolioNavBar';
+import ResumePage from '../pages/resume/ResumePage';
 import { ProjectPage } from './ProjectPage';
 import { AuthContext } from '../auth/AuthContext';
 import { Container } from 'react-bootstrap';
+import { AcademicPage } from '../pages/academic/AcademicPage';
+
+
+import{FunfactPage} from '../pages/funfactPage/FunfactPage';
+
+import { EventPage } from '../pages/eventPage/EventPage';
+
 
 const EditIndex = () => {
   const { registrationComplete, isLoaded } = useContext(AuthContext);
@@ -35,6 +43,13 @@ const EditIndex = () => {
           <Route exact path={`${path}`}>
             <PortfolioHome />
           </Route>
+          <Route exact path={`${path}/resume`}>
+            <ResumePage />
+          </Route>
+          {/* //新的东西 */}
+          <Route exact path={`${path}/events`}>
+            <EventPage />
+          </Route>
           <Route exact path={`${path}/projects`}>
             <ProjectPage />
           </Route>
@@ -47,8 +62,17 @@ const EditIndex = () => {
           <Route exact path={`${path}/blog/:contentID`}>
             <ContentPage />
           </Route>
+          <Route exact path={`${path}/academic`}>
+            <AcademicPage />
+          </Route>
+          <Route exact path={`${path}/academic/:contentID`}>
+            <AcademicPage />
+          </Route>
           <Route exact path={`${path}/about`}>
             <About />
+          </Route>
+          <Route exact path={`${path}/funfact`}>
+            <FunfactPage />
           </Route>
         </Switch>
         <FooterWrapper footer={footer} hidden={!isEditMode} />

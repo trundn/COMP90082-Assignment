@@ -5,9 +5,17 @@ import connectToDatabase from './config/db';
 import { notFound, errorHandler } from './middleware/errorMiddleware';
 import authRoutes from './routes/authRoutes';
 import portfolioRoutes from './routes/portfolioRoutes';
+import resumeRoutes from './routes/resumeRoutes';
+// For event page
+import eventRoutes from './routes/eventRoutes';
 import swaggerSpec from './swaggerSpec';
 
+import funfactRoutes from './routes/funfactRoutes';
+
 import * as dotenv from 'dotenv';
+
+import academicRouter from '../src/routes/academicRoutes';
+
 dotenv.config();
 
 connectToDatabase();
@@ -23,10 +31,14 @@ app.use(
 );
 
 app.use(express.json());
-
 app.use('/api/auth', authRoutes);
 app.use('/api/portfolio', portfolioRoutes);
+app.use('/api/resume', resumeRoutes);
+app.use('/api/academics', academicRouter);
+// For event page
+app.use('/api/event', eventRoutes);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/funfact', funfactRoutes);
 
 app.get('*', (_req, res) => {
   res.sendFile('index.html', {
