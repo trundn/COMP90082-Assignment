@@ -130,6 +130,7 @@ const About = () => {
                 linkedinLink={linkedinLink}
                 //onSubmit = {handleSubmit}
               />
+              
 
             </Container>
           </Col>

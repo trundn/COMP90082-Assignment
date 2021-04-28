@@ -4,6 +4,16 @@ import ReactMarkdown from 'react-markdown/umd/react-markdown';
 import { Pencil } from 'react-bootstrap-icons';
 import { EditContext } from '../EditContext';
 
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+
+  FacebookIcon,
+  TwitterIcon,
+  LinkedinIcon,
+} from "react-share";
+
 interface MediaLink {
   twitterLink: string;
   facebookLink: string;
@@ -19,11 +29,14 @@ const MediaLink = (props:MediaLink) => {
     }
   };
 
+  const currentlink = window.location.href;
+
   return (
     // BootStrap Grid布局方式
     
     <Container>
       <div className="row text-center">
+      <h5>Visit my social media links: </h5>
         <div className="col-md-2 gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" className="bi bi-twitter" viewBox="0 0 16 16" >
           <a href={props.twitterLink}>
@@ -52,6 +65,36 @@ const MediaLink = (props:MediaLink) => {
         </a>
         </svg>
         </div>
+      </div>
+
+      <div className="row text-center">
+        <h5>Share my profile to:      </h5>
+        <div className="col-md-2 gap-3">
+        <TwitterShareButton url={currentlink} title = {'Here is a profolio.'}>
+        <TwitterIcon
+              size={"45"} // You can use rem value instead of numbers
+              round
+            />
+        </TwitterShareButton>
+        </div>
+        <div className="col-md-2 gap-3">
+        <FacebookShareButton url={currentlink} quote = {'Here is a profolio.'}>
+        <FacebookIcon
+              size={"45"} // You can use rem value instead of numbers
+              round
+            />
+        </FacebookShareButton>
+        </div>
+        <div className="col-md-2 gap-3">
+        <LinkedinShareButton url={currentlink} title = {'Here is a profolio.'}>
+        <LinkedinIcon
+              size={"45"} // You can use rem value instead of numbers
+              round
+            />
+        </LinkedinShareButton>
+        </div>
+
+
       </div>
     </Container>
   );
