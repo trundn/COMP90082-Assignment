@@ -80,7 +80,7 @@ const AcademicPage = () => {
     if (_id) {
       fetchAcademicData();
     }
-  }, [academicData]);
+  }, [_id]);
 
   const fetchAcademicData = async () => {
     try {
@@ -313,12 +313,7 @@ const AcademicPage = () => {
           singalImage: newImage,
         },
       });
-      setAcademicData((prevState) => {
-        return {
-          ...prevState,
-          images: [newImage, ...prevState.images],
-        };
-      });
+      fetchAcademicData();
     } catch (error) {
       console.log('Failed to delete image', error);
     }

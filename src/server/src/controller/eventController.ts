@@ -4,7 +4,6 @@ import { EventModel } from '../models/event';
 
 const getEventByUserName = async (req: Request, res: Response) => {
   const { userid } = req.params;
-  // console.log('userid', userid);
   try {
     const item = await EventModel.findOne({
       user: mongoose.Types.ObjectId(userid),
@@ -29,9 +28,6 @@ const getEventByUserName = async (req: Request, res: Response) => {
 // Create new event
 const addEvent = async (req: Request, res: Response) => {
   const { user, event } = req.body;
-
-  // console.log('event', event);
-  // console.log('user', user);
   try {
     const item = await EventModel.findOne({
       user: mongoose.Types.ObjectId(user),
@@ -55,13 +51,10 @@ const addEvent = async (req: Request, res: Response) => {
 // update event
 const updateEvent = async (req: Request, res: Response) => {
   const { user, event } = req.body;
-  // console.log('event', event);
-  // console.log("user", user);
   try {
     try {
       await EventModel.findOneAndUpdate(
         {
-          // 可能不是event_id而是user_id
           user: mongoose.Types.ObjectId(user),
           events: { $elemMatch: { uuid: event.uuid } },
         },
