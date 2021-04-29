@@ -11,8 +11,8 @@
 # ePortfolio App
 
 ## Install Instructions
-1. cd to a suitable path
-2. open terminal and paste `git clone https://github.com/trundn/COMP90082-Assignment.git`
+1. open terminal and cd to a suitable path
+2. paste `git clone https://github.com/trundn/COMP90082-Assignment.git` and press Enter
 3. cd to the project path
 4. npm install
 5. npm start
