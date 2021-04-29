@@ -96,7 +96,7 @@ const GetStartedPage = () => {
     );
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     setSubmitting(true);
     try {
@@ -138,7 +138,7 @@ const GetStartedPage = () => {
         </Row>
         <Row>
           <Col lg={6} md={8}>
-            <Form onSubmit={() => handleSubmit}>
+            <Form>
               <Form.Group
                 className="mt-2"
                 controlId="name"
@@ -194,6 +194,7 @@ const GetStartedPage = () => {
                   variant="primary"
                   type="submit"
                   disabled={isInvalid || submitting}
+                  onClick={(evt) => handleSubmit(evt)}
                 >
                   Submit
                 </Button>
