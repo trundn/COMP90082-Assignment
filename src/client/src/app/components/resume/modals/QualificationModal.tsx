@@ -135,7 +135,7 @@ const QualificationModal = ({
           <Form.Control
             type="text"
             name={fieldName}
-            placeholder={'No file choosen'}
+            placeholder={'No file chosen'}
             value={fieldValue}
             disabled
           />
