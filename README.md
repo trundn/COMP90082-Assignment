@@ -10,13 +10,50 @@
 
 # ePortfolio App
 
+## Deployment process
+### Introduction
+This page will show the process of how to deploy the project.
+
+### Github repository link:
+https://github.com/trundn/COMP90082-Assignment
+
+### Config the environment variables
+#### For the windows platform and MaxOS platform
+Nodejs download website: https://nodejs.org/en/download/
+
+### Version check command:
+node -V
+
+### Install MongoDB Application
+####Download MongoDB Community
+install link: https://www.mongodb.com/try/download/community
+
+#### Connect to MongoDB
+Connection link: 
+mongodb+srv://trungnd:Pass4eportfolio@cluster0.xjxw5.mongodb.net/pureandlazydb?retryWrites=true&w=majority
+
+
 ## Install Instructions
-1. open terminal and cd to a suitable path
-2. paste `git clone https://github.com/trundn/COMP90082-Assignment.git` and press Enter
-3. cd to the project path
-4. npm install
-5. npm start
-Frontend should be accessible at http://localhost:4200 and api at http://localhost:4200/api
+### Clone the project to local
+Enter the command into the terminal:
+git clone https://github.com/trundn/COMP90082-Assignment.git
+
+### Switch to project directory:
+cd COMP90082-Assignment
+
+### Install dependencies:
+npm install
+
+### Setting up the environmental file
+Create local file name as .env to set up MongoDB connect file.
+copy variable into .env file:     MONGODB_PASSWORD = 'Pass4eportfolio'
+
+### Lunch the project:
+npm start
+
+### Lunch the website
+Open the browser and enter the URL localhost:4200
+
 
 ## Testing Instructions
 1. Ensure you have run `npm install` before
