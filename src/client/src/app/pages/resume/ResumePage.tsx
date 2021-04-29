@@ -1016,7 +1016,7 @@ const ResumePage = () => {
                   <p className="info">
                     {qual.degree}
                     <span>&bull;</span>
-                    <em className="date">
+                    <em className="date-time">
                       {getDuration(qual.startDate, qual.graduationDate)}
                     </em>
                   </p>
@@ -1091,7 +1091,7 @@ const ResumePage = () => {
                 >
                   <h3>{exp.organisation}</h3>
                   <p className="info">
-                    <em className="date">
+                    <em className="date-time">
                       {getDuration(exp.startDate, exp.endDate)}
                     </em>
                   </p>
