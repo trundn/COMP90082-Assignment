@@ -58,7 +58,7 @@ const EventPage = () => {
         method: 'GET',
         url: `/api/event/${_id}`,
       });
-      
+
       setEventData(result.data as Events);
       // console.log('result.data.events',result.data)
     } catch (error) {
@@ -120,9 +120,9 @@ const EventPage = () => {
                     <p>End: {event.endDate.toString().slice(0, 10)}</p>
                   </div>
                   <div className={'event-details'}>
-                  <LinkContainer to={`events/${event.uuid}`} className="pointer">
-                    <h3 className={'event-name'}>{event.eventName}</h3>
-                  </LinkContainer>
+                    <LinkContainer to={`events/${event.uuid}`} className="pointer">
+                      <h3 className={'event-name'}>{event.eventName}</h3>
+                    </LinkContainer>
                     <span className={'hoster'}>
                       Hoster: {event.eventHoster}
                     </span>
