@@ -81,6 +81,10 @@ interface Qualification {
   description: string;
   startDate: Date;
   graduationDate?: Date;
+  certificateFileName?: string;
+  transcriptFileName?: string;
+  certificateUrl?: string;
+  transcriptUrl?: string;
 }
 
 interface Award extends Namable {
