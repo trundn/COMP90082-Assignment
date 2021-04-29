@@ -26,7 +26,7 @@ Frontend should be accessible at http://localhost:4200 and api at http://localho
 ## Demo
 
 
-## Completed branches
+## Completed branches for sprint 1
 1. sprint 1 branch
 2. main branch
 3. jiaqiao branch
