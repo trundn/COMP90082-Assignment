@@ -63,11 +63,11 @@ Open the browser and enter the URL localhost:4200
 ## Demo
 https://drive.google.com/file/d/1muXfbl7JZaUouurrAPMktooaD5MlqpaV/view?usp=sharing
 
-## Completed branches for sprint 1
-1. sprint 1 branch
-2. main branch
-3. jiaqiao branch
-4. ductrungn branch
-5. changhair branch
-6. yangfanXu branch
-7. jiawei branch
+## Changelog session
+1. ID-1: As a user, I want to create my resume on ePorfolio system, so that I can highlight my skills, experience, and achievements.
+2. ID-2: As a user, I want to create an academic page, so that I can highlight my qualifications, scholarly works, honours, and awards.
+3. ID-3: As a user, I want to create an event page, so that I can manage all events.
+4. ID-4: As a user, I want to create a fun fact page, so that I can put all my hobbies.
+5. ID-10: As a user, I want to add the ‘Connect with me’ section to the About Me page, so that I can add my social networking addresses.
+6. ID-11: As a user, I want to add more personal information when creating an account so that I can express more about myself.
+7. ID-12: As a user, I want to add an edit feature to the ManagePublicInformation Page, so that I can edit my personal information.
