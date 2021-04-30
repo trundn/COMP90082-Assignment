@@ -54,6 +54,8 @@ npm start
 ### Lunch the website
 Open the browser and enter the URL localhost:4200
 
+### If you cannot run locally
+https://comp90082-pure-and-lazy.herokuapp.com/
 
 ## Testing Instructions
 1. Ensure you have run `npm install` before
