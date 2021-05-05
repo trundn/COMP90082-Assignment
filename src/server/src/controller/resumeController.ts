@@ -62,6 +62,12 @@ const updateQualification = async (req: Request, res: Response) => {
             'qualifications.$.description': new_qualification.description,
             'qualifications.$.startDate': new_qualification.startDate,
             'qualifications.$.graduationDate': new_qualification.graduationDate,
+            'qualifications.$.certificateFileName':
+              new_qualification.certificateFileName,
+            'qualifications.$.transcriptFileName':
+              new_qualification.transcriptFileName,
+            'qualifications.$.certificateUrl': new_qualification.certificateUrl,
+            'qualifications.$.transcriptUrl': new_qualification.transcriptUrl,
           },
         }
       );

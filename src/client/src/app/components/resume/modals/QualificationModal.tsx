@@ -7,13 +7,22 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { Formik } from 'formik';
-import { Button, Col, Form, Modal } from 'react-bootstrap';
+import {
+  Button,
+  Col,
+  Form,
+  Modal,
+  InputGroup,
+  FormControl,
+} from 'react-bootstrap';
 
 import { Qualification } from '@pure-and-lazy/api-interfaces';
 import { DISPLAY_DATE_FORMAT } from '../../../constants/dateConstant';
 
 import { SetFieldValue } from '../../../types/ResumeTypes';
 import { initialQualValues } from '../../../constants/resumeInitValues';
+
+import { generateCloudinaryUrl } from '../../../cloudinaryUtility';
 
 interface QualificationModalProps {
   show: boolean;
@@ -70,6 +79,20 @@ const QualificationModal = ({
     }
   };
 
+  const handleFileUploadClick = (uploaderId: string) => {
+    document.getElementById(uploaderId).click();
+  };
+
+  const handleCloudinaryUrlGenerate = async (
+    fieldName: string,
+    fieldUrlName: string,
+    file: any
+  ) => {
+    const imageUrl = await generateCloudinaryUrl(file);
+    setFieldValue.current(fieldName, file.name);
+    setFieldValue.current(fieldUrlName, imageUrl);
+  };
+
   const buildDatePicker = (
     disabled: boolean,
     name: string,
@@ -94,6 +117,50 @@ const QualificationModal = ({
           <Form.Control type="text" name={name} isInvalid={isInvalid} />
         }
       />
+    );
+  };
+
+  const buildFileUploaderSection = (
+    filedLabel: string,
+    fieldName: string,
+    fieldValue: string,
+    fieldUrlName: string
+  ): JSX.Element => {
+    const fileControlId = `${fieldName}Uploader`;
+
+    return (
+      <Form.Group>
+        <Form.Label>{filedLabel}</Form.Label>
+        <InputGroup>
+          <Form.Control
+            type="text"
+            name={fieldName}
+            placeholder={'No file chosen'}
+            value={fieldValue}
+            disabled
+          />
+          <InputGroup.Append>
+            <Button
+              variant="outline-info"
+              onClick={() => handleFileUploadClick(fileControlId)}
+            >
+              Select
+            </Button>
+            <Form.File
+              id={fileControlId}
+              onChange={(evt) => {
+                handleCloudinaryUrlGenerate(
+                  fieldName,
+                  fieldUrlName,
+                  evt.target.files[0]
+                );
+              }}
+              style={{ display: 'none' }}
+              accept='.jpg,.png'
+            />
+          </InputGroup.Append>
+        </InputGroup>
+      </Form.Group>
     );
   };
 
@@ -180,7 +247,7 @@ const QualificationModal = ({
               </Form.Group>
 
               <Form.Row>
-                <Form.Group as={Col} xs={3}>
+                <Form.Group as={Col} controlId="formStartDate" xs={3}>
                   <Form.Label>From</Form.Label>
                   {buildDatePicker(
                     false,
@@ -189,7 +256,7 @@ const QualificationModal = ({
                     setFieldValue
                   )}
                 </Form.Group>
-                <Form.Group as={Col} xs={3}>
+                <Form.Group as={Col} controlId="formGradDate" xs={3}>
                   <Form.Label>To</Form.Label>
                   {buildDatePicker(
                     isDisableEndDate,
@@ -211,6 +278,20 @@ const QualificationModal = ({
                   onChange={handleNotCompletedCheckChange}
                 />
               </Form.Group>
+
+              {buildFileUploaderSection(
+                'Upload Certificate',
+                'certificateFileName',
+                values.certificateFileName,
+                'certificateUrl'
+              )}
+
+              {buildFileUploaderSection(
+                'Upload Academic Transcript/Statement of Results',
+                'transcriptFileName',
+                values.transcriptFileName,
+                'transcriptUrl'
+              )}
             </Modal.Body>
             <Modal.Footer>
               <Button type="submit">Submit</Button>
