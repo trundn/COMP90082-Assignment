@@ -156,6 +156,7 @@ const QualificationModal = ({
                 );
               }}
               style={{ display: 'none' }}
+              accept='.jpg,.png'
             />
           </InputGroup.Append>
         </InputGroup>
