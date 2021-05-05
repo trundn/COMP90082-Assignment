@@ -64,6 +64,17 @@
   margin-top: 6px;
 }
 
+#resume .uploaded-cert-files {
+  text-decoration: none !important;
+  font: 16px/24px 'librebaskerville-italic', serif;
+  padding-inline-end: 3px;
+  color: #4f5356 !important;
+}
+
+#resume .uploaded-cert-files > a:hover {
+  color: #4f5356;
+}
+
 .row-separator {
   margin-bottom: 48px;
   padding-bottom: 24px;
