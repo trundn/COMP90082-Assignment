@@ -12,7 +12,7 @@
 
 ## Deployment process
 ### Introduction
-This page will show the process of how to deploy the project.
+The fellowing is telling you how to deply locally. If you think it is very hard, you can click this link https://comp90082-pure-and-lazy.herokuapp.com/ to see what we have done.
 
 ### Github repository link:
 https://github.com/trundn/COMP90082-Assignment
