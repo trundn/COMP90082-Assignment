@@ -8,7 +8,7 @@ class Namable {
 class Qualification {
   @prop({ required: true }) uuid?: string;
   @prop({ required: true }) institutionName!: string;
-  @prop({ required: true, unique: true }) degree!: string;
+  @prop({ required: true }) degree!: string;
   @prop({ required: true }) description!: string;
   @prop({ required: true }) startDate!: Date;
   @prop() graduationDate?: Date;
