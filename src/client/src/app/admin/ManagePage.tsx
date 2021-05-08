@@ -87,7 +87,7 @@ const ManagePage = () => {
 
   useEffect(() => {
     setFormName(name);
-    console.log(dateBirth);
+    
     if (dateBirth == ""||dateBirth == null) {
       setStartDate(new Date());
       
