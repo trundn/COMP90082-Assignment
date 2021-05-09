@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 const AdminButton = () => {
   return (
-    <LinkContainer to="/admin">
+    <LinkContainer to="/edit">
       <Button variant="secondary" className="mr-2">
         Admin
       </Button>
