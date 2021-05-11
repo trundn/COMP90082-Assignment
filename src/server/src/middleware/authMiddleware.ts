@@ -2,8 +2,8 @@ import * as jwt from 'express-jwt';
 import * as jwksRsa from 'jwks-rsa';
 
 // See https://auth0.com/docs/quickstart/backend/nodejs/01-authorization
-const auth0Domain = 'pure-and-lazy.au.auth0.com';
-const auth0ApiIdentifier = 'https://pure-and-lazy-backend';
+const auth0Domain = 'comp90082ug.au.auth0.com';
+const auth0ApiIdentifier = 'https://comp90082ug.au.auth0.com/api/v2/';
 
 /** checkJwt is a middleware that checks if the auth token is valid. */
 const checkJwt = jwt({
