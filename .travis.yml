@@ -8,7 +8,7 @@ script:
 - npm run build
 branches:
   only:
-  - ductrungn
+  - sprint2
 notifications:
   slack: comp90082soft-ryy5393:HBjhfHRoKWDWbX5L50O7Szym
 deploy:
@@ -17,4 +17,4 @@ deploy:
   api_key: $HEROKU_API_KEY
   app: comp90082-pure-and-lazy
   on:
-    branch: ductrungn
+    branch: sprint2
