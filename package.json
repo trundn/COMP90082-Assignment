@@ -71,6 +71,7 @@
     "react-router-dom": "^5.2.0",
     "react-select": "^4.3.0",
     "react-share": "^4.4.0",
+    "react-to-print": "^2.12.4",
     "styled-components": "5.1.1",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4",

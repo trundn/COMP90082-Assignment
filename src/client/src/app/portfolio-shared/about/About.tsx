@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext,useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { AboutDisplay } from './AboutDisplay';
@@ -7,7 +7,8 @@ import { updateDescription } from '../../admin/AdminUtils';
 import { UserContext } from '../UserContext';
 import { HomeAvatar } from '../../homepage/HomeAvatar';
 import { ThemedBackgroundContainer } from '../ThemedBackgroundContainer';
-import { css } from '@emotion/core';
+
+import{useReactToPrint } from 'react-to-print';
 
 import { MediaLink} from './MediaLink';
 
@@ -45,8 +46,7 @@ const About = () => {
   const [editorOpen, setEditorOpen] = useState(false);
   //Description是About Meeditor里的内容，这里是从数据库里取用的接口内容
   const { description, setDescription, profilePicture, 
-    twitterLink, facebookLink,githubLink,linkedinLink, 
-    settwitterLink,setfacebookLink,setgithubLink,setlinkedinLink } = useContext(
+    twitterLink, facebookLink,githubLink,linkedinLink, } = useContext(
     UserContext
   );
 
@@ -89,6 +89,11 @@ const About = () => {
     setDescription(newDescription);
   };
 
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
 
 
   /*delete for function changes
@@ -105,7 +110,7 @@ const About = () => {
 
   return (
     <ThemedBackgroundContainer>
-      <Container className="pt-5">
+      <Container className="pt-5" ref={componentRef}>
         <Row>
           <Col sm={4} xs={12} className="pr-sm-5" css={profilePictureStyle}>
             <HomeAvatar image={profilePicture} />
@@ -130,6 +135,9 @@ const About = () => {
                 linkedinLink={linkedinLink}
                 //onSubmit = {handleSubmit}
               />
+              <div>
+                <button onClick={handlePrint}>Print this out!</button>
+              </div>
               
 
             </Container>

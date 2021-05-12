@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, Fragment } from 'react';
+import React, { useState, useEffect, useContext, Fragment,useRef } from 'react';
 import Badge from 'react-bootstrap/Badge';
 
 import Container from 'react-bootstrap/Container';
@@ -52,6 +52,8 @@ import {
   initialRefValues,
 } from '../../constants/resumeInitValues';
 
+import{useReactToPrint } from 'react-to-print';
+
 const ResumePage = () => {
   const [alertMessage, setAlertMessage] = useState('');
 
@@ -83,6 +85,11 @@ const ResumePage = () => {
   const { _id } = useContext(UserContext);
 
   const { getAccessTokenSilently } = useAuth0();
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   useEffect(() => {
     if (_id) {
@@ -1252,13 +1259,13 @@ const ResumePage = () => {
   };
 
   return (
-    <Fragment>
+    <Fragment >
       {alertMessage && (
         <Alert variant="danger" dismissible>
           {alertMessage}
         </Alert>
       )}
-      <section id="resume">
+      <section id="resume" ref={componentRef}>
         <QualificationModal
           selectedQual={selectedQualification}
           show={modalShows[ResumeSectionTypes.Education]}
@@ -1337,6 +1344,9 @@ const ResumePage = () => {
             ResumeSectionTypes.References
           )}
         </Container>
+
+          <button onClick={handlePrint}>Print this out!</button>
+
       </section>
     </Fragment>
   );
