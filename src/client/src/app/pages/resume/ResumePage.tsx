@@ -1345,9 +1345,10 @@ const ResumePage = () => {
           )}
         </Container>
 
-          <button onClick={handlePrint}>Print this out!</button>
-
+         
       </section>
+      <button onClick={handlePrint}>Print this out!</button>
+
     </Fragment>
   );
 };
