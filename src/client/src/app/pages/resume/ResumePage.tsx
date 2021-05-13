@@ -807,6 +807,15 @@ const ResumePage = () => {
   const handleExpModalCloseClick = () => {
     updateModalShowStatus(ResumeSectionTypes.Work, false);
   };
+  const buttonToPdf = (editMode : boolean) : JSX.Element => {
+    if (!editMode){
+      return (<>
+        <button onClick={handlePrint}>Export page to pdf!</button>
+      </>)
+    }else{
+      return null;
+    }
+  }
 
   const handleSkillModalSubmitClick = (
     values: Skill,
@@ -1347,7 +1356,11 @@ const ResumePage = () => {
 
          
       </section>
-      <button onClick={handlePrint}>Print this out!</button>
+      <Container>
+          {
+            buttonToPdf(editMode)
+          }
+        </Container>
 
     </Fragment>
   );
