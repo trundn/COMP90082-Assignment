@@ -1,4 +1,4 @@
-import React, { useState, useContext,useRef } from 'react';
+import React, { useState, useContext } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { AboutDisplay } from './AboutDisplay';
@@ -7,8 +7,6 @@ import { updateDescription } from '../../admin/AdminUtils';
 import { UserContext } from '../UserContext';
 import { HomeAvatar } from '../../homepage/HomeAvatar';
 import { ThemedBackgroundContainer } from '../ThemedBackgroundContainer';
-
-import{useReactToPrint } from 'react-to-print';
 
 import { MediaLink} from './MediaLink';
 
@@ -89,12 +87,6 @@ const About = () => {
     setDescription(newDescription);
   };
 
-  const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
-
 
   /*delete for function changes
   const handleSubmit = async (newMedialinks: []) => {
@@ -110,7 +102,7 @@ const About = () => {
 
   return (
     <ThemedBackgroundContainer>
-      <Container className="pt-5" ref={componentRef}>
+      <Container className="pt-5" >
         <Row>
           <Col sm={4} xs={12} className="pr-sm-5" css={profilePictureStyle}>
             <HomeAvatar image={profilePicture} />
@@ -135,9 +127,6 @@ const About = () => {
                 linkedinLink={linkedinLink}
                 //onSubmit = {handleSubmit}
               />
-              <div>
-                <button onClick={handlePrint}>Print this out!</button>
-              </div>
               
 
             </Container>
