@@ -48,10 +48,10 @@ npm install
 Create local file name as .env to set up MongoDB connect file.
 copy variable into .env file:     MONGODB_PASSWORD = 'Pass4eportfolio'
 
-### Lunch the project:
+### Launch the project:
 npm start
 
-### Lunch the website
+### Launch the website
 Open the browser and enter the URL localhost:4200
 
 
