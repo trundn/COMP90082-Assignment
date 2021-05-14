@@ -1,5 +1,5 @@
 // External
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext,useRef } from 'react';
 import axios from 'axios';
 import { faEdit, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,6 +7,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
 import Confirmation from '../../components/ui/modals/Confirmation';
+import{useReactToPrint } from 'react-to-print';
 // Internal
 import { UserContext } from '../../portfolio-shared/UserContext';
 import { EditContext } from '../../portfolio-shared/EditContext';
@@ -36,6 +37,12 @@ const EventPage = () => {
   }>(defaultTypesValues);
   const [modalShow, setModalShow] = useState(false);
   const [show, setShow] = useState(false);
+
+  // Print event page
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   // Control Confirmation
   const [deleteConfirmationShow, setDeleteConfirmationShow] = useState(false);
@@ -79,20 +86,25 @@ const EventPage = () => {
     sectionType: EventSectionTypes
   ): JSX.Element => {
     return (
-      <Container>
+      <Container ref={componentRef}>
         <div className={'events'}>
           <div>{contentBuilder()}</div>
         </div>
         {editMode && (
           <div className={'Button'}>
-            <Button
-              onClick={() => {
-                setSelectedEvent(initialEventValues);
-                updateModalShowStatus(sectionType, true);
-              }}
-            >
-              <FontAwesomeIcon icon={faPlus} /> Add Event
-            </Button>
+            <div>
+              <Button
+                onClick={() => {
+                  setSelectedEvent(initialEventValues);
+                  updateModalShowStatus(sectionType, true);
+                }}
+              >
+                <FontAwesomeIcon icon={faPlus} /> Add Event
+              </Button>
+            </div>
+            <div>
+              <button onClick={handlePrint}>Print this out!</button>
+            </div>
           </div>
         )}
       </Container>
