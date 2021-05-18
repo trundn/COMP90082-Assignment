@@ -118,7 +118,7 @@ const GetStartedPage = () => {
   }
 
   if (registrationComplete) {
-    return <Redirect to="/admin" />;
+    return <Redirect to="/edit" />;
   }
 
   return (
