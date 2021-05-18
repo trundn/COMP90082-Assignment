@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useContext, Fragment } from 'react';
+
 import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext, Fragment,useRef } from 'react';
 import Badge from 'react-bootstrap/Badge';
 
 import Container from 'react-bootstrap/Container';
@@ -58,6 +59,8 @@ import {
   initialRefValues,
 } from '../../constants/resumeInitValues';
 
+import{useReactToPrint } from 'react-to-print';
+
 const ResumePage = () => {
   const [alertMessage, setAlertMessage] = useState('');
 
@@ -89,6 +92,11 @@ const ResumePage = () => {
   const { _id } = useContext(UserContext);
 
   const { getAccessTokenSilently } = useAuth0();
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   useEffect(() => {
     if (_id) {
@@ -806,6 +814,15 @@ const ResumePage = () => {
   const handleExpModalCloseClick = () => {
     updateModalShowStatus(ResumeSectionTypes.Work, false);
   };
+  const buttonToPdf = (editMode : boolean) : JSX.Element => {
+    if (!editMode){
+      return (<>
+        <button onClick={handlePrint}>Export page to pdf!</button>
+      </>)
+    }else{
+      return null;
+    }
+  }
 
   const handleSkillModalSubmitClick = (
     values: Skill,
@@ -1303,13 +1320,13 @@ const ResumePage = () => {
   };
 
   return (
-    <Fragment>
+    <Fragment >
       {alertMessage && (
         <Alert variant="danger" dismissible>
           {alertMessage}
         </Alert>
       )}
-      <section id="resume">
+      <section id="resume" ref={componentRef}>
         <QualificationModal
           selectedQual={selectedQualification}
           show={modalShows[ResumeSectionTypes.Education]}
@@ -1388,7 +1405,15 @@ const ResumePage = () => {
             ResumeSectionTypes.References
           )}
         </Container>
+
+         
       </section>
+      <Container>
+          {
+            buttonToPdf(editMode)
+          }
+        </Container>
+
     </Fragment>
   );
 };

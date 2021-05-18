@@ -11,7 +11,7 @@ interface EditThemeButton {
 // Button to return to the admin page
 const FooterAdminButton = (props: EditThemeButton) => {
   return (
-    <LinkContainer to="/admin">
+    <LinkContainer to="/">
       {props.isSmall ? (
         <Button variant="light px-3 py-0 mx-2" size="sm">
           <FontAwesomeIcon icon={faLongArrowAltLeft} />

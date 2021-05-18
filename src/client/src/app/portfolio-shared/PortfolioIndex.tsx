@@ -17,7 +17,7 @@ import { AcademicPage } from '../pages/academic/AcademicPage';
 import { EventPage } from '../pages/eventPage/EventPage';
 import{FunfactPage} from '../pages/funfactPage/FunfactPage';
 import {EventContentPage} from '../content/EventContentPage';
-
+import {ManagePage}from '../admin/ManagePage';
 const PortfolioIndex = () => {
   const [redirect, setRedirect] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -96,6 +96,9 @@ const PortfolioIndex = () => {
           </Route>
           <Route exact path={`${path}/funfact`}>
             <FunfactPage />
+          </Route>
+          <Route exact path={`${path}/profile`}>
+            <ManagePage />
           </Route>
         </Switch>
         <FooterWrapper
