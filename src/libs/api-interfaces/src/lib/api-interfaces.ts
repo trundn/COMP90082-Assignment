@@ -156,6 +156,7 @@ interface Event {
   eventLocation?: string;
   startDate?: Date;
   endDate?: Date;
+  // eventDescription?: string;
 }
 
 interface Events {
