@@ -17,7 +17,7 @@ you can click this link https://comp90082-pure-and-lazy.herokuapp.com/ to see wh
 Account: ug_pw_example@mailinator.com
 Password: Example123321!
 
-To further develop, you should use your own Auth0, MongoDB, cloudinary, travis and heroku.
+To further develop by yourself, you should use your own Auth0, MongoDB, cloudinary, travis and heroku.
 
 ### Prepare for the project
 #### Github repository link:
@@ -41,10 +41,13 @@ mongodb+srv://trungnd:Pass4eportfolio@cluster0.xjxw5.mongodb.net/pureandlazydb?r
 ## Install Instructions
 **Clone the project to local:**:
   git clone https://github.com/trundn/COMP90082-Assignment.git
+
 **Switch to project directory you want:**
   cd COMP90082-Assignment
+
 **Install dependencies:**
   npm install
+
 **Setting up the environmental file:**
   Create local file name as .env in root to set up MongoDB connect file.
   copy variable into .env file:     MONGODB_PASSWORD = 'Pass4eportfolio'
