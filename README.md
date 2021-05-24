@@ -10,8 +10,7 @@
 
 # ePortfolio App from Perfect World
 
-## Deployment process
-### Introduction
+## Introduction
 This project is for COMP90082.
 you can click this link https://comp90082-pure-and-lazy.herokuapp.com/ to see what we have done. The example account is provided in below.
 
