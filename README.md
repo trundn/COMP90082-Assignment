@@ -14,7 +14,9 @@
 ### Introduction
 This project is for COMP90082.
 you can click this link https://comp90082-pure-and-lazy.herokuapp.com/ to see what we have done. The example account is provided in below.
+
 Account: ug_pw_example@mailinator.com
+
 Password: Example123321!
 
 To further develop by yourself, you should use your own Auth0, MongoDB, cloudinary, travis and heroku.
