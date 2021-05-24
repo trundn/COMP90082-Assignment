@@ -8,52 +8,52 @@
     <img src="https://pyheroku-badge.herokuapp.com/?app=pure-and-lazy&style=flat"/>
 </div>
 
-# ePortfolio App
+# ePortfolio App from Perfect World
 
 ## Deployment process
 ### Introduction
-The fellowing is telling you how to deply locally. If you think it is very hard, you can click this link https://comp90082-pure-and-lazy.herokuapp.com/ to see what we have done.
+This project is for COMP90082.
+you can click this link https://comp90082-pure-and-lazy.herokuapp.com/ to see what we have done. The example account is provided in below.
+Account: ug_pw_example@mailinator.com
+Password: Example123321!
 
-### Github repository link:
+To further develop, you should use your own Auth0, MongoDB, cloudinary, travis and heroku.
+
+### Prepare for the project
+#### Github repository link:
 https://github.com/trundn/COMP90082-Assignment
 
-### Config the environment variables
-#### For the windows platform and MaxOS platform
+#### Config the environment variables
+##### For the windows platform and MaxOS platform
 Nodejs download website: https://nodejs.org/en/download/
 
-### Version check command:
+#### Version check command:
 node -V
 
-### Install MongoDB Application
-#### Download MongoDB Community
-install link: https://www.mongodb.com/try/download/community
+#### Install MongoDB Application
+##### Download MongoDB Compass
+install link: https://www.mongodb.com/products/compass
 
-#### Connect to MongoDB
+##### Connect to MongoDB
 Connection link: 
 mongodb+srv://trungnd:Pass4eportfolio@cluster0.xjxw5.mongodb.net/pureandlazydb?retryWrites=true&w=majority
 
-
 ## Install Instructions
-### Clone the project to local
-Enter the command into the terminal:
-git clone https://github.com/trundn/COMP90082-Assignment.git
+**Clone the project to local:**:
+  git clone https://github.com/trundn/COMP90082-Assignment.git
+**Switch to project directory you want:**
+  cd COMP90082-Assignment
+**Install dependencies:**
+  npm install
+**Setting up the environmental file:**
+  Create local file name as .env in root to set up MongoDB connect file.
+  copy variable into .env file:     MONGODB_PASSWORD = 'Pass4eportfolio'
 
-### Switch to project directory:
-cd COMP90082-Assignment
+**Launch the project:**
+  npm start
 
-### Install dependencies:
-npm install
-
-### Setting up the environmental file
-Create local file name as .env to set up MongoDB connect file.
-copy variable into .env file:     MONGODB_PASSWORD = 'Pass4eportfolio'
-
-### Launch the project:
-npm start
-
-### Launch the website
-Open the browser and enter the URL localhost:4200
-
+**Launch the website:**
+  Open the browser and enter the URL localhost:4200
 
 ## Testing Instructions
 1. Ensure you have run `npm install` before
