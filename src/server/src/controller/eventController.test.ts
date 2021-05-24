@@ -29,11 +29,6 @@ const defaultReq = {params: {}, query: {}};
 const usernameReq = {...defaultReq, params: {username}};
 const authReq = {...defaultReq, user: {sub: auth0Id}};
 
-// Router from Express
-const router = Router();
-router.get('/:userid', getEventByUserName);
-
-
 const userProfile: UserProfile = {
     username,
     email: 'example@gmail.com',
@@ -66,7 +61,7 @@ makeTestSuite('Event tests', () =>{
         expectJSONMatching(actualProfile, userProfile);
     });
 
-    it('Should return an event item', async() =>{
+    it('Should return all event item', async() =>{
         await EventModel.create({
             ...eventItem,
             auth0Id,
