@@ -16,7 +16,7 @@ const getAcademicByUserName = async (req: Request, res: Response) => {
         user: mongoose.Types.ObjectId(userid),
         
       });
-  
+
       if (newAcademicModel) {
         res.send(newAcademicModel);
       } else {
