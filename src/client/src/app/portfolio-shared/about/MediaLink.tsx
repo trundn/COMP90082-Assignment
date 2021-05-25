@@ -1,8 +1,10 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import ReactMarkdown from 'react-markdown/umd/react-markdown';
 import { Pencil } from 'react-bootstrap-icons';
 import { EditContext } from '../EditContext';
+
+import { UserContext } from '../../portfolio-shared/UserContext';
 
 import {
   FacebookShareButton,
@@ -95,8 +97,10 @@ const MediaLink = (props:MediaLink) => {
     }
   }
 
+  const { username } = useContext(UserContext);
+  const currentlink = 'https://comp90082-pure-and-lazy.herokuapp.com/u/'+username+'/about';
 
-  const currentlink = window.location.href;
+
 
   return (
     // BootStrap Grid布局方式
