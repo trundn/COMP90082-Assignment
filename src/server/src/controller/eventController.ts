@@ -1,6 +1,8 @@
+
 import { Request, response, Response } from 'express';
 import * as mongoose from 'mongoose';
 import { EventModel } from '../models/event';
+import {Res} from '../utils/controllerUtil';
 
 const getEventByUserName = async (req: Request, res: Response) => {
   const { userid } = req.params;
@@ -26,7 +28,7 @@ const getEventByUserName = async (req: Request, res: Response) => {
 };
 
 // Create new event
-const addEvent = async (req: Request, res: Response) => {
+const addEvent = async (req: Request, res: Res <Event>) => {
   const { user, event } = req.body;
   try {
     const item = await EventModel.findOne({
@@ -49,7 +51,7 @@ const addEvent = async (req: Request, res: Response) => {
 };
 
 // update event
-const updateEvent = async (req: Request, res: Response) => {
+const updateEvent = async (req: Request, res: Res<Event>) => {
   const { user, event } = req.body;
   try {
     try {
@@ -78,7 +80,7 @@ const updateEvent = async (req: Request, res: Response) => {
 };
 
 // delete event
-const deleteEvent = async (req: Request, res: Response) => {
+const deleteEvent = async (req: Request, res: Res<Event>) => {
   const { user, eventUUID } = req.body;
   console.log('delete', eventUUID);
   try {
