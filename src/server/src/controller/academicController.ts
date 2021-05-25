@@ -32,12 +32,7 @@ const createAcademic = async (req: Request, res: Response) => {
     const item = await AcademicModel.findOne({
       user: mongoose.Types.ObjectId(aca_id),
     });
-    if (!item) {
-      await AcademicModel.create({
-        aca_id: mongoose.Types.ObjectId(aca_id),
-        newAcademic: [],
-      });
-    }
+    
     await AcademicModel.findOneAndUpdate(
       { user: mongoose.Types.ObjectId(aca_id) },
       { $push: { academics: newAcademic } }
