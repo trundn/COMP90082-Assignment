@@ -81,6 +81,10 @@ interface Qualification {
   description: string;
   startDate: Date;
   graduationDate?: Date;
+  certificateFileName?: string;
+  transcriptFileName?: string;
+  certificateUrl?: string;
+  transcriptUrl?: string;
 }
 
 interface Award extends Namable {
@@ -156,6 +160,7 @@ interface Event {
   eventLocation?: string;
   startDate?: Date;
   endDate?: Date;
+  // eventDescription?: string;
 }
 
 interface Events {

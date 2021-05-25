@@ -12,6 +12,10 @@ class Qualification {
   @prop({ required: true }) description!: string;
   @prop({ required: true }) startDate!: Date;
   @prop() graduationDate?: Date;
+  @prop() certificateFileName?: string;
+  @prop() transcriptFileName?: string;
+  @prop() certificateUrl?: string;
+  @prop() transcriptUrl?: string;
 }
 
 class Award extends Namable {
