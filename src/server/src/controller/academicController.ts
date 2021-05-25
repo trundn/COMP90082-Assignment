@@ -27,20 +27,24 @@ const getAcademicByUserName = async (req: Request, res: Response) => {
 
 const createAcademic = async (req: Request, res: Response) => {
   const aca_id = req.body._id;
-  const newAcademic = req.body.academic;
-
+  const newAcademic = req.body.academic; 
   try {
-    try {
-      await AcademicModel.findOneAndUpdate(
-        { _id: mongoose.Types.ObjectId(aca_id) },
-        { $push: { academics: newAcademic } }
-      );
-      res.sendStatus(201);
-    } catch {
-      res.sendStatus(404);
+    const item = await AcademicModel.findOne({
+      user: mongoose.Types.ObjectId(aca_id),
+    });
+    if (!item) {
+      await AcademicModel.create({
+        aca_id: mongoose.Types.ObjectId(aca_id),
+        newAcademic: [],
+      });
     }
+    await AcademicModel.findOneAndUpdate(
+      { user: mongoose.Types.ObjectId(aca_id) },
+      { $push: { academics: newAcademic } }
+    );
+    res.send(item);
   } catch {
-    res.sendStatus(404);
+    console.error;
   }
 };
 
