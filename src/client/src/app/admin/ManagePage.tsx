@@ -28,7 +28,7 @@ import {
 import { useAuth0 } from '@auth0/auth0-react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
-
+import { EditContext } from '../portfolio-shared/EditContext';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -53,7 +53,7 @@ const ManagePage = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
-
+  const editMode = useContext(EditContext);
   const { description, setDescription, profilePicture } = useContext(
     UserContext
   );
@@ -87,7 +87,7 @@ const ManagePage = () => {
 
   useEffect(() => {
     setFormName(name);
-    console.log(dateBirth);
+    
     if (dateBirth == ""||dateBirth == null) {
       setStartDate(new Date());
       
@@ -282,130 +282,247 @@ const ManagePage = () => {
       </Button>
     );
   };
-
-  return (
-    <BackgroundContainer background={GradientBackground}>
-      <div className="m-3 text-right">
-        <AdminSignOut />
-      </div>
-      <Container>
-        <Row className={topMarginStyle}></Row>
-        <Row>
-          <Col>
-            <AdminTitle
-              title="Edit Public Information"
-              subtitle="What details would you like to change?"
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={6} md={8}>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group
-                className="mt-2"
-                controlId="name"
-                style={{ position: 'relative' }}
-              >
-                <div>
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    value={formName}
-                    onChange={handleNameChange}
-                    type="text"
-                    placeholder="Enter name"
-                    isInvalid={isInvalidName}
-                  />
-                </div>
-                <div>
-                  <Form.Label>Date of birth</Form.Label>
+  if(editMode){
+    return (
+      <BackgroundContainer background={GradientBackground}>
+        <div className="m-3 text-right">
+          <AdminSignOut />
+        </div>
+        <Container>
+          <Row className={topMarginStyle}></Row>
+          <Row>
+            <Col>
+              <AdminTitle
+                title="Edit Public Information"
+                subtitle="What details would you like to change?"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={6} md={8}>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group
+                  className="mt-2"
+                  controlId="name"
+                  style={{ position: 'relative' }}
+                >
                   <div>
-                    <DatePicker
-                      selected={startDate}
-                      onChange={(startDate) => {
-                        if (startDate instanceof Date) {
-                          setStartDate(startDate);
-                        }
-                      }}
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      value={formName}
+                      onChange={handleNameChange}
+                      type="text"
+                      placeholder="Enter name"
+                      isInvalid={isInvalidName}
                     />
                   </div>
-                </div>
-
-                <div>
-                  <Form.Label>Twitter</Form.Label>
-                  <Form.Control
-                    value={twitter}
-                    onChange={handleTwitterChange}
-                    type="text"
-                    placeholder="Enter Twitter link"
-                  />
-                </div>
-                <div>
-                  <Form.Label>Facebook</Form.Label>
-                  <Form.Control
-                    value={facebook}
-                    onChange={handleFacebookChange}
-                    type="text"
-                    placeholder="Enter Facebook link"
-                  />
-                </div>
-                <div>
-                  <Form.Label>Github</Form.Label>
-                  <Form.Control
-                    value={github}
-                    onChange={handleGithubChange}
-                    type="text"
-                    placeholder="Enter Github link"
-                  />
-                </div>
-                <div>
-                  <Form.Label>Linkedin</Form.Label>
-                  <Form.Control
-                    value={linkedin}
-                    onChange={handleLinkedinChange}
-                    type="text"
-                    placeholder="Enter Linkedin link"
-                  />
-                </div>
-                <div>
-                  <Form.Label>About Me</Form.Label>
-                  <Container className="p-4 mx-auto" style={containerStyle}>
-                    <AboutEditor
-                      initialDescription={description}
-                      editorSaveButtonDisabled={editorSaveButtonDisabled}
-                      onCancel={handleCancel}
-                      onSave={handleSave}
-                      show={editorOpen}
+                  <div>
+                    <Form.Label>Date of birth</Form.Label>
+                    <div>
+                      <DatePicker
+                        selected={startDate}
+                        onChange={(startDate) => {
+                          if (startDate instanceof Date) {
+                            setStartDate(startDate);
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+  
+                  <div>
+                    <Form.Label>Twitter</Form.Label>
+                    <Form.Control
+                      value={twitter}
+                      onChange={handleTwitterChange}
+                      type="text"
+                      placeholder="Enter Twitter link"
                     />
-                    <AboutDisplayManagaePage
-                      description={description}
-                      onOpenEditor={handleOpenEditor}
+                  </div>
+                  <div>
+                    <Form.Label>Facebook</Form.Label>
+                    <Form.Control
+                      value={facebook}
+                      onChange={handleFacebookChange}
+                      type="text"
+                      placeholder="Enter Facebook link"
                     />
-                  </Container>
+                  </div>
+                  <div>
+                    <Form.Label>Github</Form.Label>
+                    <Form.Control
+                      value={github}
+                      onChange={handleGithubChange}
+                      type="text"
+                      placeholder="Enter Github link"
+                    />
+                  </div>
+                  <div>
+                    <Form.Label>Linkedin</Form.Label>
+                    <Form.Control
+                      value={linkedin}
+                      onChange={handleLinkedinChange}
+                      type="text"
+                      placeholder="Enter Linkedin link"
+                    />
+                  </div>
+                  <div>
+                    <Form.Label>About Me</Form.Label>
+                    <Container className="p-4 mx-auto" style={containerStyle}>
+                      <AboutEditor
+                        initialDescription={description}
+                        editorSaveButtonDisabled={editorSaveButtonDisabled}
+                        onCancel={handleCancel}
+                        onSave={handleSave}
+                        show={editorOpen}
+                      />
+                      <AboutDisplayManagaePage
+                        description={description}
+                        onOpenEditor={handleOpenEditor}
+                      />
+                    </Container>
+                  </div>
+  
+                  <Form.Text className="text-muted">
+                    This will be shown on your profile
+                  </Form.Text>
+                  <FormControl.Feedback type="invalid" tooltip>
+                    Name must only be made of letters [a-z], numbers [0-9], spaces
+                    [ ] and hyphens [-]
+                  </FormControl.Feedback>
+                </Form.Group>
+  
+                <div className="mt-5">
+                  <LinkContainer to="/" style={buttonStyle}>
+                    <Button variant="light" className="mr-3 border">
+                      Back
+                    </Button>
+                  </LinkContainer>
+                  <SaveButton isInvalid={isInvalid} />
                 </div>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      </BackgroundContainer>
+    );
 
-                <Form.Text className="text-muted">
-                  This will be shown on your profile
-                </Form.Text>
-                <FormControl.Feedback type="invalid" tooltip>
-                  Name must only be made of letters [a-z], numbers [0-9], spaces
-                  [ ] and hyphens [-]
-                </FormControl.Feedback>
-              </Form.Group>
-
-              <div className="mt-5">
-                <LinkContainer to="/admin" style={buttonStyle}>
-                  <Button variant="light" className="mr-3 border">
-                    Back
-                  </Button>
-                </LinkContainer>
-                <SaveButton isInvalid={isInvalid} />
-              </div>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
-    </BackgroundContainer>
-  );
+  }
+  else{
+    return (
+      <BackgroundContainer background={GradientBackground}>
+        <div className="m-3 text-right">
+          <AdminSignOut />
+        </div>
+        <Container>
+          <Row className={topMarginStyle}></Row>
+          <Row>
+            <Col>
+              <AdminTitle
+                title="View your profile information"
+                subtitle="you can watch you personal information"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={6} md={8}>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group
+                  className="mt-2"
+                  controlId="name"
+                  style={{ position: 'relative' }}
+                >
+                  <div>
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      value={formName}
+                      onChange={handleNameChange}
+                      type="text"
+                      placeholder="Enter name"
+                      isInvalid={isInvalidName}
+                      readOnly/>
+                  </div>
+                  <div>
+                    <Form.Label>Date of birth</Form.Label>
+                    <div>
+                      <DatePicker
+                        selected={startDate}
+                        onChange={(startDate) => {
+                          if (startDate instanceof Date) {
+                            setStartDate(startDate);
+                          }
+                        }
+                      }
+                      disabled={!editMode}
+                      />
+                    </div>
+                  </div>
+  
+                  <div>
+                    <Form.Label>Twitter</Form.Label>
+                    <Form.Control
+                      value={twitter}
+                      onChange={handleTwitterChange}
+                      type="text"
+                      placeholder="Enter Twitter link"
+                      readOnly/>
+                  </div>
+                  <div>
+                    <Form.Label>Facebook</Form.Label>
+                    <Form.Control
+                      value={facebook}
+                      onChange={handleFacebookChange}
+                      type="text"
+                      placeholder="Enter Facebook link"
+                      readOnly/>
+                  </div>
+                  <div>
+                    <Form.Label>Github</Form.Label>
+                    <Form.Control
+                      value={github}
+                      onChange={handleGithubChange}
+                      type="text"
+                      placeholder="Enter Github link"
+                      readOnly/>
+                  </div>
+                  <div>
+                    <Form.Label>Linkedin</Form.Label>
+                    <Form.Control
+                      value={linkedin}
+                      onChange={handleLinkedinChange}
+                      type="text"
+                      placeholder="Enter Linkedin link"
+                      readOnly/>
+                  </div>
+                  <div>
+                    <Form.Label>About Me</Form.Label>
+                    <Container className="p-4 mx-auto" style={containerStyle}>
+                      
+                      <AboutDisplayManagaePage
+                        description={description}
+                        onOpenEditor={handleOpenEditor}
+                      />
+                    </Container>
+                  </div>
+  
+                  <Form.Text className="text-muted">
+                    This will be shown on your profile
+                  </Form.Text>
+                  <FormControl.Feedback type="invalid" tooltip>
+                    Name must only be made of letters [a-z], numbers [0-9], spaces
+                    [ ] and hyphens [-]
+                  </FormControl.Feedback>
+                </Form.Group>
+  
+                
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      </BackgroundContainer>
+    );
+  }
+  
 };
 
 export { ManagePage };

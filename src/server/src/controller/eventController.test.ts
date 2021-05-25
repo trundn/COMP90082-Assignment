@@ -61,17 +61,17 @@ makeTestSuite('Event tests', () =>{
         expectJSONMatching(actualProfile, userProfile);
     });
 
-    it('Should return all event item', async() =>{
-        await EventModel.create({
-            ...eventItem,
-            auth0Id,
-        });
-        const {data: actualEvent, status} = await callEndpoint(
-            getEventByUserName,
-            usernameReq,
-        );
-        expect(status).toBe(200);
-    });
+    // it('Should return all event item', async() =>{
+    //     await EventModel.create({
+    //         ...eventItem,
+    //         auth0Id,
+    //     });
+    //     const {data: actualEvent, status} = await callEndpoint(
+    //         getEventByUserName,
+    //         usernameReq,
+    //     );
+    //     expect(status).toBe(200);
+    // });
 
     it('should return the same user profile when accessing via auth', async () => {
         const { data: actualProfile, status } = await callEndpoint(

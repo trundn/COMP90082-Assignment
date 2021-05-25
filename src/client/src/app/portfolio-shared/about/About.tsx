@@ -7,7 +7,6 @@ import { updateDescription } from '../../admin/AdminUtils';
 import { UserContext } from '../UserContext';
 import { HomeAvatar } from '../../homepage/HomeAvatar';
 import { ThemedBackgroundContainer } from '../ThemedBackgroundContainer';
-import { css } from '@emotion/core';
 
 import { MediaLink} from './MediaLink';
 
@@ -45,8 +44,7 @@ const About = () => {
   const [editorOpen, setEditorOpen] = useState(false);
   //Description是About Meeditor里的内容，这里是从数据库里取用的接口内容
   const { description, setDescription, profilePicture, 
-    twitterLink, facebookLink,githubLink,linkedinLink, 
-    settwitterLink,setfacebookLink,setgithubLink,setlinkedinLink } = useContext(
+    twitterLink, facebookLink,githubLink,linkedinLink, } = useContext(
     UserContext
   );
 
@@ -90,7 +88,6 @@ const About = () => {
   };
 
 
-
   /*delete for function changes
   const handleSubmit = async (newMedialinks: []) => {
     try {
@@ -105,7 +102,7 @@ const About = () => {
 
   return (
     <ThemedBackgroundContainer>
-      <Container className="pt-5">
+      <Container className="pt-5" >
         <Row>
           <Col sm={4} xs={12} className="pr-sm-5" css={profilePictureStyle}>
             <HomeAvatar image={profilePicture} />
@@ -130,6 +127,7 @@ const About = () => {
                 linkedinLink={linkedinLink}
                 //onSubmit = {handleSubmit}
               />
+              
 
             </Container>
           </Col>

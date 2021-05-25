@@ -102,9 +102,9 @@ const EventPage = () => {
                 <FontAwesomeIcon icon={faPlus} /> Add Event
               </Button>
             </div>
-            <div>
+            {/* <div>
               <button onClick={handlePrint}>Print this out!</button>
-            </div>
+            </div> */}
           </div>
         )}
       </Container>

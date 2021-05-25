@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext, Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext, Fragment,useRef } from 'react';
 import Badge from 'react-bootstrap/Badge';
 
 import Container from 'react-bootstrap/Container';
@@ -13,7 +14,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { useAuth0 } from '@auth0/auth0-react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPlus,
+  faEdit,
+  faTrashAlt,
+  faFile,
+} from '@fortawesome/free-solid-svg-icons';
 
 import Confirmation from '../../components/ui/modals/Confirmation';
 import QualificationModal from '../../components/resume/modals/QualificationModal';
@@ -52,6 +58,8 @@ import {
   initialRefValues,
 } from '../../constants/resumeInitValues';
 
+import{useReactToPrint } from 'react-to-print';
+
 const ResumePage = () => {
   const [alertMessage, setAlertMessage] = useState('');
 
@@ -83,6 +91,11 @@ const ResumePage = () => {
   const { _id } = useContext(UserContext);
 
   const { getAccessTokenSilently } = useAuth0();
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   useEffect(() => {
     if (_id) {
@@ -800,6 +813,15 @@ const ResumePage = () => {
   const handleExpModalCloseClick = () => {
     updateModalShowStatus(ResumeSectionTypes.Work, false);
   };
+  const buttonToPdf = (editMode : boolean) : JSX.Element => {
+    if (!editMode){
+      return (<>
+        <button onClick={handlePrint}>Export page to pdf!</button>
+      </>)
+    }else{
+      return null;
+    }
+  }
 
   const handleSkillModalSubmitClick = (
     values: Skill,
@@ -1016,10 +1038,55 @@ const ResumePage = () => {
                   <p className="info">
                     {qual.degree}
                     <span>&bull;</span>
-                    <em className="date">
+                    <em className="date-time">
                       {getDuration(qual.startDate, qual.graduationDate)}
                     </em>
+                    <div>
+                      {qual.certificateUrl || qual.transcriptUrl ? (
+                        <Fragment>
+                          <FontAwesomeIcon
+                            icon={faFile}
+                            size="sm"
+                            color="#999999"
+                          />
+                          &nbsp;
+                        </Fragment>
+                      ) : (
+                        ''
+                      )}
+
+                      {qual.certificateUrl ? (
+                        <Link
+                          to={{
+                            pathname: qual.certificateUrl,
+                          }}
+                          target="_blank"
+                          className="uploaded-cert-files"
+                        >
+                          Certificate
+                        </Link>
+                      ) : (
+                        ''
+                      )}
+
+                      {qual.certificateUrl && qual.transcriptUrl ? ' | ' : ''}
+
+                      {qual.transcriptUrl ? (
+                        <Link
+                          to={{
+                            pathname: qual.transcriptUrl,
+                          }}
+                          target="_blank"
+                          className="uploaded-cert-files"
+                        >
+                          Transcript
+                        </Link>
+                      ) : (
+                        ''
+                      )}
+                    </div>
                   </p>
+
                   <p>{qual.description}</p>
                 </div>
               </Col>
@@ -1091,7 +1158,7 @@ const ResumePage = () => {
                 >
                   <h3>{exp.organisation}</h3>
                   <p className="info">
-                    <em className="date">
+                    <em className="date-time">
                       {getDuration(exp.startDate, exp.endDate)}
                     </em>
                   </p>
@@ -1252,13 +1319,13 @@ const ResumePage = () => {
   };
 
   return (
-    <Fragment>
+    <Fragment >
       {alertMessage && (
         <Alert variant="danger" dismissible>
           {alertMessage}
         </Alert>
       )}
-      <section id="resume">
+      <section id="resume" ref={componentRef}>
         <QualificationModal
           selectedQual={selectedQualification}
           show={modalShows[ResumeSectionTypes.Education]}
@@ -1337,7 +1404,15 @@ const ResumePage = () => {
             ResumeSectionTypes.References
           )}
         </Container>
+
+         
       </section>
+      <Container>
+          {
+            buttonToPdf(editMode)
+          }
+        </Container>
+
     </Fragment>
   );
 };
