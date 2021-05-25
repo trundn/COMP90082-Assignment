@@ -8,12 +8,15 @@ const getAcademicByUserName = async (req: Request, res: Response) => {
     const item = await AcademicModel.findOne({
       user: mongoose.Types.ObjectId(userid),
     });
+    console.log(userid+item);
     if (item) {
       res.send(item);
     } else {
       const newAcademicModel = await AcademicModel.create({
         user: mongoose.Types.ObjectId(userid),
+        
       });
+  
       if (newAcademicModel) {
         res.send(newAcademicModel);
       } else {
@@ -32,7 +35,7 @@ const createAcademic = async (req: Request, res: Response) => {
     const item = await AcademicModel.findOne({
       user: mongoose.Types.ObjectId(aca_id),
     });
-    
+   
     await AcademicModel.findOneAndUpdate(
       { user: mongoose.Types.ObjectId(aca_id) },
       { $push: { academics: newAcademic } }
