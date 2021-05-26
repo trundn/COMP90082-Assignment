@@ -1,6 +1,8 @@
+import { Academic, AcademicModels, SingalImage } from '@pure-and-lazy/api-interfaces';
 import { Request, Response } from 'express';
 import * as mongoose from 'mongoose';
 import { AcademicModel } from '../models/academicModels';
+import {Res} from '../utils/controllerUtil';
 
 const getAcademicByUserName = async (req: Request, res: Response) => {
   const { userid } = req.params;
@@ -25,7 +27,7 @@ const getAcademicByUserName = async (req: Request, res: Response) => {
   }
 };
 
-const createAcademic = async (req: Request, res: Response) => {
+const createAcademic = async (req: Request, res: Res<Academic>) => {
   const aca_id = req.body._id;
   const newAcademic = req.body.academic;
 
@@ -44,7 +46,7 @@ const createAcademic = async (req: Request, res: Response) => {
   }
 };
 
-const updateAcademic = async (req: Request, res: Response) => {
+const updateAcademic = async (req: Request, res: Res<Academic>) => {
   const aca_id = req.body._id;
   const update_academic = req.body.academic;
   try {
@@ -68,7 +70,7 @@ const updateAcademic = async (req: Request, res: Response) => {
           },
         }
       );
-      res.send(201);
+      res.sendStatus(201);
     } catch {
       res.sendStatus(404);
     }
@@ -77,7 +79,7 @@ const updateAcademic = async (req: Request, res: Response) => {
   }
 };
 
-const deleteAcademic = async (req: Request, res: Response) => {
+const deleteAcademic = async (req: Request, res: Res<Academic>) => {
   const aca_id = req.body._id;
   const academic_uuid = req.body.academic_uuid;
 
@@ -102,7 +104,7 @@ const deleteAcademic = async (req: Request, res: Response) => {
   }
 };
 
-const addImage = async (req: Request, res: Response) => {
+const addImage = async (req: Request, res: Res<SingalImage>) => {
   const aca_id = req.body._id;
   const new_singalImage = req.body.singalImage;
 
@@ -121,7 +123,7 @@ const addImage = async (req: Request, res: Response) => {
   }
 };
 
-const deleteImage = async (req: Request, res: Response) => {
+const deleteImage = async (req: Request, res: Res<SingalImage>) => {
   const aca_id = req.body._id;
   const singleImage_uuid = req.body.singalImage.uuid;
 
