@@ -90,7 +90,7 @@ const AcademicPage = () => {
       });
       setAcademicData(result.data as AcademicModels);
     } catch (error) {
-      console.log('Failed to fetch resume data', error);
+      console.log('Failed to fetch academics and images data', error);
     }
   };
 
@@ -298,7 +298,7 @@ const AcademicPage = () => {
 
   const handleImageDelete = async (newImage: SingalImage) => {
     setDeleteImageModalShow(false);
-    console.log(newImage)
+
     try {
       const token = await getAccessTokenSilently();
       await axios({
@@ -352,7 +352,7 @@ const AcademicPage = () => {
       } else {
         allCards = academicData?.academics?.map((academic) => {
           return (
-            <Card style={{ width: '30rem' }}>
+            <Card style={{ width: '30rem' }} css = "margin-right:10px;">
               <Card.Img variant="top" src={academic.academicImage} />
               <Card.Body>
                 <Card.Title>Title : {academic.title}</Card.Title>
@@ -385,7 +385,17 @@ const AcademicPage = () => {
   for (let num = 0; num < len; num++){
     swiperSlides.push(
       <SwiperSlide key={`slide-${num}`} >
-        <img src={academicData.images[num].imageUrl} css="margin-left:10px;width:500px;height:500px"/>
+        <div css="position: relative;width: 500px;height: 500px;">
+          <img src={academicData.images[num].imageUrl} css="position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+          max-width: 100%;
+          max-height: 90%;
+          outline: 1px solid #000;"/>
+        </div>
       </SwiperSlide>
     )
   }
@@ -406,8 +416,8 @@ const AcademicPage = () => {
             navigation
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            // onSlideChange={() => console.log('slide change')}
+            // onSwiper={(swiper) => console.log(swiper)}
           >
           {swiperSlides}
           </Swiper>
@@ -507,8 +517,8 @@ const AcademicPage = () => {
             navigation
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            // onSlideChange={() => console.log('slide change')}
+            // onSwiper={(swiper) => console.log(swiper)}
           >
           {swiperSlides}
           </Swiper>
