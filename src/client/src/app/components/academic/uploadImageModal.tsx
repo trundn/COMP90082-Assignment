@@ -65,7 +65,7 @@ const UploadImageModal = ({ show, onClose, onSubmit }: SingleImageProps) => {
             <Modal.Body>
               <Row>
                 <Col xs={1} md={4}>
-                  <Image src={values.imageUrl ? values.imageUrl : ""} width="700"/>
+                  <Image src={values.imageUrl ? values.imageUrl : ""} css="width:500px"/>
                 </Col>
               </Row>
               <Form.Group>

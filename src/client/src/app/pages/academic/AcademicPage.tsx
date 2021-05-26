@@ -326,8 +326,8 @@ const AcademicPage = () => {
       if (editMode) {
         allCards = academicData?.academics?.map((academic) => {
           return (
-            <Card style={{ width: '30rem' }}>
-              <Card.Img variant="top" src={academic.academicImage} />
+            <Card style={{ width: '30rem' }} css = "margin-right:10px;">
+              <Card.Img variant="top" src={academic.academicImage} css="display:block;margin-left: auto;margin-right: auto;" />
               <Card.Body>
                 <Card.Title>Title : {academic.title}</Card.Title>
                 <Card.Text>Author: {academic.author}</Card.Text>
@@ -384,8 +384,8 @@ const AcademicPage = () => {
   var len = academicData?.images.length;
   for (let num = 0; num < len; num++){
     swiperSlides.push(
-      <SwiperSlide key={`slide-${num}`}>
-        <img src={academicData.images[num].imageUrl} />
+      <SwiperSlide key={`slide-${num}`} >
+        <img src={academicData.images[num].imageUrl} css="margin-left:10px;width:500px;height:500px"/>
       </SwiperSlide>
     )
   }
@@ -399,7 +399,7 @@ const AcademicPage = () => {
         /> */}
         <React.StrictMode></React.StrictMode>
         <Container fluid="xl" css="margin-bottom: 10px ;margin-top: 50px">
-          <Swiper
+        <Swiper 
             className="swiper_con"
             spaceBetween={2}
             slidesPerView={2}
