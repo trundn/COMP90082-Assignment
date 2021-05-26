@@ -10,7 +10,7 @@ class SingalImage {
   @prop({ required: true })
   uuid?: string;
 
-  @prop({ required: true, unique: true })
+  @prop({ required: true})
   imageUrl!: string;
 }
 
