@@ -816,7 +816,7 @@ const ResumePage = () => {
   const buttonToPdf = (editMode : boolean) : JSX.Element => {
     if (!editMode){
       return (<>
-        <button onClick={handlePrint}>Export page to pdf!</button>
+        <button onClick={handlePrint} css="margin-bottom:80px">Export page to pdf!</button>
       </>)
     }else{
       return null;

@@ -90,7 +90,7 @@ const AcademicPage = () => {
       });
       setAcademicData(result.data as AcademicModels);
     } catch (error) {
-      console.log('Failed to fetch resume data', error);
+      console.log('Failed to fetch academics and images data', error);
     }
   };
 
@@ -298,7 +298,7 @@ const AcademicPage = () => {
 
   const handleImageDelete = async (newImage: SingalImage) => {
     setDeleteImageModalShow(false);
-    console.log(newImage)
+
     try {
       const token = await getAccessTokenSilently();
       await axios({
@@ -326,8 +326,8 @@ const AcademicPage = () => {
       if (editMode) {
         allCards = academicData?.academics?.map((academic) => {
           return (
-            <Card style={{ width: '30rem' }}>
-              <Card.Img variant="top" src={academic.academicImage} />
+            <Card style={{ width: '30rem' }} css = "margin-right:10px;">
+              <Card.Img variant="top" src={academic.academicImage} css="display:block;margin-left: auto;margin-right: auto;" />
               <Card.Body>
                 <Card.Title>Title : {academic.title}</Card.Title>
                 <Card.Text>Author: {academic.author}</Card.Text>
@@ -352,7 +352,7 @@ const AcademicPage = () => {
       } else {
         allCards = academicData?.academics?.map((academic) => {
           return (
-            <Card style={{ width: '30rem' }}>
+            <Card style={{ width: '30rem' }} css = "margin-right:10px;">
               <Card.Img variant="top" src={academic.academicImage} />
               <Card.Body>
                 <Card.Title>Title : {academic.title}</Card.Title>
@@ -384,8 +384,18 @@ const AcademicPage = () => {
   var len = academicData?.images.length;
   for (let num = 0; num < len; num++){
     swiperSlides.push(
-      <SwiperSlide key={`slide-${num}`}>
-        <img src={academicData.images[num].imageUrl} />
+      <SwiperSlide key={`slide-${num}`} >
+        <div css="position: relative;width: 500px;height: 500px;">
+          <img src={academicData.images[num].imageUrl} css="position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+          max-width: 100%;
+          max-height: 90%;
+          outline: 1px solid #000;"/>
+        </div>
       </SwiperSlide>
     )
   }
@@ -393,21 +403,21 @@ const AcademicPage = () => {
   if (editMode) {
     return (
       <>
-        <TitleBox
+        {/* <TitleBox
           title="Academic"
           subtitle="My academics and academic picture."
-        />
+        /> */}
         <React.StrictMode></React.StrictMode>
-        <Container fluid="xl">
-          <Swiper
+        <Container fluid="xl" css="margin-bottom: 10px ;margin-top: 50px">
+        <Swiper 
             className="swiper_con"
             spaceBetween={2}
             slidesPerView={2}
             navigation
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            // onSlideChange={() => console.log('slide change')}
+            // onSwiper={(swiper) => console.log(swiper)}
           >
           {swiperSlides}
           </Swiper>
@@ -443,7 +453,7 @@ const AcademicPage = () => {
           academicModels={academicData}
           onSubmit={handleImageDelete}
         />
-        <Container>
+        <Container css="margin-bottom: 10px">
           <Row className="justify-content-center ">
             <Col md="auto">
               <ButtonGroup aria-label="button_group">
@@ -487,10 +497,10 @@ const AcademicPage = () => {
   } else {
     return (
       <>
-        <TitleBox
+        {/* <TitleBox
           title="Academic"
           subtitle="My academics and academic picture."
-        />
+        /> */}
         <AcademicVeiwModal
             show={viewModalShow}
             onClose={() => {
@@ -499,7 +509,7 @@ const AcademicPage = () => {
             }}
             selectedAcademic={viewAcademic}
         />
-        <Container fluid="xl" css="margin-bottom: 70px">
+        <Container fluid="xl" css="margin-bottom: 10px;margin-top: 50px">
           <Swiper
             className="swiper_con"
             spaceBetween={5}
@@ -507,13 +517,15 @@ const AcademicPage = () => {
             navigation
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            // onSlideChange={() => console.log('slide change')}
+            // onSwiper={(swiper) => console.log(swiper)}
           >
           {swiperSlides}
           </Swiper>
-          <Row xs="3">{singleCard()}</Row>
         </Container>
+        <Container css="margin-bottom: 70px">
+          <Row xs="3">{singleCard()}</Row>
+        </Container>
       </>
     );
   }
