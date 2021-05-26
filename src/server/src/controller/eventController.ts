@@ -28,7 +28,7 @@ const getEventByUserName = async (req: Request, res: Response) => {
 };
 
 // Create new event
-const addEvent = async (req: Request, res: Response) => {
+const addEvent = async (req: Request, res: Res<Event>) => {
   const { user, event } = req.body;
   try {
     const item = await EventModel.findOne({
@@ -44,7 +44,7 @@ const addEvent = async (req: Request, res: Response) => {
       { user: mongoose.Types.ObjectId(user) },
       { $push: { events: event } }
     );
-    res.send(item);
+    res.sendStatus(201);
   } catch {
     console.error;
   }
@@ -82,7 +82,7 @@ const updateEvent = async (req: Request, res: Res<Event>) => {
 // delete event
 const deleteEvent = async (req: Request, res: Res<Event>) => {
   const { user, eventUUID } = req.body;
-  console.log('delete', eventUUID);
+  // console.log('delete', eventUUID);
   try {
     try {
       await EventModel.findOneAndUpdate(
