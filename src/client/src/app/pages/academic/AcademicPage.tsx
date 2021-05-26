@@ -393,12 +393,12 @@ const AcademicPage = () => {
   if (editMode) {
     return (
       <>
-        <TitleBox
+        {/* <TitleBox
           title="Academic"
           subtitle="My academics and academic picture."
-        />
+        /> */}
         <React.StrictMode></React.StrictMode>
-        <Container fluid="xl">
+        <Container fluid="xl" css="margin-bottom: 10px ;margin-top: 50px">
           <Swiper
             className="swiper_con"
             spaceBetween={2}
@@ -443,7 +443,7 @@ const AcademicPage = () => {
           academicModels={academicData}
           onSubmit={handleImageDelete}
         />
-        <Container>
+        <Container css="margin-bottom: 10px">
           <Row className="justify-content-center ">
             <Col md="auto">
               <ButtonGroup aria-label="button_group">
@@ -487,10 +487,10 @@ const AcademicPage = () => {
   } else {
     return (
       <>
-        <TitleBox
+        {/* <TitleBox
           title="Academic"
           subtitle="My academics and academic picture."
-        />
+        /> */}
         <AcademicVeiwModal
             show={viewModalShow}
             onClose={() => {
@@ -499,7 +499,7 @@ const AcademicPage = () => {
             }}
             selectedAcademic={viewAcademic}
         />
-        <Container fluid="xl" css="margin-bottom: 70px">
+        <Container fluid="xl" css="margin-bottom: 10px;margin-top: 50px">
           <Swiper
             className="swiper_con"
             spaceBetween={5}
@@ -512,8 +512,10 @@ const AcademicPage = () => {
           >
           {swiperSlides}
           </Swiper>
-          <Row xs="3">{singleCard()}</Row>
         </Container>
+        <Container css="margin-bottom: 70px">
+          <Row xs="3">{singleCard()}</Row>
+        </Container>
       </>
     );
   }
