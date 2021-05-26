@@ -288,7 +288,7 @@ const ManagePage = () => {
         <div className="m-3 text-right">
           <AdminSignOut />
         </div>
-        <Container>
+        <Container css="margin-bottom: 70px">
           <Row className={topMarginStyle}></Row>
           <Row>
             <Col>
@@ -414,7 +414,7 @@ const ManagePage = () => {
         <div className="m-3 text-right">
           <AdminSignOut />
         </div>
-        <Container>
+        <Container css="margin-bottom: 70px">
           <Row className={topMarginStyle}></Row>
           <Row>
             <Col>
