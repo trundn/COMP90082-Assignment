@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Modal, Button, Form, Col, Row } from 'react-bootstrap';
-
+import{useReactToPrint } from 'react-to-print';
 import { Academic } from '@pure-and-lazy/api-interfaces';
 
 interface AcademicVeiwModalProps {
@@ -14,7 +14,11 @@ const AcademicVeiwModal = ({
   onClose,
   selectedAcademic,
 }: AcademicVeiwModalProps) => {
-
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content : () => componentRef.current,
+  });
+  
   return (
     <Modal
       show={show}
@@ -29,7 +33,7 @@ const AcademicVeiwModal = ({
           View Academic
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body ref={componentRef}>
         <Row>
           <Col>
             <h2> Title: {selectedAcademic.title}</h2>
@@ -54,6 +58,7 @@ const AcademicVeiwModal = ({
         <Row css="margin-left: 15px;margin-top: 15px">{selectedAcademic.academicReferences}</Row>
       </Modal.Body>
       <Modal.Footer>
+      <Button onClick={handlePrint}> Export PDF </Button>
         <Button onClick={onClose}>Close</Button>
       </Modal.Footer>
     </Modal>
