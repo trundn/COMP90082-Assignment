@@ -51,9 +51,9 @@ const AcademicVeiwModal = ({
           </Col>
         </Row>
         <Row css="margin-left: 15px;font-family:Times New Roman;font-size:20px;font-weight: 900">Short Description:</Row>
-        <Row css="margin-left: 15px;margin-top: 15px">{selectedAcademic.shortDescription}</Row>
+        <Row css="word-break:break-all;margin-left: 15px;margin-top: 15px;width:93%">{selectedAcademic.shortDescription}</Row>
         <Row css="margin-left: 15px;margin-top: 15px;font-family:Times New Roman;font-size:20px;font-weight: 900">Paragraph:</Row>
-        <Row css="margin-left: 15px;margin-top: 15px">{selectedAcademic.bodyParagraph}</Row>
+        <Row css="word-break:break-all;margin-left: 15px;margin-top: 15px;width:93%">{selectedAcademic.bodyParagraph}</Row>
         <Row css="margin-left: 15px;margin-top: 15px;font-family:Times New Roman;font-size:20px;font-weight: 900">References:</Row>
         <Row css="margin-left: 15px;margin-top: 15px">{selectedAcademic.academicReferences}</Row>
       </Modal.Body>
