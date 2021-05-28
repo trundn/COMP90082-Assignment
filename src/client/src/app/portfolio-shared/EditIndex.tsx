@@ -16,6 +16,7 @@ import { AcademicPage } from '../pages/academic/AcademicPage';
 import{FunfactPage} from '../pages/funfactPage/FunfactPage';
 import { EventPage } from '../pages/eventPage/EventPage';
 import {EventContentPage} from '../content/EventContentPage';
+import {ManagePage}from '../admin/ManagePage';
 
 
 const EditIndex = () => {
@@ -75,6 +76,9 @@ const EditIndex = () => {
           </Route>
           <Route exact path={`${path}/funfact`}>
             <FunfactPage />
+          </Route>
+          <Route exact path={`${path}/profile`}>
+            <ManagePage />
           </Route>
         </Switch>
         <FooterWrapper footer={footer} hidden={!isEditMode} />

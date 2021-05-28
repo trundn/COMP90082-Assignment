@@ -48,7 +48,7 @@ const DeleteImageModal = ({show, onClosed,academicModels,onSubmit} : DeleteImage
                 </Col>
             </Row>
             <Row>
-                <img src={academicModels?.images[selected]?.imageUrl} max-width="500px" />
+                <img src={academicModels?.images[selected]?.imageUrl} css="width:500px"/>
             </Row>
         </Modal.Body>
         <Alert show={alertShow} variant="danger" onClose={() => {

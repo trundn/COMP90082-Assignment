@@ -37,6 +37,7 @@ const EventModal = ({
     eventLocation: Yup.string().required('Event Location is required'),
     startDate: Yup.string().required('Start Date is required'),
     endDate: Yup.string().required('End Date is required'),
+    // eventDescription: Yup.string().required('Event Description is required'),
   });
 
   const handleFormClose = () => {
@@ -178,6 +179,23 @@ const EventModal = ({
                   </Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>
+              {/* Text Part */}
+              {/* <Form.Group>
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  name="eventDescription"
+                  rows={5}
+                  placeholder="Enter event description"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.eventDescription}
+                  isInvalid={!!errors.eventDescription}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.eventDescription}
+                </Form.Control.Feedback>
+              </Form.Group> */}
             </Modal.Body>
             <Modal.Footer>
               <Button type="submit">Submit</Button>

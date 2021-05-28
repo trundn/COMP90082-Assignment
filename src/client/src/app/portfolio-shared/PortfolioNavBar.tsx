@@ -59,6 +59,9 @@ const PortfolioNavBar = () => {
           <LinkContainer to={`${URL_PREFIX}/funfact`}>
             <Nav.Link eventKey="/about">Funfact</Nav.Link>
           </LinkContainer>
+          <LinkContainer to={`${URL_PREFIX}/profile`}>
+            <Nav.Link eventKey="/profile">Profile</Nav.Link>
+          </LinkContainer>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
